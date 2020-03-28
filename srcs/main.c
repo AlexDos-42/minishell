@@ -1,6 +1,18 @@
 # include "../include/minishell.h"
 # include <stdio.h>
 
+void	ft_pwd(t_all *all)
+{
+	char *s;
+
+	(void)all;
+	s = getcwd(NULL, 0);
+	ft_putstr_fd(s, 1);
+	write(1, "\n", 1);
+
+	free(s);
+}
+
 void	ft_echo(t_all *all)
 {
 	int j;
@@ -31,6 +43,7 @@ void	ft_ptrfct(t_all *all)
 	if (all->fct != 0)
 	{
 		fonc[1] = ft_echo;
+		fonc[2] = ft_pwd;
 		fonc[all->fct](all);
 		all->fct = 0;
 	}
@@ -45,6 +58,8 @@ void	ft_nbfct(t_all *all, char *tab)
 		i++;
 	if (!ft_strncmp(tab, "echo", 4) && tab[4] == ' ')
 		all->fct = 1;
+	else if (!ft_strncmp(tab, "pwd", 3))
+		all->fct = 2;
 	while (tab[i] == ' ')
 		i++;
 	all->tab = ft_substr(tab, i, ft_strlen(tab) - i);
