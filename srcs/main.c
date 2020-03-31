@@ -1,16 +1,51 @@
 # include "../include/minishell.h"
 # include <stdio.h>
 
+void	ft_env(t_all *all)
+{
+	int i;
+
+	i = -1;
+	while (all->env[++i])
+	{
+		ft_putstr_fd(all->env[i], 1);
+		write(1, "\n", 1);
+	}
+}
+
+void	ft_exit(t_all *all)
+{
+	(void)all;
+	exit(0);
+}
+
+void	ft_cd(t_all *all)
+{
+	int j;
+	char *tmp;
+
+	j = ft_strlen(all->tab);
+	if (all->tab[j - 1] == '\n')
+		all->tab[j - 1] = '\0';
+	
+	tmp = ft_strtrim(all->tab, " ");
+	free(all->tab);
+	all->tab = tmp;
+	if (all->tab[0] == '~')
+	{
+		chdir("/home");
+		all->pwd = getcwd(all->pwd, 510);
+	}
+	else if (chdir(all->tab) == 0)
+		all->pwd = getcwd(all->pwd, 510);
+	else
+		printf("nope\n");
+}
+
 void	ft_pwd(t_all *all)
 {
-	char *s;
-
-	(void)all;
-	s = getcwd(NULL, 0);
-	ft_putstr_fd(s, 1);
+	ft_putstr_fd(all->pwd, 1);
 	write(1, "\n", 1);
-
-	free(s);
 }
 
 void	ft_echo(t_all *all)
@@ -29,9 +64,11 @@ void	ft_echo(t_all *all)
 	}
 	else
 	{
-		ft_putstr_fd(all->tab, 1);
+		tmp = ft_strtrim(all->tab, " ");
+		ft_putstr_fd(tmp, 1);
 		if (all->tab[j - 1] != '\n')
 			write(1, "\n", 1);
+		free(tmp);
 	}
 	free(all->tab);
 }
@@ -44,6 +81,9 @@ void	ft_ptrfct(t_all *all)
 	{
 		fonc[1] = ft_echo;
 		fonc[2] = ft_pwd;
+		fonc[3] = ft_cd;
+		fonc[4] = ft_exit;
+		fonc[5] = ft_env;
 		fonc[all->fct](all);
 		all->fct = 0;
 	}
@@ -60,6 +100,12 @@ void	ft_nbfct(t_all *all, char *tab)
 		all->fct = 1;
 	else if (!ft_strncmp(tab, "pwd", 3))
 		all->fct = 2;
+	else if (!ft_strncmp(tab, "cd", 2))
+		all->fct = 3;
+	else if (!ft_strncmp(tab, "exit", 4))
+		all->fct = 4;
+	else if (!ft_strncmp(tab, "env", 3))
+		all->fct = 5;
 	while (tab[i] == ' ')
 		i++;
 	all->tab = ft_substr(tab, i, ft_strlen(tab) - i);
@@ -86,10 +132,68 @@ void	ft_minishell(t_all *all, char *str)
 	free(tab);
 }
 
+
+static char	**copy_env(char **arg_env, size_t *nb_env)
+{
+	size_t	i;
+	char	**env;
+
+	i = 0;
+	while (arg_env[i])
+		i++;
+	if (!(env = malloc((i + 1) * sizeof(char*))))
+		return (NULL);
+	env[i] = NULL;
+	i = 0;
+	while (arg_env[i])
+	{
+		if (!(env[i] = ft_strdup(arg_env[i])))
+		{
+			return (NULL);
+		}
+		i++;
+	}
+	*nb_env = i;
+	return (env);
+}
+
+void	ft_initenv(t_all *all, char **env)
+{
+	all->pwd = getcwd(NULL, 0);
+	all->env = NULL;
+//	all->ret = 0;
+	all->nb_env = 0;
+	all->env = copy_env(env, &all->nb_env);
+//	int i = -1;
+//	while(env[++i])
+//		printf("%d env %s\n",i, env[i]);
+}
+
+void	ft_prompt(t_all *all, char *tmp, char *str)
+{
+	int		i;
+
+
+	while (1)
+	{
+		i = read(0, tmp, 10);
+		tmp[i] = '\0';
+		str = ft_strjoin(str, tmp, 1);
+		if (ft_strnstr(str, "\n", ft_strlen(str)))
+		{
+			ft_minishell(all, str);
+			free(str);
+			str = NULL;
+			str = malloc(sizeof(char) * 1);
+			str[0] = '\0';
+			write(1, "minishell $>", 12);
+		}
+	}
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_all		all;
-	int		i;
 	char		*tmp;
 	char		*str;
 
@@ -98,24 +202,11 @@ int	main(int argc, char **argv, char **env)
 	ft_memset(&all, 0, sizeof(t_all));
 	if (argc == 1)
 	{
-		tmp = malloc(sizeof(char) * 11);
-		str = malloc(sizeof(char) * 1);
+		ft_initenv(&all, env);
+		tmp = ft_calloc(sizeof(char), 11);
+		str = ft_calloc(sizeof(char), 1);
 		write(1, "minishell $>", 12);
-		while (1)
-		{
-			i = read(0, tmp, 10);
-			tmp[i] = '\0';
-			str = ft_strjoin(str, tmp, 1);
-			if (ft_strnstr(str, "\n", ft_strlen(str)))
-			{
-				ft_minishell(&all, str);
-				free(str);
-				str = NULL;
-				str = malloc(sizeof(char) * 1);
-				str[0] = '\0';
-				write(1, "minishell $>", 12);
-			}
-		}
+		ft_prompt(&all, tmp, str);
 	}
 	return (0);
 

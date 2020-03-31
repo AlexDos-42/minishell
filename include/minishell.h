@@ -13,6 +13,10 @@ typedef struct		s_all
 {
 	int	fct;
 	char	*tab;
+	char	*pwd;
+	char	**env;
+	char	ret;
+	size_t	nb_env;
 }			t_all;
 
 /*
