@@ -23,6 +23,23 @@ typedef struct		s_all
 ** --MAIN--
 */
 
-int					main(int argc, char **argv, char** env);
+int			main(int argc, char **argv, char** env);
+void			ft_prompt(t_all *all, char *tmp, char *str);
+
+/*
+** --PARSING--
+*/
+
+void			ft_minishell(t_all *all, char *str);
+void			ft_nbfct(t_all *all, char *tab);
+void			ft_ptrfct(t_all *all);
+
+/*
+** --INIT--
+*/
+
+void			ft_initenv(t_all *all, char **env);
+char			**tab_env(char **env, size_t *nb_env);
+
 
 #endif
