@@ -1,3 +1,4 @@
+# include "../include/minishell.h"
 
 char	**tab_env(char **env, size_t *nb_env)
 {
