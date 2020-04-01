@@ -41,5 +41,14 @@ void			ft_ptrfct(t_all *all);
 void			ft_initenv(t_all *all, char **env);
 char			**tab_env(char **env, size_t *nb_env);
 
+/*
+** --FONCTIONS--
+*/
+
+void			ft_echo(t_all *all);
+void			ft_pwd(t_all *all);
+void			ft_cd(t_all *all);
+void			ft_exit(t_all *all);
+void			ft_env(t_all *all);
 
 #endif
