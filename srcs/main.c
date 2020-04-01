@@ -132,43 +132,6 @@ void	ft_minishell(t_all *all, char *str)
 	free(tab);
 }
 
-
-static char	**copy_env(char **arg_env, size_t *nb_env)
-{
-	size_t	i;
-	char	**env;
-
-	i = 0;
-	while (arg_env[i])
-		i++;
-	if (!(env = malloc((i + 1) * sizeof(char*))))
-		return (NULL);
-	env[i] = NULL;
-	i = 0;
-	while (arg_env[i])
-	{
-		if (!(env[i] = ft_strdup(arg_env[i])))
-		{
-			return (NULL);
-		}
-		i++;
-	}
-	*nb_env = i;
-	return (env);
-}
-
-void	ft_initenv(t_all *all, char **env)
-{
-	all->pwd = getcwd(NULL, 0);
-	all->env = NULL;
-//	all->ret = 0;
-	all->nb_env = 0;
-	all->env = copy_env(env, &all->nb_env);
-//	int i = -1;
-//	while(env[++i])
-//		printf("%d env %s\n",i, env[i]);
-}
-
 void	ft_prompt(t_all *all, char *tmp, char *str)
 {
 	int		i;
@@ -198,7 +161,6 @@ int	main(int argc, char **argv, char **env)
 	char		*str;
 
 	(void)argv;
-	(void)env;
 	ft_memset(&all, 0, sizeof(t_all));
 	if (argc == 1)
 	{
