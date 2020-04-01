@@ -3,23 +3,23 @@
 char	**tab_env(char **env, size_t *nb_env)
 {
 	size_t	i;
-	char	**env;
+	char	**tmp_env;
 
 	i = 0;
 	while (env[i])
 		i++;
-	if (!(env = ft_calloc(sizeof(char*), (i + 1))))
+	if (!(tmp_env = ft_calloc(sizeof(char*), (i + 1))))
 		return (NULL);
-	env[i] = NULL;
+	tmp_env[i] = NULL;
 	i = 0;
 	while (env[i])
 	{
-		if (!(env[i] = ft_strdup(env[i])))
+		if (!(tmp_env[i] = ft_strdup(env[i])))
 			return (NULL);
 		i++;
 	}
 	*nb_env = i;
-	return (env);
+	return (tmp_env);
 }
 
 void	ft_initenv(t_all *all, char **env)

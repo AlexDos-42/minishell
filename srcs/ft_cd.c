@@ -20,5 +20,5 @@ void	ft_cd(t_all *all)
 	else if (chdir(all->tab) == 0)
 		all->pwd = getcwd(all->pwd, 510);
 	else
-		printf("nope\n");
+		ft_printf("nope\n");
 }
