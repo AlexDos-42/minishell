@@ -15,9 +15,7 @@ char	**tab_env(char **env, size_t *nb_env)
 	while (env[i])
 	{
 		if (!(env[i] = ft_strdup(env[i])))
-		{
 			return (NULL);
-		}
 		i++;
 	}
 	*nb_env = i;
