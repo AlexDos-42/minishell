@@ -11,6 +11,8 @@ void	ft_ptrfct(t_all *all)
 		fonc[3] = ft_cd;
 		fonc[4] = ft_exit;
 		fonc[5] = ft_env;
+	//	fonc[6] = ft_export;
+	//	fonc[7] = ft_unset;
 		fonc[all->fct](all);
 		all->fct = 0;
 	}
@@ -33,6 +35,10 @@ void	ft_nbfct(t_all *all, char *tab)
 		all->fct = 4;
 	else if (!ft_strncmp(tab, "env", 3))
 		all->fct = 5;
+	else if (!ft_strncmp(tab, "export", 6))
+		all->fct = 6;
+	else if (!ft_strncmp(tab, "unset", 5))
+		all->fct = 7;
 	while (tab[i] == ' ')
 		i++;
 	all->tab = ft_substr(tab, i, ft_strlen(tab) - i);
