@@ -13,6 +13,8 @@
 NAME = minishell 
 
 SRC =		main.c \
+		ft_parsing.c \
+		ft_init.c \
 
 PATHSRCS = srcs
 
