@@ -11,7 +11,7 @@ void	ft_ptrfct(t_all *all)
 		fonc[3] = ft_cd;
 		fonc[4] = ft_exit;
 		fonc[5] = ft_env;
-	//	fonc[6] = ft_export;
+		fonc[6] = ft_export;
 	//	fonc[7] = ft_unset;
 		fonc[all->fct](all);
 		all->fct = 0;
@@ -59,6 +59,8 @@ void	ft_minishell(t_all *all, char *str)
 			i++;
 		ft_nbfct(all, &tab[k][i]);
 		free(tab[k]);
+		if (all->tab[ft_strlen(all->tab) -1] == '\n')
+			all->tab[ft_strlen(all->tab) -1] = '\0';
 		ft_ptrfct(all);
 		k++;
 	}

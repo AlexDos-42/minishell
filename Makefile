@@ -20,6 +20,7 @@ SRC =		main.c \
 		ft_env.c \
 		ft_exit.c \
 		ft_pwd.c \
+		ft_export.c \
 
 PATHSRCS = srcs
 

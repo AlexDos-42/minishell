@@ -9,6 +9,9 @@
 # include <fcntl.h>
 # include "error.h"
 
+int		inter;
+int		quit;
+
 typedef struct		s_all
 {
 	int	fct;
@@ -50,5 +53,6 @@ void			ft_pwd(t_all *all);
 void			ft_cd(t_all *all);
 void			ft_exit(t_all *all);
 void			ft_env(t_all *all);
+void			ft_export(t_all *all);
 
 #endif

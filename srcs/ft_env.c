@@ -2,10 +2,10 @@
 
 void	ft_env(t_all *all)
 {
-	int i;
+	unsigned int i;
 
 	i = -1;
-	while (all->env[++i])
+	while (++i < all->nb_env)
 	{
 		ft_putstr_fd(all->env[i], 1);
 		write(1, "\n", 1);

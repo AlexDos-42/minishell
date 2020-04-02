@@ -1,5 +1,5 @@
 # include "../include/minishell.h"
-# include <stdio.h>
+#include <signal.h>
 
 void	ft_prompt(t_all *all, char *tmp, char *str)
 {
@@ -23,6 +23,20 @@ void	ft_prompt(t_all *all, char *tmp, char *str)
 	}
 }
 
+void	ctrl(int signal)
+{
+	if (signal == SIGINT)
+	{
+		inter = 1;
+		write(1, "\nminishell $>", 13);
+	}
+	else if (signal == SIGQUIT)
+	{
+		if (quit)
+			write(1, "\n", 1);
+	}
+}
+
 int	main(int argc, char **argv, char **env)
 {
 	t_all		all;
@@ -31,6 +45,9 @@ int	main(int argc, char **argv, char **env)
 
 	(void)argv;
 	ft_memset(&all, 0, sizeof(t_all));
+	if (signal(SIGINT, &ctrl) == SIG_ERR || \
+		signal(SIGQUIT, &ctrl) == SIG_ERR )
+		return(1);
 	if (argc == 1)
 	{
 		ft_initenv(&all, env);
