@@ -21,12 +21,13 @@ SRC =		main.c \
 		ft_exit.c \
 		ft_pwd.c \
 		ft_export.c \
+		ft_unset.c \
 
 PATHSRCS = srcs
 
 HEADERS = ./include
 
-FLAGS = -Wall -Wextra -Werror 
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address 
 
 SRCS = $(addprefix $(PATHSRCS)/,$(SRC))
 LIBS = ./libft/libft.a

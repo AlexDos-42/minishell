@@ -1,6 +1,6 @@
 # include "../include/minishell.h"
 
-void	ft_echo(t_all *all)
+int	ft_echo(t_all *all)
 {
 	int j;
 	char *tmp;
@@ -23,4 +23,5 @@ void	ft_echo(t_all *all)
 		free(tmp);
 	}
 	free(all->tab);
+	return(0);
 }

@@ -35,7 +35,7 @@ void			ft_prompt(t_all *all, char *tmp, char *str);
 
 void			ft_minishell(t_all *all, char *str);
 void			ft_nbfct(t_all *all, char *tab);
-void			ft_ptrfct(t_all *all);
+int			ft_ptrfct(t_all *all);
 
 /*
 ** --INIT--
@@ -48,11 +48,12 @@ char			**tab_env(char **env, size_t *nb_env);
 ** --FONCTIONS--
 */
 
-void			ft_echo(t_all *all);
-void			ft_pwd(t_all *all);
-void			ft_cd(t_all *all);
-void			ft_exit(t_all *all);
-void			ft_env(t_all *all);
-void			ft_export(t_all *all);
+int			ft_echo(t_all *all);
+int			ft_pwd(t_all *all);
+int			ft_cd(t_all *all);
+int			ft_exit(t_all *all);
+int			ft_env(t_all *all);
+int			ft_export(t_all *all);
+int			ft_unset(t_all *all);
 
 #endif

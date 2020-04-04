@@ -1,6 +1,6 @@
 # include "../include/minishell.h"
 
-void	ft_env(t_all *all)
+int	ft_env(t_all *all)
 {
 	unsigned int i;
 
@@ -10,4 +10,5 @@ void	ft_env(t_all *all)
 		ft_putstr_fd(all->env[i], 1);
 		write(1, "\n", 1);
 	}
+	return(0);
 }

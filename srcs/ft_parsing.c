@@ -1,9 +1,12 @@
 # include "../include/minishell.h"
 
-void	ft_ptrfct(t_all *all)
+int	ft_ptrfct(t_all *all)
 {
-	void		(*fonc[7])(t_all *);
+	int		(*fonc[8])(t_all *);
 
+	int i;
+
+	i = 0;
 	if (all->fct != 0)
 	{
 		fonc[1] = ft_echo;
@@ -12,10 +15,14 @@ void	ft_ptrfct(t_all *all)
 		fonc[4] = ft_exit;
 		fonc[5] = ft_env;
 		fonc[6] = ft_export;
-	//	fonc[7] = ft_unset;
-		fonc[all->fct](all);
+		fonc[7] = ft_unset;
+		i = fonc[all->fct](all);
 		all->fct = 0;
 	}
+//	else
+//		execve(tab, *tab, all->env);
+
+	return(i);
 }
 
 void	ft_nbfct(t_all *all, char *tab)
@@ -49,10 +56,12 @@ void	ft_minishell(t_all *all, char *str)
 	int i;
 	int k;
 	char **tab;
+	int stop;
 	
+	stop = 0;
 	tab = ft_split(str, ';');
 	k = 0;
-	while (tab[k])
+	while (tab && tab[k])
 	{
 		i = 0;
 		while (tab[k][i] == ' ')
@@ -61,8 +70,13 @@ void	ft_minishell(t_all *all, char *str)
 		free(tab[k]);
 		if (all->tab[ft_strlen(all->tab) -1] == '\n')
 			all->tab[ft_strlen(all->tab) -1] = '\0';
-		ft_ptrfct(all);
+		if ((stop = ft_ptrfct(all)))
+			break ;
+
 		k++;
 	}
-	free(tab);
+	if(tab)
+		free(tab);
+	if (stop == 2)
+		exit(0);
 }

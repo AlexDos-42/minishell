@@ -11,6 +11,7 @@ void	ft_prompt(t_all *all, char *tmp, char *str)
 		i = read(0, tmp, 10);
 		tmp[i] = '\0';
 		str = ft_strjoin(str, tmp, 1);
+		inter = 0;
 		if (ft_strnstr(str, "\n", ft_strlen(str)))
 		{
 			ft_minishell(all, str);
@@ -44,6 +45,7 @@ int	main(int argc, char **argv, char **env)
 	char		*str;
 
 	(void)argv;
+//	ft_printf("PPPIIIDDDD=%i\n", getpid());
 	ft_memset(&all, 0, sizeof(t_all));
 	if (signal(SIGINT, &ctrl) == SIG_ERR || \
 		signal(SIGQUIT, &ctrl) == SIG_ERR )
@@ -57,5 +59,4 @@ int	main(int argc, char **argv, char **env)
 		ft_prompt(&all, tmp, str);
 	}
 	return (0);
-
 }

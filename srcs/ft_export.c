@@ -109,7 +109,7 @@ char	**ft_newenv(t_all *all, int k)
 	return(tabnewenv);
 }
 
-void	ft_export(t_all *all)
+int	ft_export(t_all *all)
 {
 	unsigned int i;
 	char **tabnewenv;
@@ -118,10 +118,10 @@ void	ft_export(t_all *all)
 	int j;
 	
 	if (!(nb_newenv = ft_nbnewenv(all)))
-		return;
+		return (0);
 	tabnewenv = ft_newenv(all, nb_newenv);
 	if (!(new_env = malloc((all->nb_env + nb_newenv + 1) * sizeof(char*))))
-		return ;
+		return (0);
 	i = 0;
 	j = 0;
 	while (i < all->nb_env)
@@ -141,4 +141,5 @@ void	ft_export(t_all *all)
 	all->nb_env += nb_newenv;
 	free(all->env);
 	all->env = new_env;
+	return(0);
 }
