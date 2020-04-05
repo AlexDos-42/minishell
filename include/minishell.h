@@ -33,7 +33,7 @@ void			ft_prompt(t_all *all, char *tmp, char *str);
 ** --PARSING--
 */
 
-void			ft_minishell(t_all *all, char *str);
+int			ft_minishell(t_all *all, char *str);
 void			ft_nbfct(t_all *all, char *tab);
 int			ft_ptrfct(t_all *all);
 

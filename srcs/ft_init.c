@@ -28,7 +28,4 @@ void	ft_initenv(t_all *all, char **env)
 	quit = 0;
 	all->pwd = getcwd(NULL, 0);
 	all->env = tab_env(env, &all->nb_env);
-//	int i = -1;
-//	while(env[++i])
-//		printf("%d env %s\n",i, env[i]);
 }

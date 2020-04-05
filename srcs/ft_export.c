@@ -64,6 +64,7 @@ int	ft_nbnewenv(t_all *all)
 			if(all->tab[i - 1] == ' ' || !all->tab[i - 1])
 			{
 				ft_exporterreur(&all->tab[i], k);
+				free(all->tab);
 				return(0);
 			}
 		}
@@ -76,6 +77,8 @@ int	ft_nbnewenv(t_all *all)
 		}
 		
 	}
+	if (k == 0)
+		free(all->tab);
 	return(k);
 }
 
@@ -134,10 +137,13 @@ int	ft_export(t_all *all)
 			while (j < nb_newenv)
 			{
 				new_env[i + j] = ft_strdup(tabnewenv[j]);
+				free(tabnewenv[j]);
 				j++;
 			}
 		}
 	}
+	free(tabnewenv);
+	free(all->tab);
 	all->nb_env += nb_newenv;
 	free(all->env);
 	all->env = new_env;

@@ -14,7 +14,15 @@ void	ft_prompt(t_all *all, char *tmp, char *str)
 		inter = 0;
 		if (ft_strnstr(str, "\n", ft_strlen(str)))
 		{
-			ft_minishell(all, str);
+			if (ft_minishell(all, str) == 2)
+			{
+				i = -1;
+				while(all->env[++i])
+					free(all->env[i]);
+				free(all->env);
+				free(str);
+				exit(0);
+			}
 			free(str);
 			str = NULL;
 			str = malloc(sizeof(char) * 1);

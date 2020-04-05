@@ -30,7 +30,7 @@ void	ft_error(t_all *all, int j)
 		iserror = 2;
 		while (all->tab[j + k] && all->tab[j + k + 1] != ' ')
 			k++;
-		messerror = ft_substr(all->tab, j + 1, k);
+		messerror = ft_substr(all->tab, j, k);
 		messerror = ft_strjoin("zsh: ", messerror, 2);
 		messerror = ft_strjoin(messerror, " not found\n", 1);
 
@@ -100,6 +100,7 @@ int	ft_unset(t_all *all)
 		}
 
 	}
+	free(all->tab);
 	if (iserror)
 	{
 		ft_putstr_fd(messerror, 1);
