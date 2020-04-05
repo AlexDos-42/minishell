@@ -10,10 +10,14 @@ int	ft_cd(t_all *all)
 	if (!all->tab[0] || (all->tab[0] == '~' && !all->tab[1]))
 	{
 		chdir("/home/alesanto");
-		all->pwd = getcwd(all->pwd, 510);
+		free(all->pwd);
+		all->pwd = getcwd(NULL, 0);
 	}
 	else if (chdir(all->tab) == 0)
-		all->pwd = getcwd(all->pwd, 510);
+	{
+		free(all->pwd);
+		all->pwd = getcwd(NULL, 0);
+	}
 	else
 		ft_printf("cd: %s: %s\n", strerror(errno), all->tab);
 	free(all->tab);

@@ -21,9 +21,13 @@ int	ft_exec(t_all *all, char *tab)
 		ft_printf("fork did'nt work\n");
 	waitpid(childpid, &status, 0);
 	if (status == 0)
+	{		ft_printf("fork 1\n");
 		return(0);
+	}
 	if (status == -1)
+	{		ft_printf("fork 2\n");
 		return(2);
+	}
 	return(0);
 }
 
