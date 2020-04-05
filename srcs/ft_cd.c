@@ -7,7 +7,7 @@ int	ft_cd(t_all *all)
 	tmp = ft_strtrim(all->tab, " ");
 	free(all->tab);
 	all->tab = tmp;
-	if (!all->tab[0] || all->tab[0] == '~')
+	if (!all->tab[0] || (all->tab[0] == '~' && !all->tab[1]))
 	{
 		chdir("/home/alesanto");
 		all->pwd = getcwd(all->pwd, 510);
@@ -15,7 +15,7 @@ int	ft_cd(t_all *all)
 	else if (chdir(all->tab) == 0)
 		all->pwd = getcwd(all->pwd, 510);
 	else
-		ft_printf("cd: aucun fichier ou dossier de ce type: %s\n", all->tab);
+		ft_printf("cd: %s: %s\n", strerror(errno), all->tab);
 	free(all->tab);
 	return(0);
 }

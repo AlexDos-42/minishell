@@ -7,6 +7,7 @@
 # include <string.h>
 # include <math.h>
 # include <fcntl.h>
+# include <sys/errno.h>
 # include "error.h"
 
 int		inter;
@@ -14,6 +15,7 @@ int		quit;
 
 typedef struct		s_all
 {
+	char	**argv;
 	int	fct;
 	char	*tab;
 	char	*pwd;

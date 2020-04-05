@@ -1,4 +1,32 @@
 # include "../include/minishell.h"
+#include <sys/types.h>
+#include <sys/wait.h>
+
+
+int	ft_exec(t_all *all, char *tab)
+{
+	pid_t childpid;
+	int status;
+
+	status = 0;
+	childpid =fork();
+	if (childpid == 0)
+	{
+		if (ft_strlen(tab) && tab[ft_strlen(tab) - 1] == '\n')
+			tab[ft_strlen(tab) - 1] = '\0';
+		if (execve(tab, all->argv, all->env) == -1)
+			ft_printf("error %s\n", strerror(errno));
+	}
+	else if (childpid < 0)
+		ft_printf("fork did'nt work\n");
+	waitpid(childpid, &status, 0);
+	if (status == 0)
+		return(0);
+	if (status == -1)
+		return(2);
+	return(0);
+}
+
 
 int	ft_ptrfct(t_all *all)
 {
@@ -20,10 +48,7 @@ int	ft_ptrfct(t_all *all)
 		all->fct = 0;
 	}
 	else
-	{
 		free(all->tab);
-//		execve(tab, *tab, all->env);
-	}
 	return(i);
 }
 
@@ -48,9 +73,10 @@ void	ft_nbfct(t_all *all, char *tab)
 		all->fct = 6;
 	else if (!ft_strncmp(tab, "unset", 5))
 		all->fct = 7;
+	else
+		ft_exec(all, tab);
 	while (tab[i] == ' ')
 		i++;
-	ft_printf("test\n");
 	all->tab = ft_substr(tab, i, ft_strlen(&tab[i]));
 }
 

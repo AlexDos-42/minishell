@@ -52,7 +52,7 @@ int	main(int argc, char **argv, char **env)
 	char		*tmp;
 	char		*str;
 
-	(void)argv;
+	all.argv = argv;
 //	ft_printf("PPPIIIDDDD=%i\n", getpid());
 	ft_memset(&all, 0, sizeof(t_all));
 	if (signal(SIGINT, &ctrl) == SIG_ERR || \
