@@ -5,9 +5,9 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <string.h>
-# include <math.h>
-# include <fcntl.h>
 # include <sys/errno.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 # include "error.h"
 
 int		inter;
@@ -57,5 +57,13 @@ int			ft_exit(t_all *all);
 int			ft_env(t_all *all);
 int			ft_export(t_all *all);
 int			ft_unset(t_all *all);
+
+/*
+** --REPLACE--
+*/
+
+char	*ft_replace(char *tab, t_all *all);
+char	*ft_isinenv(char *tab, t_all *all);
+char 	*ft_newtab(char *tab, char *env);
 
 #endif

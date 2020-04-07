@@ -22,6 +22,7 @@ SRC =		main.c \
 		ft_pwd.c \
 		ft_export.c \
 		ft_unset.c \
+		ft_replace.c \
 
 PATHSRCS = srcs
 

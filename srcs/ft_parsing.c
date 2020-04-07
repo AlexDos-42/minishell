@@ -1,6 +1,4 @@
 # include "../include/minishell.h"
-#include <sys/types.h>
-#include <sys/wait.h>
 
 
 int	ft_exec(t_all *all, char *tab)
@@ -15,17 +13,19 @@ int	ft_exec(t_all *all, char *tab)
 		if (ft_strlen(tab) && tab[ft_strlen(tab) - 1] == '\n')
 			tab[ft_strlen(tab) - 1] = '\0';
 		if (execve(tab, all->argv, all->env) == -1)
+		{
 			ft_printf("error %s\n", strerror(errno));
+			exit(0);
+		}
 	}
 	else if (childpid < 0)
 		ft_printf("fork did'nt work\n");
 	waitpid(childpid, &status, 0);
 	if (status == 0)
-	{		ft_printf("fork 1\n");
 		return(0);
-	}
 	if (status == -1)
-	{		ft_printf("fork 2\n");
+	{
+		ft_printf("The child process terminated with an error");  
 		return(2);
 	}
 	return(0);
@@ -96,19 +96,22 @@ int	ft_minishell(t_all *all, char *str)
 	k = 0;
 	while (tab && tab[k])
 	{
-		i = 0;
-		while (tab[k][i] == ' ')
-			i++;
-		ft_nbfct(all, &tab[k][i]);
-		free(tab[k]);
-		if (ft_strlen(all->tab) && all->tab[ft_strlen(all->tab) - 1] == '\n')
-			all->tab[ft_strlen(all->tab) - 1] = '\0';
-		if ((stop = ft_ptrfct(all)))
+		if((tab[k] = ft_replace(tab[k], all)))
 		{
-			while (tab && tab[++k])
-				free(tab[k]);
-			break ;
-		}
+			i = 0;
+			while (tab[k] && tab[k][i] == ' ')
+				i++;
+			ft_nbfct(all, &tab[k][i]);
+			if (ft_strlen(all->tab) && all->tab[ft_strlen(all->tab) - 1] == '\n')
+				all->tab[ft_strlen(all->tab) - 1] = '\0';
+			if ((stop = ft_ptrfct(all)))
+			{
+				while (tab && tab[k])
+					free(tab[k++]);
+				break ;
+			}
+		}	
+		free(tab[k]);
 		k++;
 	}
 	if(tab)
