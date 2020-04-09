@@ -12,6 +12,7 @@
 
 int		inter;
 int		quit;
+int		ret;
 
 typedef struct		s_all
 {

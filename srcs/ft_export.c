@@ -15,6 +15,7 @@ void ft_exporterreur(char *str, int k)
 		write(1, "minishell: ", 12);
 		write(1, str, ft_strlen(str));
 		write(1, " not found\n", 11);
+		ret = 1;
 	}
 }
 
@@ -61,7 +62,7 @@ int	ft_nbnewenv(t_all *all)
 		if(all->tab[i] == '=')
 		{
 			eg = 1;
-			if(all->tab[i - 1] == ' ' || !all->tab[i - 1])
+			if(i == 0 || (all->tab[i - 1] == ' ' || !all->tab[i - 1]))
 			{
 				ft_exporterreur(&all->tab[i], k);
 				free(all->tab);
@@ -119,7 +120,8 @@ int	ft_export(t_all *all)
 	char **new_env;
 	int nb_newenv;
 	int j;
-	
+
+	ret = 0;	
 	if (!(nb_newenv = ft_nbnewenv(all)))
 		return (0);
 	tabnewenv = ft_newenv(all, nb_newenv);

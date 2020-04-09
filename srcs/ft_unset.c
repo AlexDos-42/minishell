@@ -105,7 +105,7 @@ int	ft_unset(t_all *all)
 	{
 		ft_putstr_fd(messerror, 1);
 		free(messerror);
-		return(1);
+		return(ret = 1);
 	}		
-	return(0);
+	return(ret = 0);
 }

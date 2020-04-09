@@ -41,9 +41,17 @@ void	ctrl(int signal)
 	}
 	else if (signal == SIGQUIT)
 	{
-		if (quit)
-			write(1, "\n", 1);
+		write(1, "\n", 1);
+		inter = 0;
 	}
+}
+
+void	ft_zero(t_all *all)
+{
+	ft_memset(all, 0, sizeof(t_all));
+	ret = 0;
+	inter = 0;
+	quit = 0;
 }
 
 int	main(int argc, char **argv, char **env)
@@ -53,11 +61,10 @@ int	main(int argc, char **argv, char **env)
 	char		*str;
 
 	all.argv = argv;
-//	ft_printf("PPPIIIDDDD=%i\n", getpid());
-	ft_memset(&all, 0, sizeof(t_all));
-	if (signal(SIGINT, &ctrl) == SIG_ERR || \
-		signal(SIGQUIT, &ctrl) == SIG_ERR )
-		return(1);
+	ft_zero(&all);
+	if (signal(SIGINT, ctrl) == SIG_ERR || \
+		signal(SIGQUIT, ctrl) == SIG_ERR )
+		exit(1);
 	if (argc == 1)
 	{
 		ft_initenv(&all, env);

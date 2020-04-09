@@ -3,32 +3,33 @@
 
 int	ft_exec(t_all *all, char *tab)
 {
-	pid_t childpid;
+	pid_t pid;
 	int status;
+	pid_t wpid;
 
+	ret = 0;
 	status = 0;
-	childpid =fork();
-	if (childpid == 0)
+	pid = fork();
+	if (pid == 0)
 	{
 		if (ft_strlen(tab) && tab[ft_strlen(tab) - 1] == '\n')
 			tab[ft_strlen(tab) - 1] = '\0';
 		if (execve(tab, all->argv, all->env) == -1)
 		{
 			ft_printf("error %s\n", strerror(errno));
+			ret = 127;
 			exit(0);
 		}
 	}
-	else if (childpid < 0)
-		ft_printf("fork did'nt work\n");
-	waitpid(childpid, &status, 0);
-	if (status == 0)
-		return(0);
-	if (status == -1)
+	else
 	{
-		ft_printf("The child process terminated with an error");  
-		return(2);
+		wpid = wait(&status);
+		while (wpid != pid)
+			wpid = wait(&status);
+		if (wpid == pid)
+			return(ret);
 	}
-	return(0);
+	return(ret);
 }
 
 

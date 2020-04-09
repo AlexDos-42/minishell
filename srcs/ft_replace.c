@@ -45,6 +45,24 @@ char	*ft_isinenv(char *tab, t_all *all)
 	return (env);
 }
 
+char	*ft_ret(char *tab)
+{
+	char *new;
+	int i;
+	char * c_ret;
+	
+	i = 0;
+	while(tab[i] != '$')
+		i++;
+	new = ft_substr(tab, 0, i);
+	c_ret = ft_itoa(ret);
+	new = ft_strjoin(new, c_ret, 1);
+	free(c_ret);
+	new = ft_strjoin(new, &tab[i + 2], 1);
+	free(tab);
+	return(new);
+}
+
 char	*ft_replace(char *tab, t_all *all)
 {
 	int i;
@@ -55,9 +73,14 @@ char	*ft_replace(char *tab, t_all *all)
 	{
 		if (tab[i + 1] && tab[i] =='$' && tab[i + 1] != ' ' && tab[i + 1] != '\n')
 		{
-			env = ft_isinenv(&tab[i], all);
-			if (!(tab = ft_newtab(tab, env)))
-					return(NULL);
+			if(tab[i + 1] == '?')
+				tab = ft_ret(tab);
+			else
+			{
+				env = ft_isinenv(&tab[i], all);
+				if (!(tab = ft_newtab(tab, env)))
+						return(NULL);
+			}
 		}
 		i++;
 	}

@@ -1,8 +1,8 @@
-# include "../include/minishell.h"
+#include "../include/minishell.h"
 
 int	ft_cd(t_all *all)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = ft_strtrim(all->tab, " ");
 	free(all->tab);
@@ -21,5 +21,5 @@ int	ft_cd(t_all *all)
 	else
 		ft_printf("cd: %s: %s\n", strerror(errno), all->tab);
 	free(all->tab);
-	return(0);
+	return (ret = 0);
 }
