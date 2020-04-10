@@ -6,7 +6,7 @@
 #    By: alesanto <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/01/09 17:02:25 by alesanto          #+#    #+#              #
-#    Updated: 2020/02/04 18:02:09 by alesanto         ###   ########.fr        #
+#    Updated: 2020/04/10 16:03:47 by alesanto         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ SRC =		main.c \
 		ft_export.c \
 		ft_unset.c \
 		ft_replace.c \
+		ft_pipe.c \
 
 PATHSRCS = srcs
 

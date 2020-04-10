@@ -85,13 +85,25 @@ void	ft_nbfct(t_all *all, char *tab)
 	all->tab = ft_substr(tab, i, ft_strlen(&tab[i]));
 }
 
-int	ft_minishell(t_all *all, char *str)
+int	ft_loop(char *tab, t_all *all)
 {
 	int i;
+	i = 0;
+	while (tab && tab[i] == ' ')
+		i++;
+	ft_nbfct(all, &tab[i]);
+	if (ft_strlen(all->tab) && all->tab[ft_strlen(all->tab) - 1] == '\n')
+		all->tab[ft_strlen(all->tab) - 1] = '\0';
+	return(ft_ptrfct(all));
+}
+
+
+int	ft_minishell(t_all *all, char *str)
+{
 	int k;
 	char **tab;
 	int stop;
-	
+
 	stop = 0;
 	tab = ft_split(str, ';');
 	k = 0;
@@ -99,13 +111,9 @@ int	ft_minishell(t_all *all, char *str)
 	{
 		if((tab[k] = ft_replace(tab[k], all)))
 		{
-			i = 0;
-			while (tab[k] && tab[k][i] == ' ')
-				i++;
-			ft_nbfct(all, &tab[k][i]);
-			if (ft_strlen(all->tab) && all->tab[ft_strlen(all->tab) - 1] == '\n')
-				all->tab[ft_strlen(all->tab) - 1] = '\0';
-			if ((stop = ft_ptrfct(all)))
+			if (ft_pipe(tab[k], all))
+				;		
+			else if ((stop = ft_loop(tab[k], all)))
 			{
 				while (tab && tab[k])
 					free(tab[k++]);

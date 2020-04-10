@@ -39,6 +39,7 @@ void			ft_prompt(t_all *all, char *tmp, char *str);
 int			ft_minishell(t_all *all, char *str);
 void			ft_nbfct(t_all *all, char *tab);
 int			ft_ptrfct(t_all *all);
+int			ft_loop(char *tab, t_all *all);
 
 /*
 ** --INIT--
@@ -63,8 +64,15 @@ int			ft_unset(t_all *all);
 ** --REPLACE--
 */
 
-char	*ft_replace(char *tab, t_all *all);
-char	*ft_isinenv(char *tab, t_all *all);
-char 	*ft_newtab(char *tab, char *env);
+char			*ft_replace(char *tab, t_all *all);
+char			*ft_isinenv(char *tab, t_all *all);
+char		 	*ft_newtab(char *tab, char *env);
+
+
+/*
+** --PIPE--
+*/
+
+int			ft_pipe(char *tab, t_all *all);
 
 #endif
