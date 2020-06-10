@@ -44,15 +44,15 @@ void	ft_pipefork(char **tab, int p, int k, t_all *all)
     pipe(pdes);
     if (!(child_left = fork()))
     {
-        close(pdes[READ_END]);
-        dup2(pdes[WRITE_END], STDOUT_FILENO);
+        close(pdes[0]);
+        dup2(pdes[1], STDOUT_FILENO);
 	ft_loop(tab[k], all);
         exit(0);
     }
     if (!(child_right = fork()))
     {
-        close(pdes[WRITE_END]);
-        dup2(pdes[READ_END], STDIN_FILENO);
+        close(pdes[1]);
+        dup2(pdes[0], STDIN_FILENO);
         if (p != k)
             ft_pipefork(tab, p, k + 1, all);
         else
@@ -61,8 +61,8 @@ void	ft_pipefork(char **tab, int p, int k, t_all *all)
         	exit(0);
 	}
     }
-    close(pdes[WRITE_END]);
-    close(pdes[READ_END]);
+    close(pdes[1]);
+    close(pdes[0]);
     wait(NULL);
     waitpid(child_right, &status, 0);
     return ;
