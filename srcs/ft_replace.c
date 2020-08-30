@@ -10,11 +10,13 @@ char 	*ft_newtab(char *tab, char *env)
 	j = 0;
 	while(tab[i] != '$')
 		i++;
-	while(tab[i + j] && tab[i + j] != ' ' && tab[i + j] != '\n')
+	while(tab[i + j] && tab[i + j] != ' ' && tab[i + j] != '\n' &&
+		tab[i + j] != '\"' && tab[i + j] != '\'' && tab[i + j] != '\\')
 		j++;
 	if (i || env)
 		new = ft_substr(tab, 0, i);
-	new = ft_strjoin(new, env, 1);
+	if (env)
+		new = ft_strjoin(new, env, 1);
 	new = ft_strjoin(new, &tab[i + j], 1);
 	free(tab);
 	if (env)
@@ -66,14 +68,29 @@ char	*ft_ret(char *tab)
 char	*ft_replace(char *tab, t_all *all)
 {
 	int i;
+	int j;
 	char *env;
 
 	i = 0;
+	j = -1;
 	while(tab[i])
 	{
 		if (tab[i + 1] && tab[i] =='$' && tab[i + 1] != ' ' && tab[i + 1] != '\n')
 		{
-			if(tab[i + 1] == '?')
+			if(i != 0 && (tab[i - 1] == '\\' || tab[i - 1] == '\''))
+			{
+				j = 2;
+				if (tab[i - 2] == '\\')
+				{
+					j = -2;
+					while(tab[i - j] == '\\')
+						j--;
+					j = j % 2 != 0 ? 2 : -1;
+				}
+			}
+			if (j == 2)
+				j = -1;
+			else if(tab[i + 1] == '?')
 				tab = ft_ret(tab);
 			else
 			{
