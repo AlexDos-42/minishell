@@ -107,6 +107,5 @@ int	ft_echo(t_all *all)
 		free(tmp);
 	}
 	free(all->tab);
-	ft_printf("end echo\n");
 	return(ret = 0);
 }

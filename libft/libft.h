@@ -99,6 +99,7 @@ void					ft_strdel(char **str);
 char					*ft_suprspace(char *str);
 char					*ft_cjoin(char const *s1, char c, int f);
 float					ft_fpower(float nb, int power);
+void					*ft_realloc(void *ptr, size_t size);
 
 /*
 ** ft_printf

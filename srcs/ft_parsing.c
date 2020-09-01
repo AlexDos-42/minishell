@@ -112,6 +112,8 @@ int	ft_minishell(t_all *all, char *str)
 		if((tab[k] = ft_replace(tab[k], all)))
 		{
 			if (ft_pipe(tab[k], all))
+				;
+			else if (ft_redirection(tab[k], all))
 				;		
 			else if ((stop = ft_loop(tab[k], all)))
 			{

@@ -32,6 +32,7 @@ SRCS = ft_atoi.c \
        ft_tolower.c \
        ft_strtrim.c \
        ft_strmapi.c \
+       ft_realloc.c \
        ft_strnstr.c \
        ft_memmove.c \
        ft_lstadd_back.c \
