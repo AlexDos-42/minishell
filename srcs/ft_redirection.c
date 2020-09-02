@@ -40,7 +40,8 @@ int		ft_create_file(char *tab)
 		if (tab[i] == '>' && tab[i + 1] == '>')
 		{
 			file = ft_get_file(&tab[i + 2]);
-			ft_printf("%s\n", file);
+			//ft_printf("%s\n", file);
+			fd = open(file, O_CREAT | O_WRONLY | O_APPEND);
 
 		}
 		else if (tab[i] == '>' && tab[i + 1] != '>')
