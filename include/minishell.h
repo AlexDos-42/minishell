@@ -89,5 +89,6 @@ int			ft_create_file(char *tab);
 */
 
 char		**ft_splitslash(const char *str, char c);
+int		ischarset(const char *str, int is, char c);
 
 #endif
