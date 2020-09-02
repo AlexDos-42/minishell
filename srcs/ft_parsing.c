@@ -105,7 +105,7 @@ int	ft_minishell(t_all *all, char *str)
 	int stop;
 
 	stop = 0;
-	tab = ft_split(str, ';');
+	tab = ft_splitslash(str, ';');
 	k = 0;
 	while (tab && tab[k])
 	{
