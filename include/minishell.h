@@ -84,5 +84,10 @@ int 		ft_redirection(char *tab, t_all *all);
 int			ft_create_file(char *tab);
 
 
+/*
+** --SPLITSLASH
+*/
+
+char		**ft_splitslash(const char *str, char c);
 
 #endif
