@@ -14,10 +14,9 @@ int	ft_ispipe(char *tab)
 
 int	ft_pipefork(char **tab, int p, int k, t_all *all)
 {
-    int     pdes[2];
-    int     status;
-    pid_t   child_right;
-    pid_t   child_left;
+    int     pipefd[2];
+    int   child_right;
+    int   child_left;
 
     if (pipe(pipefd) == -1)
 		exit(0);
