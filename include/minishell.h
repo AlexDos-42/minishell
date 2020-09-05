@@ -74,6 +74,7 @@ char		 	*ft_newtab(char *tab, char *env);
 */
 
 int			ft_pipe(char *tab, t_all *all);
+int			ft_ispipe(char *tab);
 
 
 /*
