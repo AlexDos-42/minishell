@@ -1,5 +1,24 @@
 # include "../include/minishell.h"
 
+char *isexec(char *tab)
+{
+	int i;
+	int j;
+
+	i = 0;
+	j = ft_strlen(tab);
+	if (!ft_strncmp(tab, "sh", 2) ||
+		(!ft_strncmp(tab, "./", 2) && tab[i + 2] != ' '))
+	{
+		i += 2;
+		while (tab[i] == ' ' && tab[i] != '\0')
+			i++;
+	}
+	while(tab[j - 1] == ' ')
+		j--;
+	tab = ft_substr(tab, i, j - i);
+	return(tab);
+}
 
 int	ft_exec(t_all *all, char *tab)
 {
@@ -14,6 +33,7 @@ int	ft_exec(t_all *all, char *tab)
 	{
 		if (ft_strlen(tab) && tab[ft_strlen(tab) - 1] == '\n')
 			tab[ft_strlen(tab) - 1] = '\0';
+		tab = isexec(tab);
 		if (execve(tab, all->argv, all->env) == -1)
 		{
 			ft_printf("error %s\n", strerror(errno));
@@ -111,8 +131,8 @@ int	ft_minishell(t_all *all, char *str)
 	{
 		if((tab[k] = ft_replace(tab[k], all)))
 		{
-			if (ft_pipe(tab[k], all))
-				;
+			if (ft_ispipe(tab[k]))
+				ft_pipe(tab[k], all);
 			else if (ft_redirection(tab[k], all))
 				;		
 			else if ((stop = ft_loop(tab[k], all)))
