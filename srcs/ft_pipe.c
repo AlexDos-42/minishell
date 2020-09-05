@@ -1,71 +1,53 @@
 # include "../include/minishell.h"
 
-char *ft_child(char **tab, int p, int i, int *pfd)
+int	ft_ispipe(char *tab)
 {
-	int pid;
-	char *tmp;
+	int p;
+	int i;
 
-	if (i < p)
-	{
-		if ((pid = fork()) < 0)
-		{
-			ft_printf("fork failed\n");
-			exit(0);
-		}
-		if (pid == 0)
-		{
-			close(pfd[1]);
-			dup2(pfd[0], 0);
-			close(pfd[0]);
-			ft_printf("testchild\n");
-			return(tab[i]);
-		}
-		else
-		{
-			close(pfd[0]);
-			dup2(pfd[1], 1);
-			close(pfd[1]);
-			ft_printf("testdad\n");
-			ft_child(tab, p, ++i, pfd);
-		}
-	}
-	tmp = tab[i];
-	free(tab);
-	return (tmp);
+	i = -1;
+	p = 0;
+	while(tab[++i])
+		p += ischarset(tab, i, '|')? 1 : 0;
+	return (p);
 }
 
-void	ft_pipefork(char **tab, int p, int k, t_all *all)
+int	ft_pipefork(char **tab, int p, int k, t_all *all)
 {
     int     pdes[2];
     int     status;
     pid_t   child_right;
     pid_t   child_left;
 
-    pipe(pdes);
-    if (!(child_left = fork()))
+    if (pipe(pipefd) == -1)
+		exit(0);
+	child_left = fork();
+    if (child_left == 0)
     {
-        close(pdes[0]);
-        dup2(pdes[1], STDOUT_FILENO);
-	ft_loop(tab[k], all);
-        exit(0);
+        dup2(pipefd[0], STDIN_FILENO);
+		close(pipefd[0]);
+		close(pipefd[1]);
+	    ft_loop(tab[k + 1], all);
+		exit(0);
     }
-    if (!(child_right = fork()))
-    {
-        close(pdes[1]);
-        dup2(pdes[0], STDIN_FILENO);
-        if (p != k)
+	if (p != k + 1)
             ft_pipefork(tab, p, k + 1, all);
-        else
+	else 
 	{
-		ft_loop(tab[k], all);
-        	exit(0);
+		child_right = fork();
+    	if (child_right == 0)
+		{
+			dup2(pipefd[1], STDOUT_FILENO);
+			close(pipefd[1]);
+			close(pipefd[1]);
+			ft_loop(tab[k], all);
+			exit(0);
+		}
 	}
-    }
-    close(pdes[1]);
-    close(pdes[0]);
-    wait(NULL);
-    waitpid(child_right, &status, 0);
-    return ;
+    close(pipefd[1]);
+    close(pipefd[0]);
+	wait(NULL);
+    return (0);
 }
 
 int	ft_pipe(char *tab, t_all *all)
@@ -78,11 +60,15 @@ int	ft_pipe(char *tab, t_all *all)
 	i = -1;
 	p = 0;
 	while(tab[++i])
-		p += ischarset(tab, i, '|')? 1 : 0;
+		p += ischarset(tab, i, '|') ? 1 : 0;
 	if (p)
 	{
 		tabpipe = ft_splitslash(tab, '|');
-		ft_pipefork(tabpipe, p, 0, all);
+		p = ft_pipefork(tabpipe, p, 0, all);
+		i = -1;
+		while(tabpipe[++i])
+			free(tabpipe[i]);
+		free(tabpipe);
 	}
 	return(p);
 }
