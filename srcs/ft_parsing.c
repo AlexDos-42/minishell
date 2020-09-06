@@ -1,63 +1,9 @@
-# include "../include/minishell.h"
+#include "../include/minishell.h"
 
-char *isexec(char *tab)
-{
-	int i;
-	int j;
-
-	i = 0;
-	j = ft_strlen(tab);
-	if (!ft_strncmp(tab, "sh", 2) ||
-		(!ft_strncmp(tab, "./", 2) && tab[i + 2] != ' '))
-	{
-		i += 2;
-		while (tab[i] == ' ' && tab[i] != '\0')
-			i++;
-	}
-	while(tab[j - 1] == ' ')
-		j--;
-	tab = ft_substr(tab, i, j - i);
-	return(tab);
-}
-
-int	ft_exec(t_all *all, char *tab)
-{
-	pid_t pid;
-	int status;
-	pid_t wpid;
-
-	ret = 0;
-	status = 0;
-	pid = fork();
-	if (pid == 0)
-	{
-		if (ft_strlen(tab) && tab[ft_strlen(tab) - 1] == '\n')
-			tab[ft_strlen(tab) - 1] = '\0';
-		tab = isexec(tab);
-		if (execve(tab, all->argv, all->env) == -1)
-		{
-			ft_printf("error %s\n", strerror(errno));
-			ret = 127;
-			exit(0);
-		}
-	}
-	else
-	{
-		wpid = wait(&status);
-		while (wpid != pid)
-			wpid = wait(&status);
-		if (wpid == pid)
-			return(ret);
-	}
-	return(ret);
-}
-
-
-int	ft_ptrfct(t_all *all)
+int		ft_ptrfct(t_all *all)
 {
 	int		(*fonc[8])(t_all *);
-
-	int i;
+	int		i;
 
 	i = 0;
 	if (all->fct != 0)
@@ -74,12 +20,12 @@ int	ft_ptrfct(t_all *all)
 	}
 	else
 		free(all->tab);
-	return(i);
+	return (i);
 }
 
 void	ft_nbfct(t_all *all, char *tab)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	while (tab[i] != ' ' && tab[i] != '\n')
@@ -105,47 +51,46 @@ void	ft_nbfct(t_all *all, char *tab)
 	all->tab = ft_substr(tab, i, ft_strlen(&tab[i]));
 }
 
-int	ft_loop(char *tab, t_all *all)
+int		ft_loop(char *tab, t_all *all)
 {
-	int i;
+	int		i;
+
 	i = 0;
 	while (tab && tab[i] == ' ')
 		i++;
 	ft_nbfct(all, &tab[i]);
 	if (ft_strlen(all->tab) && all->tab[ft_strlen(all->tab) - 1] == '\n')
 		all->tab[ft_strlen(all->tab) - 1] = '\0';
-	return(ft_ptrfct(all));
+	return (ft_ptrfct(all));
 }
 
-
-int	ft_minishell(t_all *all, char *str)
+int		ft_minishell(t_all *all, char *str)
 {
-	int k;
-	char **tab;
-	int stop;
+	int		k;
+	char	**tab;
+	int		stop;
 
 	stop = 0;
 	tab = ft_splitslash(str, ';');
-	k = 0;
-	while (tab && tab[k])
+	k = -1;
+	while (tab && tab[++k])
 	{
-		if((tab[k] = ft_replace(tab[k], all)))
+		if ((tab[k] = ft_replace(tab[k], all)))
 		{
 			if (ft_ispipe(tab[k]))
 				ft_pipe(tab[k], all);
 			else if (ft_redirection(tab[k], all))
-				;		
+				;
 			else if ((stop = ft_loop(tab[k], all)))
 			{
 				while (tab && tab[k])
 					free(tab[k++]);
 				break ;
 			}
-		}	
+		}
 		free(tab[k]);
-		k++;
 	}
-	if(tab)
+	if (tab)
 		free(tab);
-	return(stop);
+	return (stop);
 }

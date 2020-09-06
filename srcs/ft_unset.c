@@ -1,11 +1,10 @@
-# include "../include/minishell.h"
+#include "../include/minishell.h"
 
-int iserror;
-char *messerror;
+int		iserror;
+char	*messerror;
 
 void	ft_error(t_all *all, int j)
-{	
-
+{
 	int i;
 	int k;
 
@@ -33,30 +32,29 @@ void	ft_error(t_all *all, int j)
 		messerror = ft_substr(all->tab, j, k);
 		messerror = ft_strjoin("zsh: ", messerror, 2);
 		messerror = ft_strjoin(messerror, " not found\n", 1);
-
 	}	
 }
 
 void	ft_suprenv(t_all *all, int j)
 {
-	unsigned int p;
-	int o;
-	unsigned int i;
-	unsigned int k;
-	char **new_tab;
+	unsigned int	p;
+	int				o;
+	unsigned int	i;
+	unsigned int	k;
+	char			**new_tab;
 
 	p = 0;
-	while(all->env[p] && p < all->nb_env -1)
+	while (all->env[p] && p < all->nb_env -1)
 	{	
 		o = 0;
-		while(all->env[p][o] && (all->env[p][o] == all->tab[j + o]))
+		while (all->env[p][o] && (all->env[p][o] == all->tab[j + o]))
 		{
 			if(all->env[p][o + 1] == '=')
 			{
 				i = 0;
 				k = 0;
 				new_tab = ft_calloc(sizeof(char*), all->nb_env--);
-				while(k < all->nb_env)
+				while (k < all->nb_env)
 				{
 					if (i != p)
 						new_tab[k++] = ft_strdup(all->env[i]);
@@ -83,7 +81,7 @@ int	ft_unset(t_all *all)
 	i = -1;
 	err = 0;
 	j = 0;
-	while(all->tab && all->tab[++i])
+	while (all->tab && all->tab[++i])
 	{
 		if(all->tab[i] == '=')
 			err = 1;

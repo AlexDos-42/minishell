@@ -1,4 +1,4 @@
-# include "../include/minishell.h"
+#include "../include/minishell.h"
 
 static char			**ft_free(char **tab, int i)
 {
@@ -12,54 +12,45 @@ static char			**ft_free(char **tab, int i)
 	return (NULL);
 }
 
-int ischarset(const char *str, int is, char c)
+int					ischarset(const char *str, int is, char c)
 {
-	int i;
-	int j;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = -1;
 	if (str[is] == c)
 	{
-		while(++j != is && !i)
+		while (++j != is && !i)
 		{
-			if (str[j] == '\"' || str[j] == '\'')
-			{	
-				if (str[j] == '\"')
-				{
+			if (str[j] == '\"')
+			{
+				j++;
+				while (j != is && str[j] != '\"')
 					j++;
-					while(j != is && str[j] != '\"')
-						j++;
-					if (j == is && str[j] != '\"')
-						i = 1;
-				}
-				else
-				{
-					while(j != is && str[j] != '\'')
-						j++;
-					if (j == is && str[j] != '\'')
-						i = 1;
-				}
+				if (j == is && str[j] != '\"')
+					i = 1;
+			}
+			else if (str[j] == '\'')
+			{
+				j++;
+				while (j != is && str[j] != '\'')
+					j++;
+				if (j == is && str[j] != '\'')
+					i = 1;
 			}
 		}
 		if (i == 0 && is != 0 && str[is] == c && str[is - 1] == '\\')
-		{
 			while (is >= i && str[is - 1 - i] && str[is - 1 - i] == '\\')
 				i++;
-		}
-		if (i % 2 == 0)
-			return (1);
-		else
-			return (0);
+		return (i % 2 == 0 ? 1 : 0);
 	}
-	else 
-		return (0);
-	
+	return (0);
 }
 
 static int			ft_taillem(const char *str, int i, char charset)
 {
-	int j;
+	int		j;
 
 	j = 0;
 	while (!ischarset(str, i, charset) && str[i] != '\0')
@@ -72,8 +63,8 @@ static int			ft_taillem(const char *str, int i, char charset)
 
 static int			ft_nbr_mots(const char *str, char charset)
 {
-	int i;
-	int nbr_mots;
+	int		i;
+	int		nbr_mots;
 
 	i = 0;
 	nbr_mots = 0;

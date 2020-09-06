@@ -1,10 +1,9 @@
-# include "../include/minishell.h"
+#include "../include/minishell.h"
 #include <signal.h>
 
 void	ft_prompt(t_all *all, char *tmp, char *str)
 {
-	int		i;
-
+	int			i;
 
 	while (1)
 	{
@@ -17,14 +16,13 @@ void	ft_prompt(t_all *all, char *tmp, char *str)
 			if (ft_minishell(all, str) == 2)
 			{
 				i = -1;
-				while(all->env[++i])
+				while (all->env[++i])
 					free(all->env[i]);
 				free(all->env);
 				free(str);
 				exit(0);
 			}
 			free(str);
-			str = NULL;
 			str = malloc(sizeof(char) * 1);
 			str[0] = '\0';
 			write(1, "minishell $>", 12);
@@ -63,7 +61,7 @@ int	main(int argc, char **argv, char **env)
 	all.argv = argv;
 	ft_zero(&all);
 	if (signal(SIGINT, ctrl) == SIG_ERR || \
-		signal(SIGQUIT, ctrl) == SIG_ERR )
+		signal(SIGQUIT, ctrl) == SIG_ERR)
 		exit(1);
 	if (argc == 1)
 	{

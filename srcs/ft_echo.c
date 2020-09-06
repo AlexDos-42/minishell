@@ -1,6 +1,6 @@
-# include "../include/minishell.h"
+#include "../include/minishell.h"
 
-int	isquote(char c, int q, int *i)
+int			isquote(char c, int q, int *i)
 {
 	if (c == '\"' && q != 2)
 	{
@@ -10,12 +10,12 @@ int	isquote(char c, int q, int *i)
 	if (c == '\'' && q != 1)
 	{
 		*i = *i + 1;
-		q = q ? 0 : 2;	
+		q = q ? 0 : 2;
 	}
-	return(q);
+	return (q);
 }
 
-void	ft_putstr_echo(char *str, int fd)
+void		ft_putstr_echo(char *str, int fd)
 {
 	int i;
 	int q;
@@ -31,23 +31,20 @@ void	ft_putstr_echo(char *str, int fd)
 		if (str[i] == '\\')
 		{
 			if (str[i + 1])
-			{	
+			{
 				write(fd, &str[i + 1], 1);
 				i += 2;
 			}
 			else
 				i++;
-		}	
-		else if ((str[i] && str[i] != '\"' && str[i] != '\'') ||
-			(str[i] && ((str[i] == '\"' && q == 2) || (str[i] == '\'' && q == 1))))
-		{
-			write(fd, &str[i], 1);
-			i++;
 		}
+		else if ((str[i] && str[i] != '\"' && str[i] != '\'') || (str[i] &&
+		((str[i] == '\"' && q == 2) || (str[i] == '\'' && q == 1))))
+			write(fd, &str[i++], 1);
 	}
 }
 
-int	ft_echo(t_all *all)
+int			ft_echo(t_all *all)
 {
 	char *tmp;
 
@@ -65,5 +62,5 @@ int	ft_echo(t_all *all)
 		free(tmp);
 	}
 	free(all->tab);
-	return(ret = 0);
+	return (ret = 0);
 }

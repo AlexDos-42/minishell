@@ -1,9 +1,9 @@
-# include "../include/minishell.h"
+#include "../include/minishell.h"
 
-int	ft_env(t_all *all)
+int		ft_env(t_all *all)
 {
-	unsigned int i;
-	char *tmp;
+	unsigned int	i;
+	char			*tmp;
 
 	i = -1;
 	tmp = ft_strtrim(all->tab, " ");
@@ -23,5 +23,5 @@ int	ft_env(t_all *all)
 	}
 	free(tmp);
 	free(all->tab);
-	return(ret);
+	return (ret);
 }
