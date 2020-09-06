@@ -73,23 +73,30 @@ char		 	*ft_newtab(char *tab, char *env);
 ** --PIPE--
 */
 
-int			ft_pipe(char *tab, t_all *all);
-int			ft_ispipe(char *tab);
+int				ft_pipe(char *tab, t_all *all);
+int				ft_ispipe(char *tab);
 
 
 /*
 ** --REDIRECTION--
 */
 
-int 		ft_redirection(char *tab, t_all *all);
-int			ft_create_file(char *tab);
+int 			ft_redirection(char *tab, t_all *all);
+int				ft_create_file(char *tab);
 
 
 /*
-** --SPLITSLASH
+** --SPLITSLASH--
 */
 
-char		**ft_splitslash(const char *str, char c);
-int		ischarset(const char *str, int is, char c);
+char			**ft_splitslash(const char *str, char c);
+int				ischarset(const char *str, int is, char c);
+
+/*
+** --EXECUTION--
+*/
+
+int				ft_exec(t_all *all, char *tab);
+char			*isexec(char *tab);
 
 #endif
