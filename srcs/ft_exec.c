@@ -27,6 +27,7 @@ char **ft_allpath(t_all *all)
     int     i;
 
     i = 0;
+    path = NULL;
     while (all->env[i])
     {
         if (!ft_strncmp(all->env[i], "PATH", 4))
@@ -59,26 +60,28 @@ char *ft_exist(t_all *all, char *tab)
     int i;
 
     i = 0;
-    path = ft_allpath(all);
-    while(path[i])
+    if ((path = ft_allpath(all)) != NULL)
     {
-        dir = opendir(path[i]);
-        while ((dp = readdir(dir)) != NULL)
+        while(path[i])
         {
-            if (!ft_strncmp(tab, dp->d_name, ft_strlen(tab))
-            && ft_strlen(tab) == ft_strlen(dp->d_name))
+            dir = opendir(path[i]);
+            while ((dp = readdir(dir)) != NULL)
             {
-                char *tmp = ft_strjoin(path[i], "/", 0);
-                tab = ft_strjoin(tmp, tab, 3);
-                ft_free(path);
-                closedir(dir);
-                return(tab);
+                if (!ft_strncmp(tab, dp->d_name, ft_strlen(tab))
+                && ft_strlen(tab) == ft_strlen(dp->d_name))
+                {
+                    char *tmp = ft_strjoin(path[i], "/", 0);
+                    tab = ft_strjoin(tmp, tab, 3);
+                    ft_free(path);
+                    closedir(dir);
+                    return(tab);
+                }
             }
+            closedir(dir);
+            i++;
         }
-        closedir(dir);
-        i++;
+        ft_free(path);
     }
-    ft_free(path);
     return(tab);
 }
 
