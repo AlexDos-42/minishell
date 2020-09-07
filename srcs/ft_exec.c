@@ -104,19 +104,11 @@ int			ft_exec(t_all *all, char *tab)
         arg[0] = ft_exist(all, arg[0]);
         if (execve(arg[0], arg, all->env) == -1)
 		{
-            ret = 127;
 			ft_printf("error %s\n", strerror(errno));
 			exit(127);
 		}
     }
-        wait(&status);
-        //ft_printf("stautus 1 %d\n", status);
-        WIFEXITED(status);
-        //ft_printf("stautus 1 %d\n", status);
-        WEXITSTATUS(status);
-        //ft_printf("stautus 1 %d\n", status);
-    
-    ret = status;
-    //ft_printf("ret %d\n", ret);
+    wait(&status);
+    ret = WEXITSTATUS(status);    
 	return (0);
 }
