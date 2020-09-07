@@ -46,12 +46,13 @@ char	*ft_isinenv(char *tab, t_all *all)
 	env = NULL;
 	return (env);
 }
+#include <stdio.h>
 
 char	*ft_ret(char *tab)
 {
 	char *new;
 	int i;
-	char * c_ret;
+	char *c_ret;
 	
 	i = 0;
 	while(tab[i] != '$')
@@ -60,7 +61,8 @@ char	*ft_ret(char *tab)
 	c_ret = ft_itoa(ret);
 	new = ft_strjoin(new, c_ret, 1);
 	free(c_ret);
-	new = ft_strjoin(new, &tab[i + 2], 1);
+	if (tab[i + 2])
+		new = ft_strjoin(new, &tab[i + 2], 1);
 	free(tab);
 	return(new);
 }

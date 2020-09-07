@@ -35,6 +35,7 @@ void	ctrl(int signal)
 	if (signal == SIGINT)
 	{
 		inter = 1;
+		ret = 130;
 		write(1, "\nminishell $>", 13);
 	}
 	else if (signal == SIGQUIT)

@@ -3,6 +3,22 @@
 int		iserror;
 char	*messerror;
 
+void	ft_messerror(t_all *all, int j, int i)
+{
+	if (iserror == 0)
+	{
+		messerror = ft_substr(all->tab, j, i);
+		messerror = ft_strjoin("unset: ", messerror, 2);
+		messerror = ft_strjoin(messerror, ": invalid parameter name\n", 1);
+	}
+	else
+	{
+		messerror = ft_substr(all->tab, j, i);
+		messerror = ft_strjoin("zsh: ", messerror, 2);
+		messerror = ft_strjoin(messerror, " not found\n", 1);
+	}
+}
+
 void	ft_error(t_all *all, int j)
 {
 	int i;
@@ -16,10 +32,8 @@ void	ft_error(t_all *all, int j)
 	{
 		if (iserror == 0)
 		{
+			ft_messerror(all, j, i + 1);
 			iserror = 1;
-			messerror = ft_substr(all->tab, j, i + 1);
-			messerror = ft_strjoin("unset: ", messerror, 2);
-			messerror = ft_strjoin(messerror, ": invalid parameter name\n", 1);
 		}
 	}
 	else if (iserror != 2)
@@ -29,9 +43,7 @@ void	ft_error(t_all *all, int j)
 		iserror = 2;
 		while (all->tab[j + k] && all->tab[j + k + 1] != ' ')
 			k++;
-		messerror = ft_substr(all->tab, j, k);
-		messerror = ft_strjoin("zsh: ", messerror, 2);
-		messerror = ft_strjoin(messerror, " not found\n", 1);
+		ft_messerror(all, j, k);
 	}	
 }
 
