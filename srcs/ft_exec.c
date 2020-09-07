@@ -33,11 +33,22 @@ char **ft_allpath(t_all *all)
         {
             tmp = ft_strdup(&all->env[i][5]);
             path = ft_split(tmp, ':');
+            free(tmp);
             break;
         }
         i++;
     }
     return (path);
+}
+
+void ft_free(char **tab)
+{
+    int i;
+
+    i = -1;
+    while(tab[++i])
+        free(tab[i]);
+    free(tab);
 }
 
 char *ft_exist(t_all *all, char *tab)
@@ -57,8 +68,9 @@ char *ft_exist(t_all *all, char *tab)
             if (!ft_strncmp(tab, dp->d_name, ft_strlen(tab))
             && ft_strlen(tab) == ft_strlen(dp->d_name))
             {
-                char *tmp = ft_strjoin(path[i], "/", 1);
-                tab = ft_strjoin(tmp, tab, 12);
+                char *tmp = ft_strjoin(path[i], "/", 0);
+                tab = ft_strjoin(tmp, tab, 3);
+                ft_free(path);
                 closedir(dir);
                 return(tab);
             }
@@ -66,6 +78,7 @@ char *ft_exist(t_all *all, char *tab)
         closedir(dir);
         i++;
     }
+    ft_free(path);
     return(tab);
 }
 
