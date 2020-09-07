@@ -10,18 +10,18 @@
 # include <sys/wait.h>
 # include "error.h"
 
-int		inter;
-int		quit;
-int		ret;
+int			inter;
+int			quit;
+int			ret;
 
 typedef struct		s_all
 {
 	char	**argv;
-	int	fct;
+	int		fct;
 	char	*tab;
 	char	*pwd;
 	char	**env;
-	char	ret;
+	int	ret;
 	size_t	nb_env;
 }			t_all;
 
@@ -29,7 +29,7 @@ typedef struct		s_all
 ** --MAIN--
 */
 
-int			main(int argc, char **argv, char** env);
+int				main(int argc, char **argv, char** env);
 void			ft_prompt(t_all *all, char *tmp, char *str);
 
 /*
