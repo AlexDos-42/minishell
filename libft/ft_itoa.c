@@ -40,6 +40,7 @@ char			*ft_itoa(int n)
 	if (!(dest = malloc(sizeof(char) * (i + 1))))
 		return (NULL);
 	n = signe ? -n : n;
+	dest[i] = '\0';
 	while (n)
 	{
 		dest[--i] = n % 10 + '0';
