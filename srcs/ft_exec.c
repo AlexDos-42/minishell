@@ -20,11 +20,14 @@ char		*isexec(char *tab)
 	return (tab);
 }
 
+
+
 int			ft_exec(t_all *all, char *tab)
 {
 	pid_t	pid;
 	int		status;
-	pid_t	wpid;
+	//pid_t	wpid;
+    char    **arg;
 
 	status = 0;
 	pid = fork();
@@ -33,17 +36,17 @@ int			ft_exec(t_all *all, char *tab)
 		if (ft_strlen(tab) && tab[ft_strlen(tab) - 1] == '\n')
 			tab[ft_strlen(tab) - 1] = '\0';
 		tab = isexec(tab);
-		if (execve(tab, all->argv, all->env) == -1)
+        arg = ft_split(tab, ' '); 
+		if (execve(arg[0], arg, all->env) == -1)
 		{
+            ret = 127;
 			ft_printf("error %s\n", strerror(errno));
-			exit(0);
+			exit(127);
 		}
 	}
 	else
-	{
-		wpid = wait(&status);
-		while (wpid != pid)
-			wpid = wait(&status);
-	}
+        wait(&status);
+    ret = getpid();
+    ft_printf("ret %d\n", ret);
 	return (0);
 }
