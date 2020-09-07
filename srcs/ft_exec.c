@@ -14,10 +14,10 @@ char		*isexec(char *tab)
 		while (tab[i] == ' ' && tab[i] != '\0')
 			i++;
 	}
-	while (tab[j - 1] == ' ')
+	while (j != 0 && tab[j - 1] == ' ')
 		j--;
-	tab = ft_substr(tab, i, j - i);
-	return (tab);
+    tab = ft_substr(tab, i, j - i);
+    return (tab);
 }
 
 char **ft_allpath(t_all *all)
@@ -99,6 +99,8 @@ int			ft_exec(t_all *all, char *tab)
 			tab[ft_strlen(tab) - 1] = '\0';
 		tab = isexec(tab);
         arg = ft_split(tab, ' ');
+        if (!arg[0])
+            exit(0);
         arg[0] = ft_exist(all, arg[0]);
         if (execve(arg[0], arg, all->env) == -1)
 		{
@@ -106,9 +108,14 @@ int			ft_exec(t_all *all, char *tab)
 			ft_printf("error %s\n", strerror(errno));
 			exit(127);
 		}
-	}
-	else
+    }
         wait(&status);
+        //ft_printf("stautus 1 %d\n", status);
+        WIFEXITED(status);
+        //ft_printf("stautus 1 %d\n", status);
+        WEXITSTATUS(status);
+        //ft_printf("stautus 1 %d\n", status);
+    
     ret = status;
     //ft_printf("ret %d\n", ret);
 	return (0);
