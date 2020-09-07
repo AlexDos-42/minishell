@@ -26,38 +26,45 @@ char	*ft_get_file(char *tmp)
 	return (name);
 }
 
-int		ft_create_file(char *tab)
+int		ft_create_file(char *tab, int *fd, char *file)
 {
 	int 	i;
-	int		fd;
-	char 	*file;
 
 	i = 0;
-	fd = 0;
-	file = 0;
 	while (tab[i])
 	{
 		if (tab[i] == '>' && tab[i + 1] == '>')
 		{
 			file = ft_get_file(&tab[i + 2]);
-			//ft_printf("%s\n", file);
-			fd = open(file, O_CREAT | O_WRONLY | O_APPEND);
+			*fd = open(file, O_CREAT | O_WRONLY | O_APPEND);
 
 		}
 		else if (tab[i] == '>' && tab[i + 1] != '>')
-			ft_printf("%s\n", "test2");
+		{
+			file = ft_get_file(&tab[i + 1]);
+			*fd = open(file, O_CREAT | O_WRONLY | O_TRUNC);
+		}
 		else if (tab[i] == '<')
-			ft_printf("%s\n", "test3");
-		i++;
+		{
+			file = ft_get_file(&tab[i + 2]);
+			*fd = open(file, O_WRONLY);
+		}		i++;
 	}
-	return (i);
+	if (file)
+		free(file);
+	return ((*fd != 0 || file) ? 1 : 0);
 }
 
 int		ft_redirection(char *tab, t_all *all)
 {
 	(void)all;
+	char	*file;
+	int		fd;
 
-	ft_create_file(tab);
-	return (0);
+	fd = 0;
+	file = 0;
+
+	ft_create_file(tab, &fd, file);
+	return (fd);
 }
 

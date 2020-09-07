@@ -82,7 +82,7 @@ int				ft_ispipe(char *tab);
 */
 
 int 			ft_redirection(char *tab, t_all *all);
-int				ft_create_file(char *tab);
+int				ft_create_file(char *tab, int *fd, char *file);
 
 
 /*
