@@ -30,7 +30,6 @@ int		ft_create_file(char *tab, int *fd, char *file, int *i)
 {
 		if (tab[*i] == '>' && tab[(*i) + 1] == '>')
 		{
-			ft_printf("%s\n", "test1");
 			file = ft_get_file(&tab[(*i) + 2]);
 			*fd = open(file, O_CREAT | O_WRONLY | O_APPEND);
 			(*i)++;
@@ -38,7 +37,6 @@ int		ft_create_file(char *tab, int *fd, char *file, int *i)
 		}
 		else if (tab[*i] == '>')
 		{
-			ft_printf("%s\n", "test2");
 			file = ft_get_file(&tab[(*i) + 1]);
 			*fd = open(file, O_CREAT | O_WRONLY | O_TRUNC);
 

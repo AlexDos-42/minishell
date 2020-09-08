@@ -30,19 +30,19 @@ void	ft_nbfct(t_all *all, char *tab)
 	i = 0;
 	while (tab[i] != ' ' && tab[i] != '\n')
 		i++;
-	if (!ft_strncmp(tab, "echo", 4))
+	if (!ft_strncmp(tab, "echo ", 5))
 		all->fct = 1;
-	else if (!ft_strncmp(tab, "pwd", 3))
+	else if (!ft_strncmp(tab, "pwd ", 4))
 		all->fct = 2;
-	else if (!ft_strncmp(tab, "cd", 2))
+	else if (!ft_strncmp(tab, "cd ", 3))
 		all->fct = 3;
 	else if (!ft_strncmp(tab, "exit", 4))
 		all->fct = 4;
-	else if (!ft_strncmp(tab, "env", 3))
+	else if (!ft_strncmp(tab, "env ", 4))
 		all->fct = 5;
-	else if (!ft_strncmp(tab, "export", 6))
+	else if (!ft_strncmp(tab, "export ", 7))
 		all->fct = 6;
-	else if (!ft_strncmp(tab, "unset", 5))
+	else if (!ft_strncmp(tab, "unset ", 6))
 		all->fct = 7;
 	else
 		ft_exec(all, tab);
