@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
@@ -13,6 +14,11 @@
 #include "../include/minishell.h"
 
 void	ft_exporterreur(char *str, int k)
+=======
+#include "../include/minishell.h"
+
+void		ft_exporterreur(char *str, int k)
+>>>>>>> dc46c8f941bb473443947ffe858cd529065dd630
 {
 	if (!str[1])
 	{
@@ -31,10 +37,17 @@ void	ft_exporterreur(char *str, int k)
 	}
 }
 
+<<<<<<< HEAD
 int		ft_isenvexist(t_all *all, int i, int j, int k)
 {
 	unsigned int	p;
 	int		o;
+=======
+int			ft_isenvexist(t_all *all, int i, int j, int k)
+{
+	unsigned int	p;
+	int				o;
+>>>>>>> dc46c8f941bb473443947ffe858cd529065dd630
 
 	p = 0;
 	while (all->env[p] && p < all->nb_env - 1)
@@ -58,29 +71,38 @@ int		ft_isenvexist(t_all *all, int i, int j, int k)
 	return (0);
 }
 
+<<<<<<< HEAD
 int		ft_nbnewenv(t_all *all)
 {
 	int		i;
 	int		k;
 	int		eg;
 	int		j;
+=======
+int			ft_nbnewenv(t_all *all, int j, int k, int i)
+{
+	int				eg;
+>>>>>>> dc46c8f941bb473443947ffe858cd529065dd630
 
-	i = -1;
-	k = 0;
 	eg = 0;
+<<<<<<< HEAD
 	j = 0;
 	while (all->tab[++i])
 	{
 		if (all->tab[i] == '=')
 		{
 			eg = 1;
+=======
+	while (all->tab[++i])
+	{
+		if (all->tab[i] == '=' && (eg = 1) == 1)
+>>>>>>> dc46c8f941bb473443947ffe858cd529065dd630
 			if (i == 0 || (all->tab[i - 1] == ' ' || !all->tab[i - 1]))
 			{
 				ft_exporterreur(&all->tab[i], k);
 				free(all->tab);
 				return (0);
 			}
-		}
 		if ((all->tab[i + 1] == ' ' || !all->tab[i + 1]) && eg == 1)
 		{
 			if (!(ft_isenvexist(all, i, j, 1)))
@@ -94,15 +116,20 @@ int		ft_nbnewenv(t_all *all)
 	return (k);
 }
 
-char	**ft_newenv(t_all *all, int k)
+char		**ft_newenv(t_all *all, int k, int j)
 {
+<<<<<<< HEAD
 	int		i;
 	int		j;
 	char	**tabnewenv;
 	int		eg;
+=======
+	int				i;
+	char			**tabnewenv;
+	int				eg;
+>>>>>>> dc46c8f941bb473443947ffe858cd529065dd630
 
 	i = -1;
-	j = 0;
 	tabnewenv = malloc(sizeof(char*) * (k + 1));
 	k = 0;
 	eg = 0;
@@ -124,6 +151,7 @@ char	**ft_newenv(t_all *all, int k)
 	return (tabnewenv);
 }
 
+<<<<<<< HEAD
 int		ft_export(t_all *all)
 {
 	unsigned int	i;
@@ -134,30 +162,58 @@ int		ft_export(t_all *all)
 
 	ret = 0;
 	if (!(nb_newenv = ft_nbnewenv(all)))
+=======
+char	*ft_strdupfree(char *src)
+{
+	int		i;
+	char	*dest;
+
+	i = 0;
+	if (!(dest = (char *)malloc(ft_strlen(src) * sizeof(char) + 1)))
+>>>>>>> dc46c8f941bb473443947ffe858cd529065dd630
 		return (0);
-	tabnewenv = ft_newenv(all, nb_newenv);
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	free(src);
+	return (dest);
+}
+
+int			ft_export(t_all *all)
+{
+	unsigned int	i;
+	char			**tabnewenv;
+	char			**new_env;
+	int				nb_newenv;
+	int				j;
+
+	ret = 0;
+	j = 0;
+	if (!(nb_newenv = ft_nbnewenv(all, 0, 0, -1)))
+		return (0);
+	tabnewenv = ft_newenv(all, nb_newenv, j);
 	if (!(new_env = malloc((all->nb_env + nb_newenv + 1) * sizeof(char*))))
 		return (0);
 	i = 0;
-	j = 0;
 	while (i < all->nb_env)
 	{
 		new_env[i + j] = ft_strdup(all->env[i]);
 		free(all->env[i]);
 		i++;
 		if (i == all->nb_env - 1)
-		{
 			while (j < nb_newenv)
 			{
-				new_env[i + j] = ft_strdup(tabnewenv[j]);
-				free(tabnewenv[j]);
+				new_env[i + j] = ft_strdupfree(tabnewenv[j]);
 				j++;
 			}
-		}
 	}
-	free(tabnewenv);
+	new_env[i + j] = '\0';
 	free(all->tab);
 	all->nb_env += nb_newenv;
+	free(tabnewenv);
 	free(all->env);
 	all->env = new_env;
 	return (0);

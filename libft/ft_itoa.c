@@ -46,6 +46,6 @@ char			*ft_itoa(int n)
 		dest[--i] = n % 10 + '0';
 		n = n / 10;
 	}
-	signe ?	dest[--i] = '-' : 0;
+	signe ? dest[--i] = '-' : 0;
 	return (dest);
 }
