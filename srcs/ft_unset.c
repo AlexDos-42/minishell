@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_unset.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edouvier <edouvier@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/08 17:59:28 by edouvier          #+#    #+#             */
+/*   Updated: 2020/09/08 17:59:29 by edouvier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int		iserror;
@@ -26,7 +38,7 @@ void	ft_error(t_all *all, int j)
 
 	k = 0;
 	i = 0;
-	while(all->tab[j + i] != '=')
+	while (all->tab[j + i] != '=')
 		i++;
 	if (!all->tab[j + i + 1] || all->tab[j + i + 1] == ' ')
 	{
@@ -44,7 +56,7 @@ void	ft_error(t_all *all, int j)
 		while (all->tab[j + k] && all->tab[j + k + 1] != ' ')
 			k++;
 		ft_messerror(all, j, k);
-	}	
+	}
 }
 
 void	ft_suprenv(t_all *all, int j)
@@ -56,12 +68,12 @@ void	ft_suprenv(t_all *all, int j)
 	char			**new_tab;
 
 	p = 0;
-	while (all->env[p] && p < all->nb_env -1)
-	{	
+	while (all->env[p] && p < all->nb_env - 1)
+	{
 		o = 0;
 		while (all->env[p][o] && (all->env[p][o] == all->tab[j + o]))
 		{
-			if(all->env[p][o + 1] == '=')
+			if (all->env[p][o + 1] == '=')
 			{
 				i = 0;
 				k = 0;
@@ -75,7 +87,7 @@ void	ft_suprenv(t_all *all, int j)
 				}
 				free(all->env);
 				all->env = new_tab;
-				return ;	
+				return ;
 			}
 			o++;
 		}
@@ -95,27 +107,26 @@ int	ft_unset(t_all *all)
 	j = 0;
 	while (all->tab && all->tab[++i])
 	{
-		if(all->tab[i] == '=')
+		if (all->tab[i] == '=')
 			err = 1;
 		if ((all->tab[i + 1] == ' ' || !all->tab[i + 1]))
 		{
-			if(err == 1)
+			if (err == 1)
 			{
 				err = 0;
-				ft_error(all,j);
+				ft_error(all, j);
 			}
-			else	
+			else
 				ft_suprenv(all, j);
 			j = i + 2;
 		}
-
 	}
 	free(all->tab);
 	if (iserror)
 	{
 		ft_putstr_fd(messerror, 1);
 		free(messerror);
-		return(ret = 1);
-	}		
-	return(ret = 0);
+		return (ret = 1);
+	}
+	return (ret = 0);
 }

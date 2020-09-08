@@ -1,4 +1,16 @@
-# include "../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_redirection.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edouvier <edouvier@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/08 17:59:03 by edouvier          #+#    #+#             */
+/*   Updated: 2020/09/08 17:59:04 by edouvier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../include/minishell.h"
 
 char	*ft_get_file(char *tmp)
 {
@@ -28,27 +40,25 @@ char	*ft_get_file(char *tmp)
 
 int		ft_create_file(char *tab, int *fd, char *file, int *i)
 {
-		if (tab[*i] == '>' && tab[(*i) + 1] == '>')
-		{
-			file = ft_get_file(&tab[(*i) + 2]);
-			*fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0666);
+	if (tab[*i] == '>' && tab[(*i) + 1] == '>')
+	{
+		file = ft_get_file(&tab[(*i) + 2]);
+		*fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0666);
+		dup2(*fd, 1);
+		(*i)++;
+	}
+	else if (tab[*i] == '>')
+	{
+		if ((file = ft_get_file(&tab[(*i) + 1])) != 0)
+			*fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0666);
+		if (file)
 			dup2(*fd, 1);
-			(*i)++;
-
-		}
-		else if (tab[*i] == '>')
-		{
-			if ((file = ft_get_file(&tab[(*i) + 1])) != 0)
-				*fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0666);
-			if (file)
-				dup2(*fd, 1);
-
-		}
-		else if (tab[*i] == '<')
-		{
-			file = ft_get_file(&tab[(*i) + 1]);
-			dup2((*fd = open(file, O_WRONLY)), 0);
-		}
+	}
+	else if (tab[*i] == '<')
+	{
+		file = ft_get_file(&tab[(*i) + 1]);
+		dup2((*fd = open(file, O_WRONLY)), 0);
+	}
 	if (file)
 		free(file);
 	return ((*fd != 0 || file) ? 1 : 0);
@@ -59,7 +69,7 @@ int		ft_redirection(char *tab, t_all *all)
 	(void)all;
 	char	*file;
 	int		fd;
-	int 	i;
+	int		i;
 	char	*tmp;
 
 	fd = 0;
@@ -75,4 +85,3 @@ int		ft_redirection(char *tab, t_all *all)
 	}
 	return (fd);
 }
-

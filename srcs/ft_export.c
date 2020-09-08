@@ -1,8 +1,20 @@
-# include "../include/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_export.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edouvier <edouvier@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/08 17:57:07 by edouvier          #+#    #+#             */
+/*   Updated: 2020/09/08 17:57:09 by edouvier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void ft_exporterreur(char *str, int k)
+#include "../include/minishell.h"
+
+void	ft_exporterreur(char *str, int k)
 {
-	if(!str[1])
+	if (!str[1])
 	{
 		if (k)
 			write(1, "export: not valid in this context:\n", 36);
@@ -19,54 +31,54 @@ void ft_exporterreur(char *str, int k)
 	}
 }
 
-int	 ft_isenvexist(t_all *all, int i, int j, int k)
+int		ft_isenvexist(t_all *all, int i, int j, int k)
 {
-	unsigned int p;
-	int o;
+	unsigned int	p;
+	int		o;
 
 	p = 0;
-	while(all->env[p] && p < all->nb_env -1)
-	{	
+	while (all->env[p] && p < all->nb_env - 1)
+	{
 		o = 0;
-		while(all->env[p][o] && (all->env[p][o] == all->tab[j + o]))
+		while (all->env[p][o] && (all->env[p][o] == all->tab[j + o]))
 		{
-			if(all->env[p][o] == '=')
+			if (all->env[p][o] == '=')
 			{
-				if(k == 1)
+				if (k == 1)
 				{
 					free(all->env[p]);
 					all->env[p] = ft_substr(all->tab, j, i + 1 - j);
 				}
-				return(1);
+				return (1);
 			}
 			o++;
 		}
 		p++;
 	}
-	return(0);
+	return (0);
 }
 
-int	ft_nbnewenv(t_all *all)
+int		ft_nbnewenv(t_all *all)
 {
-	int i;
-	int k;
-	int eg;
-	int j;
+	int		i;
+	int		k;
+	int		eg;
+	int		j;
 
 	i = -1;
 	k = 0;
 	eg = 0;
 	j = 0;
-	while(all->tab[++i])
+	while (all->tab[++i])
 	{
-		if(all->tab[i] == '=')
+		if (all->tab[i] == '=')
 		{
 			eg = 1;
-			if(i == 0 || (all->tab[i - 1] == ' ' || !all->tab[i - 1]))
+			if (i == 0 || (all->tab[i - 1] == ' ' || !all->tab[i - 1]))
 			{
 				ft_exporterreur(&all->tab[i], k);
 				free(all->tab);
-				return(0);
+				return (0);
 			}
 		}
 		if ((all->tab[i + 1] == ' ' || !all->tab[i + 1]) && eg == 1)
@@ -76,28 +88,27 @@ int	ft_nbnewenv(t_all *all)
 			j = i + 2;
 			eg = 0;
 		}
-		
 	}
 	if (k == 0)
 		free(all->tab);
-	return(k);
+	return (k);
 }
 
 char	**ft_newenv(t_all *all, int k)
 {
-	int i;
-	int j;
-	char **tabnewenv;
-	int eg;
+	int		i;
+	int		j;
+	char	**tabnewenv;
+	int		eg;
 
 	i = -1;
 	j = 0;
 	tabnewenv = malloc(sizeof(char*) * (k + 1));
 	k = 0;
 	eg = 0;
-	while(all->tab[++i])
+	while (all->tab[++i])
 	{
-		if(all->tab[i] == '=')
+		if (all->tab[i] == '=')
 			eg = 1;
 		if ((all->tab[i + 1] == ' ' || !all->tab[i + 1]) && eg == 1)
 		{
@@ -110,18 +121,18 @@ char	**ft_newenv(t_all *all, int k)
 			eg = 0;
 		}
 	}
-	return(tabnewenv);
+	return (tabnewenv);
 }
 
-int	ft_export(t_all *all)
+int		ft_export(t_all *all)
 {
-	unsigned int i;
-	char **tabnewenv;
-	char **new_env;
-	int nb_newenv;
-	int j;
+	unsigned int	i;
+	char	**tabnewenv;
+	char	**new_env;
+	int		nb_newenv;
+	int		j;
 
-	ret = 0;	
+	ret = 0;
 	if (!(nb_newenv = ft_nbnewenv(all)))
 		return (0);
 	tabnewenv = ft_newenv(all, nb_newenv);
@@ -149,5 +160,5 @@ int	ft_export(t_all *all)
 	all->nb_env += nb_newenv;
 	free(all->env);
 	all->env = new_env;
-	return(0);
+	return (0);
 }
