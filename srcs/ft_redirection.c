@@ -31,20 +31,23 @@ int		ft_create_file(char *tab, int *fd, char *file, int *i)
 		if (tab[*i] == '>' && tab[(*i) + 1] == '>')
 		{
 			file = ft_get_file(&tab[(*i) + 2]);
-			*fd = open(file, O_CREAT | O_WRONLY | O_APPEND);
+			*fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0666);
+			dup2(*fd, 1);
 			(*i)++;
 
 		}
 		else if (tab[*i] == '>')
 		{
-			file = ft_get_file(&tab[(*i) + 1]);
-			*fd = open(file, O_CREAT | O_WRONLY | O_TRUNC);
+			if ((file = ft_get_file(&tab[(*i) + 1])) != 0)
+				*fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0666);
+			if (file)
+				dup2(*fd, 1);
 
 		}
 		else if (tab[*i] == '<')
 		{
 			file = ft_get_file(&tab[(*i) + 1]);
-			*fd = open(file, O_WRONLY);
+			dup2((*fd = open(file, O_WRONLY)), 0);
 		}
 	if (file)
 		free(file);
