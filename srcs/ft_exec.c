@@ -100,7 +100,7 @@ int			ft_exec(t_all *all, char *tab)
 		arg[0] = ft_exist(all, arg[0], -1);
 		if (execve(arg[0], arg, all->env) == -1)
 		{
-			ft_printf("error %s\n", strerror(errno));
+			ft_printf("minishell: %s : commande not found\n", tab);
 			exit(127);
 		}
 	}
