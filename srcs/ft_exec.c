@@ -12,24 +12,30 @@
 
 #include "../include/minishell.h"
 
-char		*isexec(char *tab)
+int			isexec(char *tab)
 {
 	int				i;
 	int				j;
 
 	i = 0;
-	j = ft_strlen(tab);
-	if (!ft_strncmp(tab, "sh", 2) ||
-		(!ft_strncmp(tab, "./", 2) && tab[i + 2] != ' '))
-	{
-		i += 2;
-		while (tab[i] == ' ' && tab[i] != '\0')
+	j = ft_strlen(tab) - 1;
+	if (j > 0)
+	{	
+		while(tab[j] == ' ')
+			j--;
+		while(tab[i] == ' ')
 			i++;
+		if (tab[j] == 'h' && tab[j - 1] == 's' && tab[j - 2] == '.')
+		{
+			if ((ft_strncmp(tab, "./", 2) && tab[i + 2] != ' ')
+			&& ft_strncmp(tab, "sh", 2))
+			{
+				ft_printf("minishell: %s : commande not found\n", tab);
+				return (1);
+			}
+		}
 	}
-	while (j != 0 && tab[j - 1] == ' ')
-		j--;
-	tab = ft_substr(tab, i, j - i);
-	return (tab);
+	return (0);
 }
 
 char		**ft_allpath(t_all *all)
@@ -105,7 +111,8 @@ int			ft_exec(t_all *all, char *tab)
 	{
 		if (ft_strlen(tab) && tab[ft_strlen(tab) - 1] == '\n')
 			tab[ft_strlen(tab) - 1] = '\0';
-		tab = isexec(tab);
+		if (sexec(tab))
+			exit(127);
 		arg = ft_split(tab, ' ');
 		if (!arg[0])
 			exit(0);
