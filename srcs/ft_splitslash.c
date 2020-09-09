@@ -50,7 +50,7 @@ int					isguillemet(int is, const char *str)
 				i = 1;
 		}
 	}
-	return (i);	
+	return (i);
 }
 
 int					ischarset(const char *str, int is, char c)
