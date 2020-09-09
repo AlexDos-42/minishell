@@ -65,7 +65,7 @@ void	ft_zero(t_all *all)
 	quit = 0;
 }
 
-int	main(int argc, char **argv, char **env)
+int		main(int argc, char **argv, char **env)
 {
 	t_all		all;
 	char		*tmp;
