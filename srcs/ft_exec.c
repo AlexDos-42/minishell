@@ -111,7 +111,7 @@ int			ft_exec(t_all *all, char *tab)
 	{
 		if (ft_strlen(tab) && tab[ft_strlen(tab) - 1] == '\n')
 			tab[ft_strlen(tab) - 1] = '\0';
-		if (sexec(tab))
+		if (isexec(tab))
 			exit(127);
 		arg = ft_split(tab, ' ');
 		if (!arg[0])
