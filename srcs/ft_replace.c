@@ -14,7 +14,7 @@
 #include <stdio.h>
 
 char	*ft_newtab(char *tab, char *env)
-{	
+{
 	int		i;
 	int		j;
 	char	*new;
@@ -39,9 +39,9 @@ char	*ft_newtab(char *tab, char *env)
 
 char	*ft_isinenv(char *tab, t_all *all)
 {
-	int 	k;
-	int 	i;
-	char 	*env;
+	int		k;
+	int		i;
+	char	*env;
 
 	k = 0;
 	while (all->env[k])
@@ -51,7 +51,8 @@ char	*ft_isinenv(char *tab, t_all *all)
 			i++;
 		if (all->env[k][i] == '=' && (tab[i + 1] != '\0' || tab[i + 1] == ' '))
 		{
-			env = ft_substr(all->env[k], i + 1, ft_strlen(all->env[k]) - (i + 1));
+			env = ft_substr(all->env[k], i + 1,
+				ft_strlen(all->env[k]) - (i + 1));
 			return (env);
 		}
 		k++;
@@ -85,10 +86,9 @@ char	*ft_replace(char *tab, t_all *all)
 	int		j;
 	char	*env;
 
-	i = 0;
+	i = -1;
 	j = -1;
-	while (tab[i])
-	{
+	while (tab[++i])
 		if (tab[i + 1] && tab[i] == '$' && tab[i + 1] != ' ' && tab[i + 1] != '\n')
 		{
 			if (i != 0 && (tab[i - 1] == '\\' || tab[i - 1] == '\''))
@@ -110,10 +110,8 @@ char	*ft_replace(char *tab, t_all *all)
 			{
 				env = ft_isinenv(&tab[i], all);
 				if (!(tab = ft_newtab(tab, env)))
-						return (NULL);
+					return (NULL);
 			}
 		}
-		i++;
-	}
 	return (tab);
 }
