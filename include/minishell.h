@@ -98,6 +98,6 @@ int				ischarset(const char *str, int is, char c);
 */
 
 int				ft_exec(t_all *all, char *tab);
-char			*isexec(char *tab);
+int			isexec(char *tab);
 
 #endif
