@@ -24,6 +24,8 @@ typedef struct		s_all
 	char	**env;
 	int	ret;
 	size_t	nb_env;
+	int		fdin;
+	int		fdout;
 }			t_all;
 
 /*
@@ -82,8 +84,8 @@ int				ft_ispipe(char *tab);
 ** --REDIRECTION--
 */
 
-int 			ft_redirection(char *tab, t_all *all);
-int				ft_create_file(char *tab, int *fd, char *file, int *i);
+char 			*ft_redirection(char *tab, t_all *all);
+char			*ft_create_file(t_all *all, char *tab, int fd, char *file, int *i);
 
 
 /*

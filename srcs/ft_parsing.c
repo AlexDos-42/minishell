@@ -20,6 +20,11 @@ int		ft_ptrfct(t_all *all)
 	}
 	else
 		free(all->tab);
+	if (all->fdin >= 0)
+	{
+		dup2(all->fdout, 1);
+		close(all->fdout);;
+	}
 	return (i);
 }
 
@@ -28,7 +33,7 @@ void	ft_nbfct(t_all *all, char *tab)
 	int		i;
 
 	i = 0;
-	while (tab[i] != ' ' && tab[i] != '\n')
+	while (tab[i] && tab[i] != ' ' && tab[i] != '\n')
 		i++;
 	if (!ft_strncmp(tab, "echo ", 5))
 		all->fct = 1;
@@ -51,17 +56,19 @@ void	ft_nbfct(t_all *all, char *tab)
 	all->tab = ft_substr(tab, i, ft_strlen(&tab[i]));
 }
 
+
 int		ft_loop(char *tab, t_all *all)
 {
 	int		i;
 
 	i = 0;
+	tab = ft_redirection(tab, all);
 	while (tab && tab[i] == ' ')
 		i++;
 	ft_nbfct(all, &tab[i]);
 	if (ft_strlen(all->tab) && all->tab[ft_strlen(all->tab) - 1] == '\n')
 		all->tab[ft_strlen(all->tab) - 1] = '\0';
-	return (ft_ptrfct(all));
+	return(ft_ptrfct(all));
 }
 
 int		ft_minishell(t_all *all, char *str)
@@ -79,8 +86,6 @@ int		ft_minishell(t_all *all, char *str)
 		{
 			if (ft_ispipe(tab[k]))
 				ft_pipe(tab[k], all);
-			else if (ft_redirection(tab[k], all))
-				;
 			else if ((stop = ft_loop(tab[k], all)))
 			{
 				while (tab && tab[k])

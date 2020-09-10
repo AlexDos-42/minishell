@@ -1,22 +1,17 @@
 #include "../include/minishell.h"
 
-void		ft_exporterreur(char *str, int k)
+void		ft_exporterreur(char *str)
 {
-	if (!str[1])
-	{
-		if (k)
-			write(1, "export: not valid in this context:\n", 36);
-		else
-			write(1, "minshell: bad assignment\n", 26);
-	}
-	else
-	{
-		str++;
-		write(1, "minishell: ", 12);
-		write(1, str, ft_strlen(str));
-		write(1, " not found\n", 11);
-		ret = 1;
-	}
+	int				i;
+	char			*tmp;
+
+	i = 0;
+	while (str[i] && str[i] != ' ')
+		i++;
+	tmp = ft_substr(str, 0, i);
+	ft_printf("minishell: export: « %s » : invalid parameter name\n", tmp);
+	free(tmp);
+	ret = 1;
 }
 
 int			ft_isenvexist(t_all *all, int i, int j, int k)
@@ -56,9 +51,7 @@ int			ft_nbnewenv(t_all *all, int j, int k, int i)
 		if (all->tab[i] == '=' && (eg = 1) == 1)
 			if (i == 0 || (all->tab[i - 1] == ' ' || !all->tab[i - 1]))
 			{
-				ft_exporterreur(&all->tab[i], k);
-				free(all->tab);
-				return (0);
+				ft_exporterreur(&all->tab[i]);
 			}
 		if ((all->tab[i + 1] == ' ' || !all->tab[i + 1]) && eg == 1)
 		{

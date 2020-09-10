@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_exec.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edouvier <edouvier@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/08 17:56:51 by edouvier          #+#    #+#             */
+/*   Updated: 2020/09/08 17:56:53 by edouvier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 int			isexec(char *tab)
@@ -8,10 +20,10 @@ int			isexec(char *tab)
 	i = 0;
 	j = ft_strlen(tab) - 1;
 	if (j > 0)
-	{	
-		while(tab[j] == ' ')
+	{
+		while (tab[j] == ' ')
 			j--;
-		while(tab[i] == ' ')
+		while (tab[i] == ' ')
 			i++;
 		if (tab[j] == 'h' && tab[j - 1] == 's' && tab[j - 2] == '.')
 		{

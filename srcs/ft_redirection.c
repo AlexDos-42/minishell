@@ -17,54 +17,60 @@ char	*ft_get_file(char *tmp)
 	char 	*name;
 	int		i;
 	int		j;
+	int		k;
 
-	name = ft_strdup("");
 	i = 0;
 	j = 0;
 	while (tmp[i] == ' ')
 		i++;
-	while (tmp[i + j] && (!(ft_strchr(" ><", tmp[i + j]))))
+	while (tmp[i + j])
 	{
-		name = ft_realloc(name, (i + 2) * sizeof(char*));
-		name[j] = tmp[i + j];
 		j++;
+		k = 0;
+		while(tmp[i + j + k] && tmp[i + j + k] == ' ')
+			k++;
+		if (tmp[i + j + k])
+			j += k;
+		else 
+			break;
 	}
-	if (!(*name))
-	{
-		free(name);
-		return (0);
-	}
-	name[j] = '\0';
+	name = ft_substr(tmp, i, j - 1);
+	name[j - 1] = '\0';
+	ft_printf("name %s\n", name);
 	return (name);
 }
 
-int		ft_create_file(char *tab, int *fd, char *file, int *i)
+char	*ft_create_file(t_all *all, char *tab, int fd, char *file, int *i)
 {
-	if (tab[*i] == '>' && tab[(*i) + 1] == '>')
+	char **tmp;
+	// if (tab[*i] == '>' && tab[(*i) + 1] == '>')
+	// {
+	// 	file = ft_get_file(&tab[(*i) + 2]);
+	// 	*fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0666);
+		
+	// }
+	// else
+	if (tab[*i] == '>')
 	{
-		file = ft_get_file(&tab[(*i) + 2]);
-		*fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0666);
-		dup2(*fd, 1);
-		(*i)++;
-	}
-	else if (tab[*i] == '>')
-	{
-		if ((file = ft_get_file(&tab[(*i) + 1])) != 0)
-			*fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0666);
-		if (file)
-			dup2(*fd, 1);
+		tmp = ft_splitslash(tab, '>');
+		if ((file = ft_get_file(tmp[1])) != 0)
+			fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0666);
+		all->fdin = fd;
+		all->fdout = dup(1);
+		close(1);
+		dup2(fd, 1);
 	}
 	else if (tab[*i] == '<')
 	{
 		file = ft_get_file(&tab[(*i) + 1]);
-		dup2((*fd = open(file, O_WRONLY)), 0);
+		dup2((fd = open(file, O_WRONLY)), 0);
 	}
 	if (file)
 		free(file);
-	return ((*fd != 0 || file) ? 1 : 0);
+	return (tmp[0]);
 }
 
-int		ft_redirection(char *tab, t_all *all)
+char	*ft_redirection(char *tab, t_all *all)
 {
 	(void)all;
 	char	*file;
@@ -75,13 +81,16 @@ int		ft_redirection(char *tab, t_all *all)
 	fd = 0;
 	file = 0;
 	i = 0;
+	all->fdin = -5;
 	while (tab[i])
 	{
-		if ((tmp = ft_strchr("><", tab[i])))
+		if ((ft_strchr("><", tab[i])))
 		{
-			ft_create_file(tab, &fd, file, &i);
+			tmp = ft_create_file(all, tab, fd, file, &i);
+			return (tmp);
 		}
 		i++;
 	}
-	return (fd);
+	return (tab);
+	
 }
