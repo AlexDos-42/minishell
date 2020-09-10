@@ -36,21 +36,24 @@ char	*ft_get_file(char *tmp)
 	}
 	name = ft_substr(tmp, i, j - 1);
 	name[j - 1] = '\0';
-	ft_printf("name %s\n", name);
+	//ft_printf("name %s\n", name);
 	return (name);
 }
 
 char	*ft_create_file(t_all *all, char *tab, int fd, char *file, int *i)
 {
 	char **tmp;
-	// if (tab[*i] == '>' && tab[(*i) + 1] == '>')
-	// {
-	// 	file = ft_get_file(&tab[(*i) + 2]);
-	// 	*fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0666);
-		
-	// }
-	// else
-	if (tab[*i] == '>')
+	if (tab[*i] == '>' && tab[(*i) + 1] == '>')
+	{		
+		tmp = ft_splitslash(tab, '>');
+		file = ft_get_file(tmp[2]);
+	 	fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0666);
+		all->fdin = fd;
+		all->fdout = dup(1);
+		close(1);
+		dup2(fd, 1);
+	}
+ 	else if (tab[*i] == '>')
 	{
 		tmp = ft_splitslash(tab, '>');
 		if ((file = ft_get_file(tmp[1])) != 0)

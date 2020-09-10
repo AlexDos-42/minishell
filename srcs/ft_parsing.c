@@ -64,7 +64,11 @@ int		ft_loop(char *tab, t_all *all)
 	i = 0;
 	tab = ft_redirection(tab, all);
 	while (tab && tab[i] == ' ')
+	{
+		if (tab[i] == '>')
+			tab = ft_redirection(tab, all);
 		i++;
+	}
 	ft_nbfct(all, &tab[i]);
 	if (ft_strlen(all->tab) && all->tab[ft_strlen(all->tab) - 1] == '\n')
 		all->tab[ft_strlen(all->tab) - 1] = '\0';
