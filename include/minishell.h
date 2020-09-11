@@ -78,14 +78,14 @@ char		 	*ft_newtab(char *tab, char *env);
 
 int				ft_pipe(char *tab, t_all *all);
 int				ft_ispipe(char *tab);
-
+void			istabpipe(char *tab, t_all *all);
 
 /*
 ** --REDIRECTION--
 */
 
 char 			*ft_redirection(char *tab, t_all *all);
-char			*ft_create_file(t_all *all, char *tab, int fd, char *file, int *i);
+char			*ft_create_file(t_all *all, char *tab, char *file, int *i);
 
 
 /*
@@ -100,6 +100,6 @@ int				ischarset(const char *str, int is, char c);
 */
 
 int				ft_exec(t_all *all, char *tab);
-int			isexec(char *tab);
+int				isexec(char *tab);
 
 #endif
