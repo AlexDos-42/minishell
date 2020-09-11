@@ -24,6 +24,7 @@ SRC =		main.c \
 		ft_unset.c \
 		ft_replace.c \
 		ft_pipe.c \
+		ft_pipeerror.c \
 		ft_redirection.c \
 		ft_splitslash.c \
 		ft_exec.c \
