@@ -1,23 +1,23 @@
 #include "../include/minishell.h"
 
-void	istabpipe_suite3(char *tab, t_all *all, int i)
-{	
-	int j;
-	int k;
-	char *tmp;
-	
+void		istabpipe_suite3(char *tab, t_all *all, int i)
+{
+	int			j;
+	int			k;
+	char		*tmp;
+
 	if (!ft_strncmp(&tab[i], "unset ", 6))
 	{
-		while(tab[i + 6])
+		while (tab[i + 6])
 		{
 			k = 0;
 			j = 0;
-			while(tab[i + 6] == ' ')
+			while (tab[i + 6] == ' ')
 				i++;
-			while(tab[i + 6 + j] && tab[i + 6 + j] != ' ')
+			while (tab[i + 6 + j] && tab[i + 6 + j] != ' ')
 			{
 				if (tab[i + 6 + j] == '=')
-					k = 1;	
+					k = 1;
 				j++;
 			}
 			if (k == 1)
@@ -27,28 +27,28 @@ void	istabpipe_suite3(char *tab, t_all *all, int i)
 				free(tmp);
 			}
 			i += j;
-		}		
+		}
 	}
 	(void)all;
 }
 
-void	istabpipe_suite2(char *tab, t_all *all, int i)
-{	
-	int j;
-	int k;
-	char *tmp;
-	
+void		istabpipe_suite2(char *tab, t_all *all, int i)
+{
+	int			j;
+	int			k;
+	char		*tmp;
+
 	if (!ft_strncmp(&tab[i], "export ", 7))
 	{
 		while (tab[i + 7])
 		{
 			k = 0;
 			j = 0;
-			while(tab[i + 7] == ' ')
+			while (tab[i + 7] == ' ')
 				i++;
 			if (tab[i + 7] == '=')
 				k = 1;
-			while(tab[i + 7 + j] && tab[i + 7 + j] != ' ')	
+			while (tab[i + 7 + j] && tab[i + 7 + j] != ' ')
 				j++;
 			if (k == 1)
 			{
@@ -59,15 +59,15 @@ void	istabpipe_suite2(char *tab, t_all *all, int i)
 			i += j;
 		}
 	}
-	else 
+	else
 		istabpipe_suite3(tab, all, i);
 }
 
-void	istabpipe_suite(char *tab, t_all *all, int i)
+void		istabpipe_suite(char *tab, t_all *all, int i)
 {
-	int j;
-	char *tmp;
-	int k;
+	int			j;
+	char		*tmp;
+	int			k;
 
 	if (!ft_strncmp(&tab[i], "cd ", 3))
 	{
@@ -97,10 +97,10 @@ void	istabpipe_suite(char *tab, t_all *all, int i)
 		istabpipe_suite2(tab, all, i);
 }
 
-void	istabpipe(char *tab, t_all *all)
+void		istabpipe(char *tab, t_all *all)
 {
-	int i;
-	
+	int			i;
+
 	i = 0;
 	while (tab[i] == ' ')
 		i++;
@@ -108,14 +108,14 @@ void	istabpipe(char *tab, t_all *all)
 		;
 	else if (!ft_strncmp(&tab[i], "pwd ", 4))
 	{
-		while(tab[i + 4] == ' ')
+		while (tab[i + 4] == ' ')
 			i++;
 		if (tab[i + 4])
 			ft_printf("pwd: too many arguments\n");
 	}
 	else if (!ft_strncmp(&tab[i], "env ", 4))
 	{
-		while(tab[i + 4] == ' ')
+		while (tab[i + 4] == ' ')
 			i++;
 		if (tab[i + 4])
 			ft_printf("env: %s:\n", tab);
