@@ -28,7 +28,8 @@ int			isexec(char *tab)
 		if (tab[j] == 'h' && tab[j - 1] == 's' && tab[j - 2] == '.')
 		{
 			if ((ft_strncmp(tab, "./", 2) && tab[i + 2] != ' ')
-			&& ft_strncmp(tab, "sh", 2))
+			&& ft_strncmp(tab, "sh", 2) && ft_strncmp(tab, "../", 3)
+			&& ft_strncmp(tab, "/", 1))
 			{
 				ft_printf("minishell: %s : commande not found\n", tab);
 				return (1);
