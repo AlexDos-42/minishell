@@ -1,5 +1,53 @@
 #include "../include/minishell.h"
 
+char		*ispath(char *tmp, t_all *all)
+{
+	char		**path;
+	int			i;
+	char		*tab;
+
+	i = 0;
+	if ((path = ft_allpath(all)) != NULL)
+	{
+		while (path[i])
+		{
+			if (!ft_strncmp(tmp, path[i], ft_strlen(path[i])))
+			{
+				tab = ft_strdup(&tmp[ft_strlen(path[i])]);
+				free(tmp);
+				return (tab);
+			}
+			i++;
+		}
+	}
+	return (tmp);
+}
+
+void		istabpipe_suite4(char *tab, t_all *all)
+{
+	int			j;
+	int			k;
+	char		*tmp;
+	j = 0;
+	k = 0;
+	while (tab[j + k] && tab[j + k] != ' ')
+	{
+		j += k;
+		j++;
+		k = 0;
+		while (tab[j + k] && tab[j + k] == ' ')
+			k++;
+	}
+	tmp = ft_substr(tab, 0, j);
+	if (isexec(tmp))
+		return ;
+	tmp = ispath(tmp, all);
+	tab = ft_exist(all, tmp, -1);
+	if (!ft_strncmp(tmp, tab, ft_strlen(tmp)))
+		ft_printf("minishell: %s : commande not found\n", tab);
+	free(tmp);
+}
+
 void		istabpipe_suite3(char *tab, t_all *all, int i)
 {
 	int			j;
@@ -29,7 +77,7 @@ void		istabpipe_suite3(char *tab, t_all *all, int i)
 			i += j;
 		}
 	}
-	(void)all;
+	else istabpipe_suite4(&tab[i], all);
 }
 
 void		istabpipe_suite2(char *tab, t_all *all, int i)
