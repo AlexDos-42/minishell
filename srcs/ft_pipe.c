@@ -54,7 +54,7 @@ int		ft_pipe(char *tab, t_all *all)
 	i = -1;
 	p = 0;
 	while(tab[++i])
-		p += ischarset(tab, i, '|') ? 1 : 0;
+		p += ischarset(tab, i, '|') && tab[i - 1] != '|' ? 1 : 0;
 	if (p)
 	{
 		tabpipe = ft_splitslash(tab, '|');
