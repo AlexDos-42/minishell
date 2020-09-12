@@ -85,7 +85,7 @@ void			istabpipe(char *tab, t_all *all);
 */
 
 char 			*ft_redirection(char *tab, t_all *all);
-char			*ft_create_file(t_all *all, char *tab, char *file, int *i);
+char			*ft_create_file(t_all *all, char *tab, int fd, char *file, int *i);
 
 
 /*
@@ -94,6 +94,7 @@ char			*ft_create_file(t_all *all, char *tab, char *file, int *i);
 
 char			**ft_splitslash(const char *str, char c);
 int				ischarset(const char *str, int is, char c);
+int				isguillemet(int is, const char *str);
 
 /*
 ** --EXECUTION--
@@ -101,5 +102,7 @@ int				ischarset(const char *str, int is, char c);
 
 int				ft_exec(t_all *all, char *tab);
 int				isexec(char *tab);
+char			**ft_allpath(t_all *all);
+char			*ft_exist(t_all *all, char *tab, int i);
 
 #endif
