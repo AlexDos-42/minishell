@@ -35,7 +35,7 @@ int					isguillemet(int is, const char *str)
 	k = 0;
 	while (++j < is && !i)
 	{
-		while(str[j] && str[j] == '\\' && j + k < is)
+		while (str[j] && str[j] == '\\' && j + k < is)
 			k++;
 		j += k;
 		if (j < is && str[j] && str[j] == '\"' && k % 2 == 0)
@@ -45,7 +45,7 @@ int					isguillemet(int is, const char *str)
 			while (j < is && (str[j] != '\"' || (str[j] == '\"' && k % 2 == 1)))
 			{
 				k = 0;
-				while(str[j + k] && str[j + k] == '\\' && j + k < is)
+				while (str[j + k] && str[j + k] == '\\' && j + k < is)
 					k++;
 				j += k ? k : 1;
 			}
@@ -59,7 +59,7 @@ int					isguillemet(int is, const char *str)
 			while (j != is && (str[j] != '\'' || (str[j] == '\'' && k % 2 == 1)))
 			{
 				k = 0;
-				while(str[j + k] && str[j + k] == '\\' && j + k < is)
+				while (str[j + k] && str[j + k] == '\\' && j + k < is)
 					k++;
 				j += k ? k : 1;
 			}
