@@ -35,25 +35,29 @@ int		ft_ptrfct(t_all *all)
 	if (all->fdin >= 0)
 	{
 		dup2(all->fdout, 1);
-		close(all->fdout);;
+		close(all->fdout);
 	}
 	return (i);
 }
 
-int ft_realbuiltin(char *tab, char *str, int i)
+int		ft_realbuiltin(char *tab, char *str, int i)
 {
-	int j;
+	int		j;
 
 	j = 0;
-	while(tab[j] && ((tab[j] == '\"' && tab[j + 1] == '\"') || (tab[j] == '\''  && tab[j + 1] == '\'')))
+	while (tab[j] && ((tab[j] == '\"' && tab[j + 1] == '\"')
+	|| (tab[j] == '\'' && tab[j + 1] == '\'')))
 		j += 2;
 	if (j % 2 != 0)
 		j--;
-	if (!ft_strncmp(&tab[j], str, i) && (tab[j + ft_strlen(str)] == ' ' || !ft_strncmp(tab, "exit", i)))
+	if (!ft_strncmp(&tab[j], str, i) && (tab[j + ft_strlen(str)] == ' '
+	|| !ft_strncmp(tab, "exit", i)))
 		return (1);
-	if (tab[j] == '\"' && (!ft_strncmp(&tab[j + 1], str, i)) && tab[j + ft_strlen(str) + 1] == '\"')
+	if (tab[j] == '\"' && (!ft_strncmp(&tab[j + 1], str, i)) &&
+	tab[j + ft_strlen(str) + 1] == '\"')
 		return (1);
-	if (tab[j] == '\'' && (!ft_strncmp(&tab[j + 1], str, i)) && tab[j + ft_strlen(str) + 1] == '\'')
+	if (tab[j] == '\'' && (!ft_strncmp(&tab[j + 1], str, i)) &&
+	tab[j + ft_strlen(str) + 1] == '\'')
 		return (1);
 	return (0);
 }
@@ -86,7 +90,6 @@ void	ft_nbfct(t_all *all, char *tab)
 	all->tab = ft_substr(tab, i, ft_strlen(&tab[i]));
 }
 
-
 int		ft_loop(char *tab, t_all *all)
 {
 	int		i;
@@ -98,7 +101,7 @@ int		ft_loop(char *tab, t_all *all)
 	ft_nbfct(all, &tab[i]);
 	if (ft_strlen(all->tab) && all->tab[ft_strlen(all->tab) - 1] == '\n')
 		all->tab[ft_strlen(all->tab) - 1] = '\0';
-	return(ft_ptrfct(all));
+	return (ft_ptrfct(all));
 }
 
 int		ft_minishell(t_all *all, char *str)

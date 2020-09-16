@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edouvier <edouvier@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/16 16:59:53 by edouvier          #+#    #+#             */
+/*   Updated: 2020/09/16 16:59:55 by edouvier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 # include "../libft/libft.h"
@@ -11,9 +23,9 @@
 # include <dirent.h>
 # include "error.h"
 
-int			inter;
-int			quit;
-int			ret;
+int		inter;
+int		quit;
+int		ret;
 
 typedef struct		s_all
 {
@@ -26,13 +38,13 @@ typedef struct		s_all
 	size_t	nb_env;
 	int		fdin;
 	int		fdout;
-}			t_all;
+}					t_all;
 
 /*
 ** --MAIN--
 */
 
-int				main(int argc, char **argv, char** env);
+int				main(int argc, char **argv, char **env);
 void			ft_prompt(t_all *all, char *tmp, char *str);
 
 /*
@@ -70,8 +82,7 @@ int			ft_unset(t_all *all);
 
 char			*ft_replace(char *tab, t_all *all);
 char			*ft_isinenv(char *tab, t_all *all);
-char		 	*ft_newtab(char *tab, char *env);
-
+char			*ft_newtab(char *tab, char *env);
 
 /*
 ** --PIPE--
@@ -85,9 +96,9 @@ void			istabpipe(char *tab, t_all *all);
 ** --REDIRECTION--
 */
 
-char 			*ft_redirection(char *tab, t_all *all);
-char			*ft_create_file(t_all *all, char *tab, int fd, char *file, int *i);
-
+char			*ft_redirection(char *tab, t_all *all);
+char			*ft_create_file(t_all *all, char *tab, int fd,
+					char *file, int *i);
 
 /*
 ** --SPLITSLASH--

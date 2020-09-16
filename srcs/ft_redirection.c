@@ -14,7 +14,7 @@
 
 char	*ft_get_file(char *tmp)
 {
-	char 	*name;
+	char	*name;
 	int		i;
 	int		j;
 	int		k;
@@ -27,16 +27,15 @@ char	*ft_get_file(char *tmp)
 	{
 		j++;
 		k = 0;
-		while(tmp[i + j + k] && tmp[i + j + k] == ' ')
+		while (tmp[i + j + k] && tmp[i + j + k] == ' ')
 			k++;
 		if (tmp[i + j + k])
 			j += k;
-		else 
-			break;
+		else
+			break ;
 	}
 	name = ft_substr(tmp, i, j - 1);
 	name[j - 1] = '\0';
-	//ft_printf("name %s\n", name);
 	return (name);
 }
 
@@ -44,7 +43,7 @@ char	*ft_create_file(t_all *all, char *tab, int fd, char *file, int *i)
 {
 	char **tmp;
 	if (tab[*i] == '>' && tab[(*i) + 1] == '>')
-	{		
+	{
 		tmp = ft_splitslash(tab, '>');
 		file = ft_get_file(tmp[2]);
 	 	fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0666);
@@ -53,7 +52,7 @@ char	*ft_create_file(t_all *all, char *tab, int fd, char *file, int *i)
 		close(1);
 		dup2(fd, 1);
 	}
- 	else if (tab[*i] == '>')
+	else if (tab[*i] == '>')
 	{
 		tmp = ft_splitslash(tab, '>');
 		if ((file = ft_get_file(tmp[1])) != 0)
@@ -95,5 +94,4 @@ char	*ft_redirection(char *tab, t_all *all)
 		i++;
 	}
 	return (tab);
-	
 }

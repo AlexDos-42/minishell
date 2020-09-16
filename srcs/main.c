@@ -17,13 +17,13 @@ void	ft_prompt2(t_all *all, char *str)
 {
 	int			i;
 
-		inter = 0;
-			ft_minishell(all, str);
-			i = -1;
-			while (all->env[++i])
-				free(all->env[i]);
-			free(all->env);
-			exit(ret);
+	inter = 0;
+	ft_minishell(all, str);
+	i = -1;
+	while (all->env[++i])
+		free(all->env[i]);
+	free(all->env);
+	exit(ret);
 }
 
 void	ft_prompt(t_all *all, char *tmp, char *str)

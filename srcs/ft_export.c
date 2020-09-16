@@ -33,7 +33,7 @@ char		**ft_exporterreur(char **str, int j)
 	{
 		new = ft_calloc(i - 1, sizeof(char *));
 		i = 0;
-		while(str[i])
+		while (str[i])
 		{
 			if (i != j)
 			{
@@ -80,15 +80,16 @@ int			ft_isenvexist(t_all *all, int i, int j, int k)
 
 char	*ft_suprguy(char *tabnewenv)
 {
-	char *tmp;
-	int i;
-	int j;
+	char	*tmp;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
 	while (tabnewenv[j])
 	{
-		if ((tabnewenv[j] != '\"' && tabnewenv[j] != '\'') || isguillemet(j, tabnewenv))
+		if ((tabnewenv[j] != '\"' && tabnewenv[j] != '\'') ||
+		isguillemet(j, tabnewenv))
 			i++;
 		j++;
 	}
@@ -97,7 +98,8 @@ char	*ft_suprguy(char *tabnewenv)
 	j = 0;
 	while (tabnewenv[i])
 	{
-		if ((tabnewenv[i] != '\"' && tabnewenv[i] != '\'') || isguillemet(i, tabnewenv))
+		if ((tabnewenv[i] != '\"' && tabnewenv[i] != '\'') ||
+		isguillemet(i, tabnewenv))
 		{
 			tmp[j] = tabnewenv[i];
 			j++;
@@ -121,17 +123,18 @@ int			ft_nbnewenv(char **tabnewenv, int j, int k, int i)
 		eg = 0;
 		while (tabnewenv && tabnewenv[i][++j])
 		{
-			if (eg == 0 && ((tabnewenv[i][j] == '=' && (j == 0 || tabnewenv[i][j - 1] == ' ')) ||
-				(tabnewenv[i][j] == '\"' ||  tabnewenv[i][j] == '\'')))
+			if (eg == 0 && ((tabnewenv[i][j] == '=' && (j == 0 ||
+			tabnewenv[i][j - 1] == ' ')) || (tabnewenv[i][j] == '\"'
+			|| tabnewenv[i][j] == '\'')))
 			{
-					tabnewenv = ft_exporterreur(tabnewenv, i);
-					i--;
-					eg = 1;
+				tabnewenv = ft_exporterreur(tabnewenv, i);
+				i--;
+				eg = 1;
 			}
 		}
 	}
 	ret = 0;
-	while(tabnewenv && tabnewenv[k])
+	while (tabnewenv && tabnewenv[k])
 		k++;
 	return (k);
 }
@@ -149,7 +152,8 @@ char		**ft_newenv(t_all *all, int k, int j)
 	{
 		if (all->tab[i] == '=')
 			eg = 1;
-		if ((!all->tab[i + 1] || (all->tab[i + 1] == ' ' && (!isguillemet(i, (const char*)all->tab)))) && eg == 1)
+		if ((!all->tab[i + 1] || (all->tab[i + 1] == ' ' &&
+		(!isguillemet(i, (const char*)all->tab)))) && eg == 1)
 		{
 			if (!(ft_isenvexist(all, i, j, 1)))
 				k++;
@@ -166,7 +170,8 @@ char		**ft_newenv(t_all *all, int k, int j)
 	{
 		if (all->tab[i] == '=')
 			eg = 1;
-		if ((!all->tab[i + 1] || (all->tab[i + 1] == ' ' && (!isguillemet(i, (const char*)all->tab)))) && eg == 1)
+		if ((!all->tab[i + 1] || (all->tab[i + 1] == ' ' &&
+		(!isguillemet(i, (const char*)all->tab)))) && eg == 1)
 		{
 			if (!(ft_isenvexist(all, i, j, 0)))
 			{
