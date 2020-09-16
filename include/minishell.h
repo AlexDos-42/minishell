@@ -61,6 +61,7 @@ int			ft_cd(t_all *all);
 int			ft_exit(t_all *all);
 int			ft_env(t_all *all);
 int			ft_export(t_all *all);
+char		*ft_suprguy(char *tabnewenv);
 int			ft_unset(t_all *all);
 
 /*
@@ -95,6 +96,7 @@ char			*ft_create_file(t_all *all, char *tab, int fd, char *file, int *i);
 char			**ft_splitslash(const char *str, char c);
 int				ischarset(const char *str, int is, char c);
 int				isguillemet(int is, const char *str);
+char			**ft_splitspace(const char *str, char c);
 
 /*
 ** --EXECUTION--
@@ -104,5 +106,6 @@ int				ft_exec(t_all *all, char *tab);
 int				isexec(char *tab);
 char			**ft_allpath(t_all *all);
 char			*ft_exist(t_all *all, char *tab, int i);
+void			ft_freexec(char **tab);
 
 #endif

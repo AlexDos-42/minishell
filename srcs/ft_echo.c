@@ -12,21 +12,6 @@
 
 #include "../include/minishell.h"
 
-int			isquote(char c, int q, int *i)
-{
-	if (c == '\"' && q != 2)
-	{
-		*i = *i + 1;
-		q = q ? 0 : 1;
-	}
-	if (c == '\'' && q != 1)
-	{
-		*i = *i + 1;
-		q = q ? 0 : 2;
-	}
-	return (q);
-}
-
 void		ft_putstr_echo(char *str, int fd)
 {
 	int i;
@@ -38,8 +23,6 @@ void		ft_putstr_echo(char *str, int fd)
 	q = 0;
 	while (str[i])
 	{
-		if (i == 0 || (i != 0 && str[i - 1] != '\\'))
-			q = isquote(str[i], q, &i);
 		if (str[i] == '\\')
 		{
 			if (str[i + 1])
@@ -59,19 +42,40 @@ void		ft_putstr_echo(char *str, int fd)
 int			ft_echo(t_all *all)
 {
 	char *tmp;
+	char **new;
+	int i;
 
+	i = -1;
 	if (!ft_strncmp(all->tab, "-n", 2))
 	{
 		tmp = ft_strtrim(all->tab + 2, " ");
-		ft_putstr_echo(tmp, 1);
+		new = ft_splitspace(tmp, ' ');
 		free(tmp);
+		while (new[++i])
+		{
+			new[i] = ft_suprguy(new[i]);
+			ft_putstr_echo(new[i], 1);
+			free(new[i]);
+			if (new[i + 1])
+				write(1, " ", 1);
+		}
+		free(new);
 	}
 	else
 	{
 		tmp = ft_strtrim(all->tab, " ");
-		ft_putstr_echo(tmp, 1);
-		write(1, "\n", 1);
+		new = ft_splitspace(tmp, ' ');
 		free(tmp);
+		while (new[++i])
+		{
+			new[i] = ft_suprguy(new[i]);
+			ft_putstr_echo(new[i], 1);
+			free(new[i]);
+			if (new[i + 1])
+				write(1, " ", 1);
+		}
+		write(1, "\n", 1);
+		free(new);
 	}
 	free(all->tab);
 	return (ret = 0);

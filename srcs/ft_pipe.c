@@ -62,7 +62,8 @@ int		ft_pipe(char *tab, t_all *all)
 		i = -1;
 		while(tabpipe[++i])
 		{
-			istabpipe(tabpipe[i], all);
+			if (tabpipe[i + 1])
+				istabpipe(tabpipe[i], all);
 			free(tabpipe[i]);
 		}
 		free(tabpipe);

@@ -28,6 +28,24 @@ int		ft_ptrfct(t_all *all)
 	return (i);
 }
 
+int ft_realbuiltin(char *tab, char *str, int i)
+{
+	int j;
+
+	j = 0;
+	while(tab[j] && ((tab[j] == '\"' && tab[j + 1] == '\"') || (tab[j] == '\''  && tab[j + 1] == '\'')))
+		j += 2;
+	if (j % 2 != 0)
+		j--;
+	if (!ft_strncmp(&tab[j], str, i) && (tab[j + ft_strlen(str)] == ' ' || !ft_strncmp(tab, "exit", i)))
+		return (1);
+	if (tab[j] == '\"' && (!ft_strncmp(&tab[j + 1], str, i)) && tab[j + ft_strlen(str) + 1] == '\"')
+		return (1);
+	if (tab[j] == '\'' && (!ft_strncmp(&tab[j + 1], str, i)) && tab[j + ft_strlen(str) + 1] == '\'')
+		return (1);
+	return (0);
+}
+
 void	ft_nbfct(t_all *all, char *tab)
 {
 	int		i;
@@ -35,19 +53,19 @@ void	ft_nbfct(t_all *all, char *tab)
 	i = 0;
 	while (tab[i] && tab[i] != ' ' && tab[i] != '\n')
 		i++;
-	if (!ft_strncmp(tab, "echo ", 5))
+	if (ft_realbuiltin(tab, "echo", 4))
 		all->fct = 1;
-	else if (!ft_strncmp(tab, "pwd ", 4))
+	else if (ft_realbuiltin(tab, "pwd", 3))
 		all->fct = 2;
-	else if (!ft_strncmp(tab, "cd ", 3))
+	else if (ft_realbuiltin(tab, "cd", 2))
 		all->fct = 3;
-	else if (!ft_strncmp(tab, "exit", 4))
+	else if (ft_realbuiltin(tab, "exit", 4))
 		all->fct = 4;
-	else if (!ft_strncmp(tab, "env ", 4))
+	else if (ft_realbuiltin(tab, "env", 3))
 		all->fct = 5;
-	else if (!ft_strncmp(tab, "export ", 7))
+	else if (ft_realbuiltin(tab, "export", 6))
 		all->fct = 6;
-	else if (!ft_strncmp(tab, "unset ", 6))
+	else if (ft_realbuiltin(tab, "unset", 5))
 		all->fct = 7;
 	else
 		ft_exec(all, tab);

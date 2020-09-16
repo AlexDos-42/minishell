@@ -27,6 +27,7 @@ SRC =		main.c \
 		ft_pipeerror.c \
 		ft_redirection.c \
 		ft_splitslash.c \
+		ft_splitspace.c \
 		ft_exec.c \
 
 PATHSRCS = srcs

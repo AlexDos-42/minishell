@@ -14,28 +14,31 @@
 
 int			isexec(char *tab)
 {
-	int				i;
 	int				j;
+	char			*tmp;
+	char			*new;
 
-	i = 0;
-	j = ft_strlen(tab) - 1;
+	new = ft_strdup(tab);
+	tmp = ft_strtrim(new, " ");
+	free(new);
+	tmp = ft_suprguy(tmp);
+	j = ft_strlen(tmp) - 1;
 	if (j > 0)
 	{
-		while (tab[j] == ' ')
-			j--;
-		while (tab[i] == ' ')
-			i++;
-		if (tab[j] == 'h' && tab[j - 1] == 's' && tab[j - 2] == '.')
+		if (tmp[j] == 'h' && tmp[j - 1] == 's' && tmp[j - 2] == '.')
 		{
-			if ((ft_strncmp(tab, "./", 2) && tab[i + 2] != ' ')
-			&& ft_strncmp(tab, "sh", 2) && ft_strncmp(tab, "../", 3)
-			&& ft_strncmp(tab, "/", 1))
+			if ((ft_strncmp(tmp, "./", 2) && tmp[2] != ' ')
+			&& ft_strncmp(tmp, "sh", 2) && ft_strncmp(tmp, "../", 3)
+			&& ft_strncmp(tmp, "/", 1))
 			{
-				ft_printf("minishell: %s : commande not found\n", tab);
+				ft_printf("minishell: %s: command not found\n", tab);
+				free(tmp);
+				ret = 127;
 				return (1);
 			}
 		}
 	}
+	free(tmp);
 	return (0);
 }
 
@@ -61,7 +64,7 @@ char		**ft_allpath(t_all *all)
 	return (path);
 }
 
-void		ft_free(char **tab)
+void		ft_freexec(char **tab)
 {
 	int				i;
 
@@ -89,13 +92,13 @@ char		*ft_exist(t_all *all, char *tab, int i)
 				{
 					tmp = ft_strjoin(path[i], "/", 0);
 					tab = ft_strjoin(tmp, tab, 3);
-					ft_free(path);
+					ft_freexec(path);
 					closedir(dir);
 					return (tab);
 				}
 			closedir(dir);
 		}
-		ft_free(path);
+		ft_freexec(path);
 	}
 	return (tab);
 }
@@ -105,7 +108,9 @@ int			ft_exec(t_all *all, char *tab)
 	pid_t			pid;
 	int				status;
 	char			**arg;
+	int				i;
 
+	i = 0;
 	status = 0;
 	pid = fork();
 	if (pid == 0)
@@ -114,13 +119,16 @@ int			ft_exec(t_all *all, char *tab)
 			tab[ft_strlen(tab) - 1] = '\0';
 		if (isexec(tab))
 			exit(127);
-		arg = ft_split(tab, ' ');
+		arg = ft_splitspace(tab, ' ');
 		if (!arg[0])
 			exit(0);
+		i = -1;
+		while(arg[++i])
+			arg[i] = ft_suprguy(arg[i]);
 		arg[0] = ft_exist(all, arg[0], -1);
 		if (execve(arg[0], arg, all->env) == -1)
 		{
-			ft_printf("minishell: %s : commande not found\n", tab);
+			ft_printf("minishell: %s: command not found\n", arg[0]);
 			exit(127);
 		}
 	}

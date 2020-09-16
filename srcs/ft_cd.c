@@ -12,6 +12,21 @@
 
 #include "../include/minishell.h"
 
+void	ft_remplace(t_all *all)
+{
+	int		i;
+
+	i = 0;
+	while(ft_strncmp(all->env[i], "PWD=", 4))
+		i++;
+	if (!ft_strncmp(all->env[i], "PWD=", 4))
+	{
+		free(all->env[i]);
+		all->env[i] = ft_strdup(all->pwd);
+		all->env[i] = ft_strjoin("PWD=", all->env[i], 2);
+	}
+}
+
 int	ft_cd(t_all *all)
 {
 	char	*tmp;
@@ -24,11 +39,13 @@ int	ft_cd(t_all *all)
 		chdir("/home/alesanto");
 		free(all->pwd);
 		all->pwd = getcwd(NULL, 0);
+		ft_remplace(all);
 	}
 	else if (chdir(all->tab) == 0)
 	{
 		free(all->pwd);
 		all->pwd = getcwd(NULL, 0);
+		ft_remplace(all);
 	}
 	else
 		ft_printf("cd: %s: %s\n", strerror(errno), all->tab);

@@ -13,10 +13,23 @@
 #include "../include/minishell.h"
 #include <signal.h>
 
-void	ft_prompt(t_all *all, char *tmp, char *str)
+void	ft_prompt2(t_all *all, char *str)
 {
 	int			i;
 
+		inter = 0;
+			ft_minishell(all, str);
+			i = -1;
+			while (all->env[++i])
+				free(all->env[i]);
+			free(all->env);
+			exit(ret);
+}
+
+void	ft_prompt(t_all *all, char *tmp, char *str)
+{
+	int			i;
+	
 	while (1)
 	{
 		i = read(0, tmp, 10);
@@ -32,7 +45,7 @@ void	ft_prompt(t_all *all, char *tmp, char *str)
 					free(all->env[i]);
 				free(all->env);
 				free(str);
-				exit(0);
+				exit(ret);
 			}
 			free(str);
 			str = malloc(sizeof(char) * 1);
@@ -83,6 +96,12 @@ int		main(int argc, char **argv, char **env)
 		str = ft_calloc(sizeof(char), 1);
 		write(1, "minishell $>", 12);
 		ft_prompt(&all, tmp, str);
+	}
+	if (argc == 3 && argv[1][0] == '-' && argv[1][1] == 'c')
+	{
+		ft_initenv(&all, env);
+		//write(1, "minishell $>", 12);
+		ft_prompt2(&all, argv[2]);
 	}
 	return (0);
 }

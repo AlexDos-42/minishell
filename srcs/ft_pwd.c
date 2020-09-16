@@ -12,9 +12,9 @@
 
 #include "../include/minishell.h"
 
-int	ft_pwd(t_all *all)
+int		ft_pwd(t_all *all)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = ft_strtrim(all->tab, " ");
 	if (tmp[0])

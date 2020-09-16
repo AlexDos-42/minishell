@@ -14,38 +14,68 @@ char		*ispath(char *tmp, t_all *all)
 			if (!ft_strncmp(tmp, path[i], ft_strlen(path[i])))
 			{
 				tab = ft_strdup(&tmp[ft_strlen(path[i])]);
+				ft_freexec(path);
 				free(tmp);
 				return (tab);
 			}
 			i++;
 		}
+		ft_freexec(path);
 	}
 	return (tmp);
 }
 
+int		ft_existpipe(t_all *all, char *tab, int i)
+{
+	DIR				*dir;
+	struct dirent	*dp;
+	char			**path;
+
+	if ((path = ft_allpath(all)) != NULL)
+	{
+		while (path[++i])
+		{
+			dir = opendir(path[i]);
+			while ((dp = readdir(dir)) != NULL)
+				if (!ft_strncmp(tab, dp->d_name, ft_strlen(tab))
+				&& ft_strlen(tab) == ft_strlen(dp->d_name))
+				{
+					ft_freexec(path);
+					closedir(dir);
+					return (1);
+				}
+			closedir(dir);
+		}
+		ft_freexec(path);
+	}
+	return (0);
+}
+
 void		istabpipe_suite4(char *tab, t_all *all)
 {
-	int			j;
-	int			k;
 	char		*tmp;
-	j = 0;
-	k = 0;
-	while (tab[j + k] && tab[j + k] != ' ')
+	char		*tmpp;
+	char		**new;
+
+	if (tab && tab[ft_strlen(tab) - 1] == '\n')
 	{
-		j += k;
-		j++;
-		k = 0;
-		while (tab[j + k] && tab[j + k] == ' ')
-			k++;
+		tmpp = ft_substr(tab, 0, ft_strlen(tab) - 1);
+		tmp = ft_strtrim(tmpp, " ");
+		free(tmpp);
 	}
-	tmp = ft_substr(tab, 0, j);
-	if (isexec(tmp))
-		return ;
-	tmp = ispath(tmp, all);
-	tab = ft_exist(all, tmp, -1);
-	if (!ft_strncmp(tmp, tab, ft_strlen(tmp)))
-		ft_printf("minishell: %s : commande not found\n", tab);
+	else
+		tmp = ft_strtrim(tab, " ");
+	new = ft_splitspace(tmp, ' ');
 	free(tmp);
+	tmp = ft_strdup(new[0]);
+	tmp = ft_suprguy(tmp);
+	if (isexec(tmp))
+		return (free(tmp));
+	tmp = ispath(tmp, all);
+	if (!ft_existpipe(all, tmp, -1))
+		ft_printf("minishell: %s: command not found\n", tmp);
+	free(tmp);
+	ft_freexec(new);
 }
 
 void		istabpipe_suite3(char *tab, t_all *all, int i)
