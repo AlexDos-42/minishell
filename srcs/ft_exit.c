@@ -21,11 +21,11 @@ int		ft_cleanexit(char *tab)
 	tmp = ft_strtrim(tab, " ");
 	free(tab);
 	tmp = ft_suprguy(tmp);
-	while(tmp[i] == ' ' || tmp[i] == '\t' || tmp[i] == '\f' || tmp[i] == '\r')
+	while (tmp[i] == ' ' || tmp[i] == '\t' || tmp[i] == '\f' || tmp[i] == '\r')
 		i++;
 	if (tmp[i] == '-' || tmp[i] == '+')
 		i++;
-	while(tmp[i])
+	while (tmp[i])
 	{
 		if (tmp[i] != '1' && tmp[i] != '2' &&
 		tmp[i] != '3' && tmp[i] != '4' && tmp[i] != '5'
@@ -37,9 +37,10 @@ int		ft_cleanexit(char *tab)
 				i++;
 			if (tmp[i])
 			{
-				ft_printf("minishell: exit: %s: numeric argument required\n", tmp);
+				ft_printf("minishell: exit: %s: numeric argument required\n",
+				tmp);
 				free(tmp);
-				return(2);
+				return (2);
 			}
 		}
 		i++;
