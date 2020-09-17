@@ -22,6 +22,7 @@
 # include <sys/wait.h>
 # include <dirent.h>
 # include "error.h"
+# include <limits.h>
 
 int		inter;
 int		quit;

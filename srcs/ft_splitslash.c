@@ -38,6 +38,8 @@ int					isguillemet(int is, const char *str)
 		while (str[j] && str[j] == '\\' && j + k < is)
 			k++;
 		j += k;
+		if (j == is && (str[j] == '\"' || str[j] == '\'') && k % 2 == 1)
+			return (1);
 		if (j < is && str[j] && str[j] == '\"' && k % 2 == 0)
 		{
 			k = 0;

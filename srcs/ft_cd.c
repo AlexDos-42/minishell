@@ -19,7 +19,7 @@ void	ft_remplace(t_all *all)
 	i = 0;
 	while(all->env[i] && ft_strncmp(all->env[i], "PWD=", 4))
 		i++;
-	if (!ft_strncmp(all->env[i], "PWD=", 4))
+	if (all->env[i] && !ft_strncmp(all->env[i], "PWD=", 4))
 	{
 		free(all->env[i]);
 		all->env[i] = ft_strdup(all->pwd);

@@ -12,40 +12,17 @@
 
 #include "../include/minishell.h"
 
-void			ft_messerror(t_all *all, int j, int i)
+int				ft_error(char *tmp)
 {
-	char			*messerror;
-
-	messerror = ft_substr(all->tab, j, i);
-	messerror = ft_strjoin("minishell: unset: « ", messerror, 2);
-	messerror = ft_strjoin(messerror, " » : invalid parameter name", 1);
-	ft_printf("%s\n", messerror);
-	free(messerror);
-}
-
-int				ft_error(t_all *all, int j)
-{
-	int				i;
-	int				k;
-
-	k = 0;
-	i = 0;
+	tmp = ft_strjoin("minishell: unset: `", tmp, 2);
+	tmp = ft_strjoin(tmp, "': not a valid identifier", 1);
+	ft_printf("%s\n", tmp);
+	free(tmp);
 	ret = 1;
-	while (all->tab[j + i] != '=')
-		i++;
-	if (!all->tab[j + i + 1] || all->tab[j + i + 1] == ' ')
-		ft_messerror(all, j, i + 1);
-	else
-	{
-		ft_printf("test\n");
-		while (all->tab[j + k] && all->tab[j + k + 1] != ' ')
-			k++;
-		ft_messerror(all, j, k + 1);
-	}
 	return (0);
 }
 
-void			ft_suprenv(t_all *all, int j, unsigned int p, int o)
+void			ft_suprenv(t_all *all, char *new, unsigned int p, int o)
 {
 	unsigned int	i;
 	unsigned int	k;
@@ -54,7 +31,7 @@ void			ft_suprenv(t_all *all, int j, unsigned int p, int o)
 	while (all->env[p] && p < all->nb_env - 1)
 	{
 		o = -1;
-		while (all->env[p][++o] && (all->env[p][o] == all->tab[j + o]))
+		while (all->env[p][++o] && (all->env[p][o] == new[o]))
 			if (all->env[p][o + 1] == '=')
 			{
 				i = 0;
@@ -72,31 +49,33 @@ void			ft_suprenv(t_all *all, int j, unsigned int p, int o)
 			}
 		p++;
 	}
+	free(new);
 }
 
 int				ft_unset(t_all *all)
 {
 	int				i;
-	int				err;
 	int				j;
+	char			*tmp;
+	char			**new;
 
 	i = -1;
-	err = 0;
-	j = 0;
 	ret = 0;
-	while (all->tab && all->tab[++i])
+	tmp = ft_strtrim(all->tab, " ");
+	new = ft_splitspace(tmp, ' ');
+	free(tmp);
+	while (new[++i])
 	{
-		if (all->tab[i] == '=')
-			err = 1;
-		if ((all->tab[i + 1] == ' ' || !all->tab[i + 1]))
-		{
-			if (err == 1)
-				err = ft_error(all, j);
-			else
-				ft_suprenv(all, j, 0, 0);
-			j = i + 2;
-		}
+		new[i] = ft_suprguy(new[i]);
+		j = 0;
+		while (new[i][j] && new[i][j] != '=' && new[i][j] != ' ')
+			j++;
+		if (new[i][j])
+			ft_error(new[i]);
+		else
+			ft_suprenv(all, new[i], 0, 0);
 	}
 	free(all->tab);
+	free(new);
 	return (0);
 }

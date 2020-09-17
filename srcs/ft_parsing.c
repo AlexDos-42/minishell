@@ -50,8 +50,7 @@ int		ft_realbuiltin(char *tab, char *str, int i)
 		j += 2;
 	if (j % 2 != 0)
 		j--;
-	if (!ft_strncmp(&tab[j], str, i) && (tab[j + ft_strlen(str)] == ' '
-	|| !ft_strncmp(tab, "exit", i)))
+	if (!ft_strncmp(&tab[j], str, i))
 		return (1);
 	if (tab[j] == '\"' && (!ft_strncmp(&tab[j + 1], str, i)) &&
 	tab[j + ft_strlen(str) + 1] == '\"')

@@ -12,64 +12,70 @@
 
 #include "../include/minishell.h"
 
-int		ft_exitret(char *tab)
+int		ft_exitret(char **tab)
 {
 	long long int i;
 
-	i = ft_atoi(tab) % 256;
-	free(tab);
+	i = ft_atoi(tab[0]);
+	// if (i < LONG_MIN || i > LONG_MAX)
+	// {
+	// 	ft_printf("minishell: exit: %s: numeric argument required\n", tab[0]);
+	// 	i = 2;
+	// }
+	// else
+	i = i % 256;
+	ft_freexec(tab);
 	return (ret = i);
 }
 
 int		ft_cleanexit(char *tab)
 {
-	char	*tmp;
 	int		i;
 	char	**new;
+	char	*tmp;
 
 	i = 0;
 	tmp = ft_strtrim(tab, " ");
-	tmp = ft_suprguy(tmp);
-	while (tmp[i] == ' ' || tmp[i] == '\t' || tmp[i] == '\f' || tmp[i] == '\r')
-		i++;
-	if (tmp[i] == '-' || tmp[i] == '+')
-		i++;
-	while (tmp[i])
+	free(tab);
+	if (!(tmp[0]))
 	{
-		if (tmp[i] != '1' && tmp[i] != '2' &&
-		tmp[i] != '3' && tmp[i] != '4' && tmp[i] != '5'
-		&& tmp[i] != '6' && tmp[i] != '7' &&
-		tmp[i] != '8' && tmp[i] != '9' && tmp[i] != '0')
+		free(tmp);
+		return (0);
+	}
+	new = ft_splitspace(tmp, ' ');
+	free(tmp);
+	new[0] = ft_suprguy(new[0]);
+	while (new[0][i] == ' ' || new[0][i] == '\t' || new[0][i] == '\f' || new[0][i] == '\r')
+		i++;
+	if (new[0][i] == '-' || new[0][i] == '+')
+		i++;
+	while (new[0][i])
+	{
+		if (new[0][i] != '1' && new[0][i] != '2' &&
+		new[0][i] != '3' && new[0][i] != '4' &&new[0][i] != '5'
+		&& new[0][i] != '6' && new[0][i] != '7' &&
+		new[0][i] != '8' && new[0][i] != '9' && new[0][i] != '0')
 		{
-			if (tmp[i] != ' ' && tmp[i] != '\t')
+			while (new[0][i] && ((new[0][i] == ' ' || new[0][i] == '\t') &&
+					(!new[0][i + 1] || new[0][i + 1] == ' ' || new[0][i + 1] == '\t')))
+					i++;
+			if (new[0][i])
 			{
-				new = ft_splitspace(tab, ' ');
-				new[0] = ft_suprguy(new[0]);
 				ft_printf("minishell: exit: %s: numeric argument required\n", new[0]);
 				ft_freexec(new);
-				free(tab);
-				free(tmp);
 				return(2);
-			}
-			else
-			{
-				while (tmp[i] && ((tmp[i] == ' ' || tmp[i] == '\t') &&
-					(!tmp[i + 1] || tmp[i + 1] == ' ' || tmp[i + 1] == '\t')))
-					i++;
-				if (tmp[i])
-				{
-					ft_printf("minishell: exit: too many arguments\n", tmp);
-					free(tmp);
-					free(tab);
-					return(2);
-				}
 			}
 		}
 		else
 			i++;
 	}
-	free(tab);
-	return(ft_exitret(tmp));
+	if (new[1])
+	{
+		ft_printf("minishell: exit: too many arguments\n");
+		ft_freexec(new);
+		return(1);
+	}
+	return(ft_exitret(new));
 }
 
 int		ft_exit(t_all *all)

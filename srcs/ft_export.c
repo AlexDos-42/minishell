@@ -88,13 +88,16 @@ char	*ft_suprguy(char *tabnewenv)
 	j = 0;
 	while (tabnewenv[j])
 	{
-		if ((tabnewenv[j] != '\"' && tabnewenv[j] != '\'') ||
-		isguillemet(j, tabnewenv))
+		if (((tabnewenv[j] != '\"' && tabnewenv[j] != '\'') ||
+		isguillemet(j, tabnewenv)) && tabnewenv[j] != '\\')
 			i++;
-		if (tabnewenv[j] == '\\' && tabnewenv[j + 1] == '\\')
+		if (tabnewenv[j] == '\\' && (tabnewenv[j + 1] && tabnewenv[j + 1] == '\\'))
+		{
 			j++;
-		else if (tabnewenv[j] == '\\' && tabnewenv[j - 1] != '\\' && !isguillemet(j, tabnewenv))
-			j++;
+			i++;	
+		}
+		else if (tabnewenv[j] == '\\' && isguillemet(j, tabnewenv))
+			i++;
 		j++;
 	}
 	tmp = ft_calloc(i, sizeof(char) + 1);
@@ -102,16 +105,14 @@ char	*ft_suprguy(char *tabnewenv)
 	j = 0;
 	while (tabnewenv[i])
 	{
-		if (tabnewenv[i] == '\\' && tabnewenv[i + 1] == '\\')
-			i++;
-		else if (tabnewenv[i] == '\\' && tabnewenv[i - 1] != '\\' && !isguillemet(j, tabnewenv))
-			i++;
-		if ((tabnewenv[i] != '\"' && tabnewenv[i] != '\'') ||
-		isguillemet(i, tabnewenv))
-		{
-			tmp[j] = tabnewenv[i];
-			j++;
-		}
+		if (tabnewenv[i] == '\\' && tabnewenv[i + 1] && tabnewenv[i + 1] == '\\')
+			tmp[j++] = tabnewenv[i++];
+		else if (tabnewenv[i] == '\\' && (isguillemet(i, tabnewenv)
+		&& (!tabnewenv[i + 1] || (tabnewenv[i + 1] != '\"' && tabnewenv[i + 1] != '\''))))
+			tmp[j++] = tabnewenv[i];
+		else if (((tabnewenv[i] != '\"' && tabnewenv[i] != '\'') ||
+			isguillemet(i, tabnewenv)) && tabnewenv[i] != '\\')
+			tmp[j++] = tabnewenv[i];
 		i++;
 	}
 	tmp[j] = '\0';

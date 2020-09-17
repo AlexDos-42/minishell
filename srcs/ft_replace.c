@@ -105,12 +105,16 @@ char	*ft_replace(char *tab, t_all *all)
 			if (j == 2)
 				j = -1;
 			else if (tab[i + 1] == '?')
+			{
 				tab = ft_ret(tab);
+				break;
+			}
 			else
 			{
 				env = ft_isinenv(&tab[i], all);
 				if (!(tab = ft_newtab(tab, env)))
 					return (NULL);
+				break;
 			}
 		}
 	return (tab);
