@@ -17,7 +17,7 @@ void	ft_remplace(t_all *all)
 	int		i;
 
 	i = 0;
-	while(ft_strncmp(all->env[i], "PWD=", 4))
+	while(all->env[i] && ft_strncmp(all->env[i], "PWD=", 4))
 		i++;
 	if (!ft_strncmp(all->env[i], "PWD=", 4))
 	{

@@ -15,28 +15,12 @@
 void		ft_putstr_echo(char *str, int fd)
 {
 	int i;
-	int q;
 
-	if (!str || !*str || fd < 0)
-		return ;
 	i = 0;
-	q = 0;
+	str = ft_suprguy(str);
 	while (str[i])
-	{
-		if (str[i] == '\\')
-		{
-			if (str[i + 1])
-			{
-				write(fd, &str[i + 1], 1);
-				i += 2;
-			}
-			else
-				i++;
-		}
-		else if ((str[i] && str[i] != '\"' && str[i] != '\'') || (str[i] &&
-		((str[i] == '\"' && q == 2) || (str[i] == '\'' && q == 1))))
 			write(fd, &str[i++], 1);
-	}
+	free(str);
 }
 
 int			ft_echo(t_all *all)
@@ -53,9 +37,7 @@ int			ft_echo(t_all *all)
 		free(tmp);
 		while (new[++i])
 		{
-			new[i] = ft_suprguy(new[i]);
 			ft_putstr_echo(new[i], 1);
-			free(new[i]);
 			if (new[i + 1])
 				write(1, " ", 1);
 		}
@@ -68,9 +50,7 @@ int			ft_echo(t_all *all)
 		free(tmp);
 		while (new[++i])
 		{
-			new[i] = ft_suprguy(new[i]);
 			ft_putstr_echo(new[i], 1);
-			free(new[i]);
 			if (new[i + 1])
 				write(1, " ", 1);
 		}
