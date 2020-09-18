@@ -15,23 +15,17 @@
 char		**ft_exporterreur(char **str, int j)
 {
 	int				i;
-	char			*tmp;
 	char			**new;
 	int				k;
 
-	i = 0;
-	while (str[j][i] && str[j][i] != ' ')
-		i++;
-	tmp = ft_substr(str[j], 0, i);
-	ft_printf("minishell: export: `%s': not a valid identifier\n", tmp);
-	free(tmp);
+	ft_printf("minishell: export: `%s': not a valid identifier\n", str[j]);
 	i = 0;
 	k = 0;
-	while (str[i])
+	while (str && str[i])
 		i++;
 	if (i != 1)
 	{
-		new = ft_calloc(i - 1, sizeof(char *));
+		new = ft_calloc(i, sizeof(char *));
 		i = 0;
 		while (str[i])
 		{
@@ -40,18 +34,18 @@ char		**ft_exporterreur(char **str, int j)
 				new[k] = ft_strdup(str[i]);
 				k++;
 			}
-			free(str[i]);
 			i++;
 		}
+		new[k] = '\0';
 	}
 	else
 		new = NULL;
-	free(str[i]);
+	ft_freexec(str);
 	ret = 1;
 	return (new);
 }
 
-int			ft_isenvexist(t_all *all, int i, int j, int k)
+int			ft_isenvexist(t_all *all, char *tab)
 {
 	unsigned int	p;
 	int				o;
@@ -60,15 +54,12 @@ int			ft_isenvexist(t_all *all, int i, int j, int k)
 	while (all->env[p] && p < all->nb_env - 1)
 	{
 		o = 0;
-		while (all->env[p][o] && (all->env[p][o] == all->tab[j + o]))
+		while (all->env[p][o] && (all->env[p][o] == tab[o]))
 		{
 			if (all->env[p][o] == '=')
 			{
-				if (k == 1)
-				{
-					free(all->env[p]);
-					all->env[p] = ft_substr(all->tab, j, i + 1 - j);
-				}
+				free(all->env[p]);
+				all->env[p] = ft_strdup(tab);
 				return (1);
 			}
 			o++;
@@ -120,78 +111,91 @@ char	*ft_suprguy(char *tabnewenv)
 	return (tmp);
 }
 
-int			ft_nbnewenv(char **tabnewenv, int j, int k, int i)
+int			ft_nbnewenv(char **tabnewenv, int j, int k)
 {
-	int				eg;
+	int i;
 
-	eg = 0;
-	while (tabnewenv && tabnewenv[++i])
+	i = 0;
+	ret = 0;
+	while (tabnewenv && tabnewenv[i])
 	{
-		tabnewenv[i] = ft_suprguy(tabnewenv[i]);
 		j = -1;
-		eg = 0;
-		while (tabnewenv && tabnewenv[i][++j])
+		while (tabnewenv[i] && tabnewenv[i][++j])
 		{
-			if (eg == 0 && ((tabnewenv[i][j] == '=' && (j == 0 ||
-			tabnewenv[i][j - 1] == ' ')) || (tabnewenv[i][j] == '\"'
-			|| tabnewenv[i][j] == '\'')))
+			if (tabnewenv[i][j] == '=' && (j == 0 ||
+			tabnewenv[i][j - 1] == ' ' || tabnewenv[i][j - 1] == ';'
+			|| tabnewenv[i][j - 1] == '\'' || tabnewenv[i][j - 1] == '\"'
+			|| tabnewenv[i][j - 1] == ':'))
 			{
-				tabnewenv = ft_exporterreur(tabnewenv, i);
-				i--;
-				eg = 1;
+				if ((tabnewenv = ft_exporterreur(tabnewenv, i)) == NULL)
+					return(0);
+				j = -1;
+			}
+			else if (tabnewenv[i][j] == '=')
+			{
+				i++;
+				j = -1;
 			}
 		}
 	}
-	ret = 0;
 	while (tabnewenv && tabnewenv[k])
 		k++;
 	return (k);
 }
 
-char		**ft_newenv(t_all *all, int k, int j)
+char		**ft_freetab(char **tabnewenv, int i)
+{
+	int				j;
+	int				k;
+	char			**new;
+	j = 0;
+	while (tabnewenv[j])
+		j++;
+	if (j == 1)
+	{
+		ft_freexec(tabnewenv);
+		return (NULL);
+	}
+	new = ft_calloc(j - 1, sizeof(char*));
+	j = -1;
+	k = 0;
+	while(tabnewenv[++j])
+	{
+		if (j != i)
+			new[k++] = ft_strdup(tabnewenv[j]);
+	}
+	new[k] = '\0';
+	ft_freexec(tabnewenv);
+	return (new);
+}
+
+char		**ft_newenv(t_all *all)
 {
 	int				i;
 	char			**tabnewenv;
 	int				eg;
+	char			*tmp;
+	int				j;
 
-	i = -1;
-	k = 0;
+	tmp = ft_strtrim(all->tab, " ");
+	free(all->tab);
+	tabnewenv = ft_splitspace(tmp, ' ');
+	free(tmp);
+	i = 0;
 	eg = 0;
-	while (all->tab[++i])
+	while (tabnewenv && tabnewenv[i])
 	{
-		if (all->tab[i] == '=')
-			eg = 1;
-		if ((!all->tab[i + 1] || (all->tab[i + 1] == ' ' &&
-		(!isguillemet(i, (const char*)all->tab)))) && eg == 1)
-		{
-			if (!(ft_isenvexist(all, i, j, 1)))
-				k++;
-			j = i + 2;
-			eg = 0;
-		}
+		tabnewenv[i] = ft_suprguy(tabnewenv[i]);
+		j = -1;
+		eg = 0;
+		while (tabnewenv[i][++j])
+			if (tabnewenv[i][j] == '=')
+				eg = 1;
+		if (eg == 0 || ft_isenvexist(all, tabnewenv[i]))
+			tabnewenv = ft_freetab(tabnewenv, i);
+		else
+			i++;
 	}
-	tabnewenv = malloc((sizeof(char*)) * (k + 1));
-	i = -1;
-	k = 0;
-	eg = 0;
-	j = 0;
-	while (all->tab[++i])
-	{
-		if (all->tab[i] == '=')
-			eg = 1;
-		if ((!all->tab[i + 1] || (all->tab[i + 1] == ' ' &&
-		(!isguillemet(i, (const char*)all->tab)))) && eg == 1)
-		{
-			if (!(ft_isenvexist(all, i, j, 0)))
-			{
-				tabnewenv[k] = ft_substr(all->tab, j, i + 1 - j);
-				k++;
-			}
-			j = i + 2;
-			eg = 0;
-		}
-	}
-	tabnewenv[k] = '\0';
 	return (tabnewenv);
 }
 
@@ -221,13 +225,14 @@ int			ft_export(t_all *all)
 	int				nb_newenv;
 	int				j;
 
-	j = 0;
-	tabnewenv = ft_newenv(all, 0, j);
-	if (!(nb_newenv = ft_nbnewenv(tabnewenv, 0, 0, -1)))
-		return (ret = 127);
+	if ((tabnewenv = ft_newenv(all)) == NULL)
+		return (0);
+	if (!(nb_newenv = ft_nbnewenv(tabnewenv, 0, 0)))
+		return (0);
 	if (!(new_env = malloc((all->nb_env + nb_newenv + 1) * sizeof(char*))))
 		return (ret = 127);
 	i = 0;
+	j = 0;
 	while (i < all->nb_env)
 	{
 		new_env[i + j] = ft_strdup(all->env[i]);
@@ -241,7 +246,6 @@ int			ft_export(t_all *all)
 			}
 	}
 	new_env[i + j] = 0;
-	free(all->tab);
 	all->nb_env += nb_newenv;
 	free(tabnewenv);
 	free(all->env);
