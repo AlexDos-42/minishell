@@ -23,7 +23,7 @@ char		**ft_exporterreur(char **str, int j)
 	while (str[j][i] && str[j][i] != ' ')
 		i++;
 	tmp = ft_substr(str[j], 0, i);
-	ft_printf("minishell: export: « %s » : invalid parameter name\n", tmp);
+	ft_printf("minishell: export: `%s': not a valid identifier\n", tmp);
 	free(tmp);
 	i = 0;
 	k = 0;
