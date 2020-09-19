@@ -43,22 +43,21 @@ int		ft_ptrfct(t_all *all)
 int		ft_realbuiltin(char *tab, char *str, int i)
 {
 	int		j;
+	char	*new;
 
 	j = 0;
-	while (tab[j] && ((tab[j] == '\"' && tab[j + 1] == '\"')
-	|| (tab[j] == '\'' && tab[j + 1] == '\'')))
-		j += 2;
-	if (j % 2 != 0)
-		j--;
-	if (!ft_strncmp(&tab[j], str, i))
-		return (1);
-	if (tab[j] == '\"' && (!ft_strncmp(&tab[j + 1], str, i)) &&
-	tab[j + ft_strlen(str) + 1] == '\"')
-		return (1);
-	if (tab[j] == '\'' && (!ft_strncmp(&tab[j + 1], str, i)) &&
-	tab[j + ft_strlen(str) + 1] == '\'')
-		return (1);
-	return (0);
+	new = ft_splitbuiltin(tab, ' ');
+	new = ft_suprguy(new);
+	if (!ft_strncmp(new, str, i) && (!new[ft_strlen(str) + 1] || new[ft_strlen(str) + 1] == ' '))
+		j = 1;
+	else if (new[0] == '\"' && (!ft_strncmp(new + 1, str, i)) &&
+	new[ft_strlen(str) + 1] == '\"')
+		j = 1;
+	else if (new[0] == '\'' && (!ft_strncmp(new + 1, str, i)) &&
+	new[ft_strlen(str) + 1] == '\'')
+		j = 1;
+	free(new);
+	return (j);
 }
 
 void	ft_nbfct(t_all *all, char *tab)

@@ -29,6 +29,7 @@ SRC =		main.c \
 		ft_splitslash.c \
 		ft_splitspace.c \
 		ft_exec.c \
+		ft_splitbuiltin.c \
 
 PATHSRCS = srcs
 
