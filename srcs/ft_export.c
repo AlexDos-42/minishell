@@ -82,12 +82,15 @@ char	*ft_suprguy(char *tabnewenv)
 		if (((tabnewenv[j] != '\"' && tabnewenv[j] != '\'') ||
 		isguillemet(j, tabnewenv)) && tabnewenv[j] != '\\')
 			i++;
-		if (tabnewenv[j] == '\\' && (tabnewenv[j + 1] && tabnewenv[j + 1] == '\\'))
+		if (tabnewenv[j] == '\\' && (tabnewenv[j + 1] && tabnewenv[j + 1] == '\\')
+			&& (isguillemet(j, tabnewenv) == 1 || !isguillemet(j, tabnewenv)))
 		{
+			i++;
 			j++;
-			i++;	
 		}
-		else if (tabnewenv[j] == '\\' && isguillemet(j, tabnewenv))
+		else if (tabnewenv[j] == '\\' && (isguillemet(j, tabnewenv) == 2
+		|| (isguillemet(i, tabnewenv) == 1 &&
+			(tabnewenv[i + 1] != '\"' || tabnewenv[i + 1] != '$'))))
 			i++;
 		j++;
 	}
@@ -96,10 +99,12 @@ char	*ft_suprguy(char *tabnewenv)
 	j = 0;
 	while (tabnewenv[i])
 	{
-		if (tabnewenv[i] == '\\' && tabnewenv[i + 1] && tabnewenv[i + 1] == '\\')
+		if (tabnewenv[i] == '\\' && (tabnewenv[i + 1] && tabnewenv[i + 1] == '\\'
+			&& (isguillemet(i, tabnewenv) == 1 || !isguillemet(j, tabnewenv))))
 			tmp[j++] = tabnewenv[i++];
-		else if (tabnewenv[i] == '\\' && (isguillemet(i, tabnewenv)
-		&& (!tabnewenv[i + 1] || (tabnewenv[i + 1] != '\"' && tabnewenv[i + 1] != '\''))))
+		else if (tabnewenv[i] == '\\' && ((isguillemet(i, tabnewenv) == 2)
+			|| (isguillemet(i, tabnewenv) == 1 &&
+			(tabnewenv[i + 1] != '\"' && tabnewenv[i + 1] != '$'))))
 			tmp[j++] = tabnewenv[i];
 		else if (((tabnewenv[i] != '\"' && tabnewenv[i] != '\'') ||
 			isguillemet(i, tabnewenv)) && tabnewenv[i] != '\\')
@@ -129,10 +134,13 @@ int			ft_nbnewenv(char **tabnewenv, int j, int k)
 					return(0);
 		while (tabnewenv[i] && tabnewenv[i][++j])
 		{
-			if (tabnewenv[i][j] == '=' && (j == 0 ||
-			tabnewenv[i][j - 1] == ' ' || tabnewenv[i][j - 1] == ';'
-			|| tabnewenv[i][j - 1] == '\'' || tabnewenv[i][j - 1] == '\"'
-			|| tabnewenv[i][j - 1] == ':'))
+			if ((tabnewenv[i][j] == '=' && j == 0) ||
+			tabnewenv[i][j] == ' ' || tabnewenv[i][j] == ';'
+			|| tabnewenv[i][j] == '\'' || tabnewenv[i][j] == '\"'
+			|| tabnewenv[i][j] == ':' || tabnewenv[i][j] == '\\'
+			|| tabnewenv[i][j] == '$' || tabnewenv[i][j] == '&'
+			|| tabnewenv[i][j] == '|' || tabnewenv[i][j] == '@'
+			|| tabnewenv[i][j] == '!')
 			{
 				if ((tabnewenv = ft_exporterreur(tabnewenv, i)) == NULL)
 					return(0);
@@ -163,15 +171,15 @@ char		**ft_freetab(char **tabnewenv, int i)
 		ft_freexec(tabnewenv);
 		return (NULL);
 	}
-	new = ft_calloc(j - 1, sizeof(char*));
+	new = ft_calloc(j, sizeof(char*));
 	j = -1;
 	k = 0;
 	while(tabnewenv[++j])
 	{
 		if (j != i)
 			new[k++] = ft_strdup(tabnewenv[j]);
+		new[k] = NULL;
 	}
-	new[k] = '\0';
 	ft_freexec(tabnewenv);
 	return (new);
 }
@@ -248,13 +256,13 @@ int			ft_export(t_all *all)
 		if (i == all->nb_env - 1)
 			while (j < nb_newenv)
 			{
-				new_env[i + j] = ft_strdupfree(tabnewenv[j]);
+				new_env[i + j] = ft_strdup(tabnewenv[j]);
 				j++;
 			}
 	}
 	new_env[i + j] = 0;
 	all->nb_env += nb_newenv;
-	free(tabnewenv);
+	ft_freexec(tabnewenv);
 	free(all->env);
 	all->env = new_env;
 	return (0);

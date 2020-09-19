@@ -48,7 +48,7 @@ int		ft_realbuiltin(char *tab, char *str, int i)
 	j = 0;
 	new = ft_splitbuiltin(tab, ' ');
 	new = ft_suprguy(new);
-	if (!ft_strncmp(new, str, i) && !new[ft_strlen(str)])
+	if (!ft_strncmp(new, str, i) && (!new[ft_strlen(str)] || new[ft_strlen(str)] == '\n'))
 		j = 1;
 	free(new);
 	return (j);
