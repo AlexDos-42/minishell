@@ -120,6 +120,13 @@ int			ft_nbnewenv(char **tabnewenv, int j, int k)
 	while (tabnewenv && tabnewenv[i])
 	{
 		j = -1;
+		if (tabnewenv[i][0] == '0' || tabnewenv[i][0] == '1' || tabnewenv[i][0] == '2'
+			|| tabnewenv[i][0] == '3' || tabnewenv[i][0] == '4'
+			|| tabnewenv[i][0] == '5' || tabnewenv[i][0] == '6'
+			|| tabnewenv[i][0] == '7' || tabnewenv[i][0] == '8'
+			|| tabnewenv[i][0] == '9')
+				if ((tabnewenv = ft_exporterreur(tabnewenv, i)) == NULL)
+					return(0);
 		while (tabnewenv[i] && tabnewenv[i][++j])
 		{
 			if (tabnewenv[i][j] == '=' && (j == 0 ||

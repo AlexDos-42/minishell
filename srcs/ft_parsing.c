@@ -48,13 +48,7 @@ int		ft_realbuiltin(char *tab, char *str, int i)
 	j = 0;
 	new = ft_splitbuiltin(tab, ' ');
 	new = ft_suprguy(new);
-	if (!ft_strncmp(new, str, i) && (!new[ft_strlen(str) + 1] || new[ft_strlen(str) + 1] == ' '))
-		j = 1;
-	else if (new[0] == '\"' && (!ft_strncmp(new + 1, str, i)) &&
-	new[ft_strlen(str) + 1] == '\"')
-		j = 1;
-	else if (new[0] == '\'' && (!ft_strncmp(new + 1, str, i)) &&
-	new[ft_strlen(str) + 1] == '\'')
+	if (!ft_strncmp(new, str, i) && !new[ft_strlen(str)])
 		j = 1;
 	free(new);
 	return (j);

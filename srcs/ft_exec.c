@@ -91,7 +91,7 @@ char		*ft_exist(t_all *all, char *tab, int i)
 				&& ft_strlen(tab) == ft_strlen(dp->d_name))
 				{
 					tmp = ft_strjoin(path[i], "/", 0);
-					tab = ft_strjoin(tmp, tab, 3);
+					tab = ft_strjoin(tmp, tab, 1);
 					ft_freexec(path);
 					closedir(dir);
 					return (tab);
@@ -125,8 +125,8 @@ int			ft_exec(t_all *all, char *tab)
 		i = -1;
 		while(arg[++i])
 			arg[i] = ft_suprguy(arg[i]);
-		arg[0] = ft_exist(all, arg[0], -1);
-		if (execve(arg[0], arg, all->env) == -1)
+		tab = ft_exist(all, arg[0], -1);
+		if (execve(tab, arg, all->env) == -1)
 		{
 			ft_printf("minishell: %s: command not found\n", arg[0]);
 			exit(127);

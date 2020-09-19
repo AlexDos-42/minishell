@@ -49,7 +49,7 @@ char	*ft_isinenv(char *tab, t_all *all)
 		i = 0;
 		while (all->env[k][i] && all->env[k][i] == tab[i + 1])
 			i++;
-		if (all->env[k][i] == '=' && (tab[i + 1] != '\0' || tab[i + 1] == ' '))
+		if (all->env[k][i] == '=' && (tab[i + 1] == '\0' || tab[i + 1] == ' '))
 		{
 			env = ft_substr(all->env[k], i + 1,
 				ft_strlen(all->env[k]) - (i + 1));
