@@ -85,18 +85,20 @@ char		*ft_exist(t_all *all, char *tab, int i)
 	{
 		while (path[++i])
 		{
-			dir = opendir(path[i]);
-			while ((dp = readdir(dir)) != NULL)
-				if (!ft_strncmp(tab, dp->d_name, ft_strlen(tab))
-				&& ft_strlen(tab) == ft_strlen(dp->d_name))
-				{
-					tmp = ft_strjoin(path[i], "/", 0);
-					tab = ft_strjoin(tmp, tab, 1);
-					ft_freexec(path);
-					closedir(dir);
-					return (tab);
-				}
-			closedir(dir);
+			if ((dir = opendir(path[i])) != NULL)
+			{
+				while ((dp = readdir(dir)) != NULL)
+					if (!ft_strncmp(tab, dp->d_name, ft_strlen(tab))
+					&& ft_strlen(tab) == ft_strlen(dp->d_name))
+					{
+						tmp = ft_strjoin(path[i], "/", 0);
+						tab = ft_strjoin(tmp, tab, 1);
+						ft_freexec(path);
+						closedir(dir);
+						return (tab);
+					}
+				closedir(dir);
+			}
 		}
 		ft_freexec(path);
 	}

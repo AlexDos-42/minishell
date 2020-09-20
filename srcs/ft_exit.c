@@ -35,7 +35,7 @@ int		ft_cleanexit(char *tab)
 	char	*tmp;
 
 	i = 0;
-	tmp = ft_strtrim(tab, " ");
+	tmp = ft_strtrimslash(tab, " ");
 	free(tab);
 	if (!(tmp[0]))
 	{

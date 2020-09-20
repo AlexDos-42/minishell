@@ -32,11 +32,16 @@ int	ft_cd(t_all *all)
 	char	*tmp;
 	char	**new;
 
-	tmp = ft_strtrim(all->tab, " ");
+	tmp = ft_strtrimslash(all->tab, " ");
 	new = ft_splitspace(tmp, ' ');
+	if (new[0])
+		new[0] = ft_suprguy(new[0]);
 	free(all->tab);
 	free(tmp);
-	if (new[1])
+	ret = 1;
+	if (!new[0])
+		ft_printf("minishell: cd: HOME not set\n");
+	else if (new[1])
 		ft_printf("minishell: cd: too many arguments\n");
 	else if (!new[0][0] || (new[0][0] == '~' && !new[0][1]))
 	{
@@ -44,15 +49,17 @@ int	ft_cd(t_all *all)
 		free(all->pwd);
 		all->pwd = getcwd(NULL, 0);
 		ft_remplace(all);
+		ret = 0;
 	}
 	else if (chdir(new[0]) == 0)
 	{
 		free(all->pwd);
 		all->pwd = getcwd(NULL, 0);
 		ft_remplace(all);
+		ret = 0;
 	}
 	else
-		ft_printf("cd: %s: %s\n", strerror(errno), new[0]);
+		ft_printf("minishell: cd: %s: %s\n", new[0], strerror(errno));
 	ft_freexec(new);
-	return (ret = 0);
+	return (0);
 }

@@ -30,6 +30,7 @@ SRC =		main.c \
 		ft_splitspace.c \
 		ft_exec.c \
 		ft_splitbuiltin.c \
+		ft_strtrimslash.c \
 
 PATHSRCS = srcs
 

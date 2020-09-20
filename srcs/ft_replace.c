@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
-#include <stdio.h>
 
 char	*ft_newtab(char *tab, char *env)
 {

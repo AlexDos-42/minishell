@@ -32,7 +32,7 @@ int			ft_echo(t_all *all)
 	i = -1;
 	if (!ft_strncmp(all->tab, "-n", 2))
 	{
-		tmp = ft_strtrim(all->tab + 2, " ");
+		tmp = ft_strtrimslash(all->tab + 2, " ");
 		new = ft_splitspace(tmp, ' ');
 		free(tmp);
 		while (new[++i])
@@ -45,7 +45,7 @@ int			ft_echo(t_all *all)
 	}
 	else
 	{
-		tmp = ft_strtrim(all->tab, " ");
+		tmp = ft_strtrimslash(all->tab, " ");
 		new = ft_splitspace(tmp, ' ');
 		free(tmp);
 		while (new[++i])

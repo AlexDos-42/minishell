@@ -103,6 +103,14 @@ int		ft_minishell(t_all *all, char *str)
 	int		stop;
 
 	stop = 0;
+	k = -1;
+	while (str[++k] && (str[k] == ';' || str[k] == ' '))
+		if (str[k] == ';')
+		{
+			ft_printf("minishell: syntax error near unexpected token `;'\n");
+			ret = 2;
+			return (stop);
+		}
 	tab = ft_splitslash(str, ';');
 	k = -1;
 	while (tab && tab[++k])

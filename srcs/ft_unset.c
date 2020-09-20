@@ -61,7 +61,7 @@ int				ft_unset(t_all *all)
 
 	i = -1;
 	ret = 0;
-	tmp = ft_strtrim(all->tab, " ");
+	tmp = ft_strtrimslash(all->tab, " ");
 	new = ft_splitspace(tmp, ' ');
 	free(tmp);
 	while (new[++i])

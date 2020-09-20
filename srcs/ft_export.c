@@ -210,7 +210,7 @@ char		**ft_newenv(t_all *all)
 	char			*tmp;
 	int				j;
 
-	tmp = ft_strtrim(all->tab, " ");
+	tmp = ft_strtrimslash(all->tab, " ");
 	free(all->tab);
 	tabnewenv = ft_splitspace(tmp, ' ');
 	free(tmp);

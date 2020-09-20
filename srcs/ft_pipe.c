@@ -20,7 +20,7 @@ int	ft_ispipe(char *tab)
 	i = -1;
 	p = 0;
 	while (tab[++i])
-		p += ischarset(tab, i, '|') ? 1 : 0;
+		p += ischarset(tab, i, '|') && !isguillemet(i, tab) ? 1 : 0;
 	return (p);
 }
 
@@ -66,8 +66,15 @@ int		ft_pipe(char *tab, t_all *all)
 	(void)all;
 	i = -1;
 	p = 0;
+	while(tab[++i] && (tab[i] == ' ' || tab[i] == '|'))
+		if (tab[i] == '|')
+		{
+			ret = 1;
+			ft_printf("minishell: syntax error near unexpected token `|'\n");
+			return(0);
+		}
 	while (tab[++i])
-		p += ischarset(tab, i, '|') && tab[i - 1] != '|' ? 1 : 0;
+		p += ischarset(tab, i, '|') && tab[i - 1] != '|' && !isguillemet(i, tab) ? 1 : 0;
 	if (p)
 	{
 		tabpipe = ft_splitslash(tab, '|');

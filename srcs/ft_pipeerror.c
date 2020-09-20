@@ -72,11 +72,11 @@ void		istabpipe_suite4(char *tab, t_all *all)
 	if (tab && tab[ft_strlen(tab) - 1] == '\n')
 	{
 		tmpp = ft_substr(tab, 0, ft_strlen(tab) - 1);
-		tmp = ft_strtrim(tmpp, " ");
+		tmp = ft_strtrimslash(tmpp, " ");
 		free(tmpp);
 	}
 	else
-		tmp = ft_strtrim(tab, " ");
+		tmp = ft_strtrimslash(tab, " ");
 	new = ft_splitspace(tmp, ' ');
 	free(tmp);
 	tmp = ft_strdup(new[0]);
