@@ -18,7 +18,7 @@ char		**ft_exporterreur(char **str, int j)
 	char			**new;
 	int				k;
 
-	ft_printf("minishell: export: `%s': not a valid identifier\n", str[j]);
+
 	i = 0;
 	k = 0;
 	while (str && str[i])
@@ -116,6 +116,34 @@ char	*ft_suprguy(char *tabnewenv)
 	return (tmp);
 }
 
+int			isexporterror(char *tab, int j)
+{
+	if (tab[0] == '0' || tab[0] == '1' || tab[0] == '2'
+			|| tab[0] == '3' || tab[0] == '4'
+			|| tab[0] == '5' || tab[0] == '6'
+			|| tab[0] == '7' || tab[0] == '8'
+			|| tab[0] == '9')
+	{
+		ft_printf("minishell: export: `%s': not a valid identifier\n", tab);
+		return (1);
+	}
+	if (tab[j] == '=' && j == 0)
+	{
+		ft_printf("minishell: export: `%s': not a valid identifier\n", tab);
+			return (1);
+	}
+	if (tab[j] < 48 || (tab[j] > 57 && tab[j] < 65) || (tab[j] > 90
+		&& tab[j] < 97) || tab[j] > 122)
+	{
+		if (tab[j] != '=' && tab[j] != '_')
+		{
+			ft_printf("minishell: export: `%s': not a valid identifier\n", tab);
+			return (1);
+		}
+	}
+	return (0);
+	
+}
 int			ft_nbnewenv(char **tabnewenv, int j, int k)
 {
 	int i;
@@ -125,22 +153,12 @@ int			ft_nbnewenv(char **tabnewenv, int j, int k)
 	while (tabnewenv && tabnewenv[i])
 	{
 		j = -1;
-		if (tabnewenv[i][0] == '0' || tabnewenv[i][0] == '1' || tabnewenv[i][0] == '2'
-			|| tabnewenv[i][0] == '3' || tabnewenv[i][0] == '4'
-			|| tabnewenv[i][0] == '5' || tabnewenv[i][0] == '6'
-			|| tabnewenv[i][0] == '7' || tabnewenv[i][0] == '8'
-			|| tabnewenv[i][0] == '9')
+		if (isexporterror(tabnewenv[i], 0))
 				if ((tabnewenv = ft_exporterreur(tabnewenv, i)) == NULL)
 					return(0);
 		while (tabnewenv[i] && tabnewenv[i][++j])
 		{
-			if ((tabnewenv[i][j] == '=' && j == 0) ||
-			tabnewenv[i][j] == ' ' || tabnewenv[i][j] == ';'
-			|| tabnewenv[i][j] == '\'' || tabnewenv[i][j] == '\"'
-			|| tabnewenv[i][j] == ':' || tabnewenv[i][j] == '\\'
-			|| tabnewenv[i][j] == '$' || tabnewenv[i][j] == '&'
-			|| tabnewenv[i][j] == '|' || tabnewenv[i][j] == '@'
-			|| tabnewenv[i][j] == '!')
+			if (isexporterror(tabnewenv[i], j))
 			{
 				if ((tabnewenv = ft_exporterreur(tabnewenv, i)) == NULL)
 					return(0);
@@ -207,8 +225,16 @@ char		**ft_newenv(t_all *all)
 			if (tabnewenv[i][j] == '=')
 				eg = 1;
 		if (eg == 0 || ft_isenvexist(all, tabnewenv[i]))
+		{
+			if (eg == 0)
+			{
+				j = -1;
+				while(tabnewenv[i][++j] && eg == 0)
+					eg = isexporterror(tabnewenv[i], j);
+			}
 			tabnewenv = ft_freetab(tabnewenv, i);
-		else
+		}
+		else	
 			i++;
 	}
 	return (tabnewenv);

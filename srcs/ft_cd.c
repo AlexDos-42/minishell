@@ -30,25 +30,29 @@ void	ft_remplace(t_all *all)
 int	ft_cd(t_all *all)
 {
 	char	*tmp;
+	char	**new;
 
 	tmp = ft_strtrim(all->tab, " ");
+	new = ft_splitspace(tmp, ' ');
 	free(all->tab);
-	all->tab = tmp;
-	if (!all->tab[0] || (all->tab[0] == '~' && !all->tab[1]))
+	free(tmp);
+	if (new[1])
+		ft_printf("minishell: cd: too many arguments\n");
+	else if (!new[0][0] || (new[0][0] == '~' && !new[0][1]))
 	{
 		chdir("/home/alesanto");
 		free(all->pwd);
 		all->pwd = getcwd(NULL, 0);
 		ft_remplace(all);
 	}
-	else if (chdir(all->tab) == 0)
+	else if (chdir(new[0]) == 0)
 	{
 		free(all->pwd);
 		all->pwd = getcwd(NULL, 0);
 		ft_remplace(all);
 	}
 	else
-		ft_printf("cd: %s: %s\n", strerror(errno), all->tab);
-	free(all->tab);
+		ft_printf("cd: %s: %s\n", strerror(errno), new[0]);
+	ft_freexec(new);
 	return (ret = 0);
 }
