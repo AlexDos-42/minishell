@@ -18,10 +18,11 @@ int		ft_exitret(char **tab)
 	unsigned long int res;
 	int		i;
 	int		sign;
-	
+
 	i = 0;
 	sign = 1;
-	while (tab[0][i] == '\t' || tab[0][i] == '\f' || tab[0][i] == '\r' || tab[0][i] == ' ' || tab[0][i] == '\'')
+	while (tab[0][i] == '\t' || tab[0][i] == '\f' || tab[0][i] == '\r'
+	|| tab[0][i] == ' ' || tab[0][i] == '\'')
 		i++;
 	if (tab[0][i] == '+' || tab[0][i] == '-')
 		if (tab[0][i++] == '-')
@@ -39,7 +40,7 @@ int		ft_exitret(char **tab)
 		ft_printf("minishell: exit: %s: numeric argument required\n", tab[0]);
 		res = 2;
 	}
-	else 
+	else
 	{
 		if (sign == -1)
 			res *= -1;
@@ -66,25 +67,28 @@ int		ft_cleanexit(char *tab)
 	new = ft_splitspace(tmp, ' ');
 	free(tmp);
 	new[0] = ft_suprguy(new[0]);
-	while (new[0][i] == ' ' || new[0][i] == '\t' || new[0][i] == '\f' || new[0][i] == '\r')
+	while (new[0][i] == ' ' || new[0][i] == '\t' || new[0][i] == '\f'
+	|| new[0][i] == '\r')
 		i++;
 	if (new[0][i] == '-' || new[0][i] == '+')
 		i++;
 	while (new[0][i])
 	{
 		if (new[0][i] != '1' && new[0][i] != '2' &&
-		new[0][i] != '3' && new[0][i] != '4' &&new[0][i] != '5'
+		new[0][i] != '3' && new[0][i] != '4' && new[0][i] != '5'
 		&& new[0][i] != '6' && new[0][i] != '7' &&
 		new[0][i] != '8' && new[0][i] != '9' && new[0][i] != '0')
 		{
 			while (new[0][i] && ((new[0][i] == ' ' || new[0][i] == '\t') &&
-					(!new[0][i + 1] || new[0][i + 1] == ' ' || new[0][i + 1] == '\t')))
-					i++;
+					(!new[0][i + 1] || new[0][i + 1] == ' '
+					|| new[0][i + 1] == '\t')))
+				i++;
 			if (new[0][i])
 			{
-				ft_printf("minishell: exit: %s: numeric argument required\n", new[0]);
+				ft_printf("minishell: exit: %s:
+				numeric argument required\n", new[0]);
 				ft_freexec(new);
-				return(2);
+				return (2);
 			}
 		}
 		else
@@ -94,14 +98,13 @@ int		ft_cleanexit(char *tab)
 	{
 		ft_printf("minishell: exit: too many arguments\n");
 		ft_freexec(new);
-		return(1);
+		return (1);
 	}
-	return(ft_exitret(new));
+	return (ft_exitret(new));
 }
 
 int		ft_exit(t_all *all)
 {
 	ret = ft_cleanexit(all->tab);
-	//ft_printf("ret %d\n", ret);
 	return (2);
 }
