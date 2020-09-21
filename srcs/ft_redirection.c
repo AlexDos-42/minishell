@@ -15,83 +15,117 @@
 char	*ft_get_file(char *tmp)
 {
 	char	*name;
-	int		i;
 	int		j;
-	int		k;
 
-	i = 0;
 	j = 0;
-	while (tmp[i] == ' ')
-		i++;
-	while (tmp[i + j])
-	{
+	while (tmp[j])
 		j++;
-		k = 0;
-		while (tmp[i + j + k] && tmp[i + j + k] == ' ')
-			k++;
-		if (tmp[i + j + k])
-			j += k;
-		else
-			break ;
-	}
-	name = ft_substr(tmp, i, j - 1);
+	if (tmp[j] == '\n')
+		j--;
+	name = ft_substr(tmp, 0, j);
 	name[j - 1] = '\0';
 	return (name);
 }
 
-char	*ft_create_file(t_all *all, char *tab, int fd, char *file, int *i)
+char	*ft_create_file(t_all *all, char **tab, char *redir, int i)
 {
-	char **tmp;
-	if (tab[*i] == '>' && tab[(*i) + 1] == '>')
-	{
-		tmp = ft_splitslash(tab, '>');
-		file = ft_get_file(tmp[2]);
-	 	fd = open(file, O_CREAT | O_WRONLY | O_APPEND, 0666);
-		all->fdin = fd;
-		all->fdout = dup(1);
-		close(1);
-		dup2(fd, 1);
+	// ft_printf("tab %s\n", tab[i]);
+	// ft_printf("tab %s\n", tab[i + 1]);
+	if (redir[0] == '>' && redir[1] && redir[1] == '>')
+	 	all->fdin = open(tab[i + 1], O_CREAT | O_WRONLY | O_APPEND, 0666);
+	else if (redir[0] == '>')
+		all->fdin = open(tab[i + 1], O_CREAT | O_WRONLY | O_TRUNC, 0666);
+	else if (redir[0] == '<')
+		all->fdin = open(tab[i + 1], O_WRONLY, 0);
+	if (all->fdin >= 0)
+	{	
+			all->fdout = dup(1);
+			close(1);
+			dup2(all->fdin, 1);
 	}
-	else if (tab[*i] == '>')
-	{
-		tmp = ft_splitslash(tab, '>');
-		if ((file = ft_get_file(tmp[1])) != 0)
-			fd = open(file, O_CREAT | O_WRONLY | O_TRUNC, 0666);
-		all->fdin = fd;
-		all->fdout = dup(1);
-		close(1);
-		dup2(fd, 1);
-	}
-	else if (tab[*i] == '<')
-	{
-		file = ft_get_file(&tab[(*i) + 1]);
-		dup2((fd = open(file, O_WRONLY)), 0);
-	}
-	if (file)
-		free(file);
-	return (tmp[0]);
+	ft_loop(tab[i], all);
+		// if (all->fdout >= 0)
+		// {	
+		// 	all->fdin = dup(0);
+		// 	close(0);
+		// 	dup2(all->fdout, 1);
+		// }
+	return (NULL);
 }
 
-char	*ft_redirection(char *tab, t_all *all)
+char	**ft_allredir(char *tab)
 {
-	(void)all;
-	char	*file;
-	int		fd;
-	int		i;
-	char	*tmp;
+	int 	i;
+	int		j;
+	char	**new;
 
-	fd = 0;
-	file = 0;
 	i = 0;
-	all->fdin = -5;
-	while (tab[i])
+	j = 0;
+	while(tab[i])
 	{
-		if ((ft_strchr("><", tab[i])))
+		if (tab[i] == '>' || tab[i] == '<')
 		{
-			tmp = ft_create_file(all, tab, fd, file, &i);
-			return (tmp);
+			if (tab[i + 1] && tab[i + 1] == '>')
+				i++;
+			j++;
 		}
 		i++;
 	}
-	return (tab);
+	if (j == 0)
+		return (NULL);
+	new = ft_calloc(j + 1, sizeof(char *));
+	j = 0;
+	i = 0;
+	while(tab[i])
+	{
+		if (tab[i] == '>' || tab[i] == '<')
+		{
+			if (tab[i + 1] && tab[i + 1] == '>')
+			{
+				new[j++] = ft_strdup(">>");
+				i++;
+			}
+			else
+				new[j++] = ft_strdup(">");
+		}
+		else if (tab[i] == '<')
+			new[j++] = ft_strdup("<");
+		i++;
+	}
+	new[j] = NULL;
+	return (new);
+}
+
+
+int		ft_redirection(char *tab, t_all *all)
+{
+	int		i;
+	char	**redir;
+	char	**new;
+	char	*tmp;
+
+	i = -1;
+	redir = ft_allredir(tab);
+	all->fdin = -5;
+	if (redir != NULL)
+	{
+		new = ft_splitslash(tab, '>');
+		
+		while (new[++i])
+		{
+			tmp = ft_strtrimslash(new[i], " ");
+			free(new[i]);
+			new[i] = ft_suprguy(tmp);
+		}
+		i = 0;
+		while (redir[i])
+		{
+			ft_create_file(all, new, redir[i], i);
+			i++;
+		}
+		ft_freexec(redir);
+		ft_freexec(new);
+		return (1);
+	}
+	return (0);
 }

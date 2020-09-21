@@ -37,6 +37,11 @@ int		ft_ptrfct(t_all *all)
 		dup2(all->fdout, 1);
 		close(all->fdout);
 	}
+	// if (all->fdout >= 0)
+	// {
+	// 	dup2(all->fdin, 1);
+	// 	close(all->fdin);
+	// }
 	return (i);
 }
 
@@ -87,7 +92,6 @@ int		ft_loop(char *tab, t_all *all)
 	int		i;
 
 	i = 0;
-	tab = ft_redirection(tab, all);
 	while (tab && tab[i] == ' ')
 		i++;
 	ft_nbfct(all, &tab[i]);
@@ -119,6 +123,8 @@ int		ft_minishell(t_all *all, char *str)
 		{
 			if (ft_ispipe(tab[k]))
 				ft_pipe(tab[k], all);
+			else if (ft_redirection(tab[k], all))
+				;
 			else if ((stop = ft_loop(tab[k], all)))
 			{
 				while (tab && tab[k])

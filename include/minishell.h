@@ -97,9 +97,7 @@ void			istabpipe(char *tab, t_all *all);
 ** --REDIRECTION--
 */
 
-char			*ft_redirection(char *tab, t_all *all);
-char			*ft_create_file(t_all *all, char *tab, int fd,
-					char *file, int *i);
+int				ft_redirection(char *tab, t_all *all);
 
 /*
 ** --SPLITSLASH--
