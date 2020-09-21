@@ -14,15 +14,15 @@
 
 int		ft_exitret(char **tab)
 {
-	long long int i;
+	unsigned long int i;
 
 	i = ft_atoi(tab[0]);
-	// if (i < LONG_MIN || i > LONG_MAX)
-	// {
-	// 	ft_printf("minishell: exit: %s: numeric argument required\n", tab[0]);
-	// 	i = 2;
-	// }
-	// else
+	 if (i > (unsigned long int)LONG_MAX || i < (unsigned long int)LONG_MIN)
+	 {
+		ft_printf("minishell: exit: %s: numeric argument required\n", tab[0]);
+	 	i = 2;
+	 }
+	else
 	i = i % 256;
 	ft_freexec(tab);
 	return (ret = i);
