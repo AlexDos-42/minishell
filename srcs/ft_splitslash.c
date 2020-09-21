@@ -75,7 +75,8 @@ int					ischarset(const char *str, int is, char c)
 	i = 0;
 	if (str[is] == c)
 	{
-		i = isguillemet(is, str);
+		if (isguillemet(is, str))
+			i = 1;
 		if (i == 0 && is != 0 && str[is] == c && str[is - 1] == '\\')
 			while (is >= i && str[is - 1 - i] && str[is - 1 - i] == '\\')
 				i++;
