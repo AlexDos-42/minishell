@@ -11,21 +11,42 @@
 /* ************************************************************************** */
 
 #include "../include/minishell.h"
+#include <stdio.h>
 
 int		ft_exitret(char **tab)
 {
-	unsigned long int i;
-
-	i = ft_atoi(tab[0]);
-	 if (i > (unsigned long int)LONG_MAX || i < (unsigned long int)LONG_MIN)
-	 {
+	unsigned long int res;
+	int		i;
+	int		sign;
+	
+	i = 0;
+	sign = 1;
+	while (tab[0][i] == '\t' || tab[0][i] == '\f' || tab[0][i] == '\r' || tab[0][i] == ' ' || tab[0][i] == '\'')
+		i++;
+	if (tab[0][i] == '+' || tab[0][i] == '-')
+		if (tab[0][i++] == '-')
+			sign = -1;
+	res = 0;
+	while (ft_isdigit(tab[0][i]))
+		res = res * 10 + tab[0][i++] - '0';
+	if (sign == 1 && res > (unsigned long int)LONG_MAX)
+	{
 		ft_printf("minishell: exit: %s: numeric argument required\n", tab[0]);
-	 	i = 2;
-	 }
-	else
-	i = i % 256;
+		res = 2;
+	}
+	if (sign == -1 && res > (unsigned long int)LONG_MAX + 1)
+	{
+		ft_printf("minishell: exit: %s: numeric argument required\n", tab[0]);
+		res = 2;
+	}
+	else 
+	{
+		if (sign == -1)
+			res *= -1;
+		res = res % 256;
+	}
 	ft_freexec(tab);
-	return (ret = i);
+	return (ret = res);
 }
 
 int		ft_cleanexit(char *tab)
