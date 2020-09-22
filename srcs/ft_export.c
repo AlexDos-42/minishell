@@ -12,6 +12,18 @@
 
 #include "../include/minishell.h"
 
+void		export_solo(t_all *all)
+{
+	int		i;
+
+	i = -1;
+	while (all->env[++i])
+	{
+		ft_putstr_fd(all->env[i], 1);
+		write(1, "\n", 1);
+	}
+}
+
 char		**ft_exporterreur(char **str, int j)
 {
 	int				i;
@@ -266,6 +278,8 @@ int			ft_export(t_all *all)
 	int				nb_newenv;
 	int				j;
 
+
+	export_solo(all);
 	if ((tabnewenv = ft_newenv(all)) == NULL)
 		return (0);
 	if (!(nb_newenv = ft_nbnewenv(tabnewenv, 0, 0)))
@@ -276,6 +290,7 @@ int			ft_export(t_all *all)
 	j = 0;
 	while (i < all->nb_env)
 	{
+		ft_printf("%s\n", "test");
 		new_env[i + j] = ft_strdup(all->env[i]);
 		free(all->env[i]);
 		i++;
