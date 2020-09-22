@@ -91,7 +91,7 @@ int		ft_loop(char *tab, t_all *all)
 {
 	int		i;
 	char	*new;
-	
+
 	i = 0;
 	new = ft_redirection(tab, all);
 	while (new && new[i] == ' ')

@@ -15,6 +15,7 @@
 static void	ft_remplace(t_all *all)
 {
 	int		i;
+	char	**newenv;
 
 	i = 0;
 	while(all->env[i] && ft_strncmp(all->env[i], "PWD=", 4))
@@ -24,6 +25,19 @@ static void	ft_remplace(t_all *all)
 		free(all->env[i]);
 		all->env[i] = ft_strdup(all->pwd);
 		all->env[i] = ft_strjoin("PWD=", all->env[i], 2);
+	}
+	else
+	{
+		i = -1;
+		newenv = ft_calloc(all->nb_env + 2, sizeof(char*));
+		while(all->env[++i])
+			newenv[i] = ft_strdup(all->env[i]);
+		newenv[i] = ft_strdup(all->pwd);
+		newenv[i] = ft_strjoin("PWD=", newenv[i], 2);
+		newenv[++i] = NULL;
+		ft_freexec(all->env);
+		all->env = newenv;
+		all->nb_env++;
 	}
 }
 
@@ -48,18 +62,17 @@ int	ft_cd(t_all *all)
 		chdir("/home/alesanto");
 		free(all->pwd);
 		all->pwd = getcwd(NULL, 0);
-		ft_remplace(all);
 		ret = 0;
 	}
 	else if (chdir(new[0]) == 0)
 	{
 		free(all->pwd);
 		all->pwd = getcwd(NULL, 0);
-		ft_remplace(all);
 		ret = 0;
 	}
 	else
 		ft_printf("minishell: cd: %s: %s\n", new[0], strerror(errno));
 	ft_freexec(new);
+	ft_remplace(all);
 	return (0);
 }

@@ -49,6 +49,7 @@ char	**tab_env(char **env, size_t *nb_env)
 	return (tmp_env);
 }
 
+
 void	ft_initenv(t_all *all, char **env)
 {
 	inter = 0;
