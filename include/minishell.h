@@ -35,10 +35,12 @@ typedef struct		s_all
 	char	*tab;
 	char	*pwd;
 	char	**env;
-	int	ret;
+	int		ret;
 	size_t	nb_env;
 	int		fdin;
 	int		fdout;
+	int		fdinc;
+	int		fdoutc;
 }					t_all;
 
 /*
@@ -103,8 +105,8 @@ int				ft_redirection(char *tab, t_all *all);
 ** --SPLITSLASH--
 */
 
-char			**ft_splitslash(const char *str, char c);
-int				ischarset(const char *str, int is, char c);
+char			**ft_splitslash(const char *str, char *c);
+int				ischarset(const char *str, int is, char *c);
 int				isguillemet(int is, const char *str);
 char			**ft_splitspace(const char *str, char c);
 char			*ft_splitbuiltin(const char *str, char c);

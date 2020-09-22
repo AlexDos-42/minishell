@@ -36,20 +36,20 @@ char	*ft_create_file(t_all *all, char **tab, char *redir, int i)
 	else if (redir[0] == '>')
 		all->fdin = open(tab[i + 1], O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	else if (redir[0] == '<')
-		all->fdin = open(tab[i + 1], O_WRONLY, 0);
+		all->fdout = open(tab[i + 1], O_RDONLY);
 	if (all->fdin >= 0)
 	{	
-			all->fdout = dup(1);
-			close(1);
-			dup2(all->fdin, 1);
+		all->fdoutc = dup(1);
+		close(1);
+		dup2(all->fdin, 1);
 	}
 	ft_loop(tab[i], all);
-		// if (all->fdout >= 0)
-		// {	
-		// 	all->fdin = dup(0);
-		// 	close(0);
-		// 	dup2(all->fdout, 1);
-		// }
+	if (all->fdout >= 0)
+	{	
+		all->fdinc = dup(0);
+		close(0);
+		dup2(all->fdout, 0);
+	}
 	return (NULL);
 }
 
@@ -107,15 +107,24 @@ int		ft_redirection(char *tab, t_all *all)
 	i = -1;
 	redir = ft_allredir(tab);
 	all->fdin = -5;
+	all->fdinc = -5;
+	all->fdout = -5;
+	all->fdoutc = -5;
 	if (redir != NULL)
 	{
-		new = ft_splitslash(tab, '>');
+		new = ft_splitslash(tab, "><");
 		
 		while (new[++i])
 		{
 			tmp = ft_strtrimslash(new[i], " ");
 			free(new[i]);
-			new[i] = ft_suprguy(tmp);
+			tmp = ft_suprguy(tmp);
+			if (tmp[ft_strlen(tmp) - 1] == '\n')
+			{	new[i] = ft_substr(tmp, 0, ft_strlen(tmp) - 1);
+				free(tmp);
+			}
+			else
+				new[i] = tmp;
 		}
 		i = 0;
 		while (redir[i])

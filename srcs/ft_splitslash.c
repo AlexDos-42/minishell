@@ -68,24 +68,27 @@ int					isguillemet(int is, const char *str)
 	return (i);
 }
 
-int					ischarset(const char *str, int is, char c)
+int		ischarset(const char *str, int is, char *c)
 {
 	int		i;
+	int		j;
 
 	i = 0;
-	if (str[is] == c)
-	{
-		if (isguillemet(is, str))
-			i = 1;
-		if (i == 0 && is != 0 && str[is] == c && str[is - 1] == '\\')
-			while (is >= i && str[is - 1 - i] && str[is - 1 - i] == '\\')
-				i++;
-		return (i % 2 == 0 ? 1 : 0);
-	}
+	j = -1;
+	while (c[++j])
+		while (str[is] == c[j])
+		{
+			if (isguillemet(is, str))
+				i = 1;
+			if (i == 0 && is != 0 && str[is] == c[j] && str[is - 1] == '\\')
+				while (is >= i && str[is - 1 - i] && str[is - 1 - i] == '\\')
+					i++;
+			return (i % 2 == 0 ? 1 : 0);
+		}
 	return (0);
 }
 
-static int			ft_taillem(const char *str, int i, char charset)
+static int			ft_taillem(const char *str, int i, char *charset)
 {
 	int		j;
 
@@ -98,7 +101,7 @@ static int			ft_taillem(const char *str, int i, char charset)
 	return (j);
 }
 
-static int			ft_nbr_mots(const char *str, char charset)
+static int			ft_nbr_mots(const char *str, char *charset)
 {
 	int		i;
 	int		nbr_mots;
@@ -117,7 +120,7 @@ static int			ft_nbr_mots(const char *str, char charset)
 	return (nbr_mots);
 }
 
-char				**ft_splitslash(const char *str, char c)
+char				**ft_splitslash(const char *str, char *c)
 {
 	int			is;
 	int			i;
@@ -133,7 +136,7 @@ char				**ft_splitslash(const char *str, char c)
 	while (i < ft_nbr_mots(str, c))
 	{
 		j = 0;
-		while (str[is] == c && str[is])
+		while (ischarset(str, is, c) && str[is])
 			is++;
 		if (!(tab[i] = malloc(sizeof(char) * (ft_taillem(str, is, c) + 1))))
 			return (ft_free(tab, i));

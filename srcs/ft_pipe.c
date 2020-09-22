@@ -20,7 +20,7 @@ int	ft_ispipe(char *tab)
 	i = -1;
 	p = 0;
 	while (tab[++i])
-		p += ischarset(tab, i, '|') && !isguillemet(i, tab) ? 1 : 0;
+		p += ischarset(tab, i, "|") && !isguillemet(i, tab) ? 1 : 0;
 	return (p);
 }
 
@@ -74,12 +74,14 @@ int		ft_pipe(char *tab, t_all *all)
 			return(0);
 		}
 	while (tab[++i])
-		p += ischarset(tab, i, '|') && tab[i - 1] != '|' && !isguillemet(i, tab) ? 1 : 0;
+		p += ischarset(tab, i, "|") && tab[i - 1] != '|' && !isguillemet(i, tab) ? 1 : 0;
 	if (p)
 	{
-		tabpipe = ft_splitslash(tab, '|');
+		tabpipe = ft_splitslash(tab, "|");
 		ft_pipefork(tabpipe, p, 0, all);
 		i = -1;
+		if (tabpipe[0] && !tabpipe[1])
+			ret = 1;
 		while (tabpipe[++i])
 		{
 			if (tabpipe[i + 1])

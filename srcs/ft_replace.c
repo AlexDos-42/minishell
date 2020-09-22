@@ -24,7 +24,7 @@ char	*ft_newtab(char *tab, char *env)
 		i++;
 	while (tab[i + j] && tab[i + j] != ' ' && tab[i + j] != '\n' &&
 		tab[i + j] != '\"' && tab[i + j] != '\'' && tab[i + j] != '\\' && tab[i + j] != '$'
-		&& tab[i + j] != ',' && tab[i + j] != '@')
+		&& tab[i + j] != ',' && tab[i + j] != '@' && tab[i + j] != '|')
 		j++;
 	if (i || env)
 		new = ft_substr(tab, 0, i);

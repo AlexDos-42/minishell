@@ -34,14 +34,14 @@ int		ft_ptrfct(t_all *all)
 		free(all->tab);
 	if (all->fdin >= 0)
 	{
-		dup2(all->fdout, 1);
-		close(all->fdout);
+		dup2(all->fdoutc, 1);
+		close(all->fdoutc);
 	}
-	// if (all->fdout >= 0)
-	// {
-	// 	dup2(all->fdin, 1);
-	// 	close(all->fdin);
-	// }
+	if (all->fdout >= 0)
+	{
+		dup2(all->fdinc, 0);
+		close(all->fdinc);
+	}
 	return (i);
 }
 
@@ -115,7 +115,7 @@ int		ft_minishell(t_all *all, char *str)
 			ret = 1;
 			return (stop);
 		}
-	tab = ft_splitslash(str, ';');
+	tab = ft_splitslash(str, ";");
 	k = -1;
 	while (tab && tab[++k])
 	{
