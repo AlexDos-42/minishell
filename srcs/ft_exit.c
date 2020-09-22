@@ -85,8 +85,7 @@ int		ft_cleanexit(char *tab)
 				i++;
 			if (new[0][i])
 			{
-				ft_printf("minishell: exit: %s:
-				numeric argument required\n", new[0]);
+				ft_printf("minishell: exit: %s: numeric argument required\n", new[0]);
 				ft_freexec(new);
 				return (2);
 			}
