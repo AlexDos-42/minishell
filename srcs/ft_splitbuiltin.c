@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_splitbuiltin.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edouvier <edouvier@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/22 15:03:26 by edouvier          #+#    #+#             */
+/*   Updated: 2020/09/22 15:03:28 by edouvier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
-static int		ischarsetspace(const char *str, int is, char c)
+static int			ischarsetspace(const char *str, int is, char c)
 {
 	int i;
 
@@ -13,7 +25,7 @@ static int		ischarsetspace(const char *str, int is, char c)
 	return (0);
 }
 
-static int		ft_taillem(const char *str, int i, char charset)
+static int			ft_taillem(const char *str, int i, char charset)
 {
 	int		j;
 
@@ -26,11 +38,11 @@ static int		ft_taillem(const char *str, int i, char charset)
 	return (j);
 }
 
-char		*ft_splitbuiltin(const char *str, char c)
+char				*ft_splitbuiltin(const char *str, char c)
 {
-	int			is;
-	int			j;
-	char		*tab;
+	int		is;
+	int		j;
+	char	*tab;
 
 	if (!str)
 		return (NULL);
