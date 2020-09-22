@@ -90,11 +90,14 @@ void	ft_nbfct(t_all *all, char *tab)
 int		ft_loop(char *tab, t_all *all)
 {
 	int		i;
-
+	char	*new;
+	
 	i = 0;
-	while (tab && tab[i] == ' ')
+	new = ft_redirection(tab, all);
+	while (new && new[i] == ' ')
 		i++;
-	ft_nbfct(all, &tab[i]);
+	ft_nbfct(all, &new[i]);
+	free(new);
 	if (ft_strlen(all->tab) && all->tab[ft_strlen(all->tab) - 1] == '\n')
 		all->tab[ft_strlen(all->tab) - 1] = '\0';
 	return (ft_ptrfct(all));
@@ -123,8 +126,6 @@ int		ft_minishell(t_all *all, char *str)
 		{
 			if (ft_ispipe(tab[k]))
 				ft_pipe(tab[k], all);
-			else if (ft_redirection(tab[k], all))
-				;
 			else if ((stop = ft_loop(tab[k], all)))
 			{
 				while (tab && tab[k])

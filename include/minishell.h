@@ -99,7 +99,7 @@ void		istabpipe(char *tab, t_all *all);
 ** --REDIRECTION--
 */
 
-int			ft_redirection(char *tab, t_all *all);
+char		*ft_redirection(char *tab, t_all *all);
 
 /*
 ** --SPLITSLASH--

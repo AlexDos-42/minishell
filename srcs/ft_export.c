@@ -279,7 +279,7 @@ int			ft_export(t_all *all)
 	int				j;
 
 
-	export_solo(all);
+	//export_solo(all);
 	if ((tabnewenv = ft_newenv(all)) == NULL)
 		return (0);
 	if (!(nb_newenv = ft_nbnewenv(tabnewenv, 0, 0)))
@@ -290,7 +290,6 @@ int			ft_export(t_all *all)
 	j = 0;
 	while (i < all->nb_env)
 	{
-		ft_printf("%s\n", "test");
 		new_env[i + j] = ft_strdup(all->env[i]);
 		free(all->env[i]);
 		i++;
