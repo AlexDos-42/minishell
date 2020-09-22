@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-void	ft_remplace(t_all *all)
+static void	ft_remplace(t_all *all)
 {
 	int		i;
 

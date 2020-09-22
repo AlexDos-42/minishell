@@ -185,10 +185,9 @@ int			ft_exec(t_all *all, char *tab)
 			;
 		else if ((tab = ft_haspath(all, arg[0], ft_strlen(arg[0]))) != NULL)
 			;
-		else if ((i = ft_errorexec(arg[0])))
+		else if (ft_strchr(arg[0], '/') && (i = ft_errorexec(arg[0])))
 			exit(i);
-		i = execve(tab, arg, all->env);
-		if (i == -1)
+		if (execve(tab, arg, all->env) == -1)
 		{
 			ft_printf("minishell: %s: command not found\n", arg[0]);
 			exit(127);
