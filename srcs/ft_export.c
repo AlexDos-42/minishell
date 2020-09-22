@@ -17,11 +17,13 @@ void		export_solo(t_all *all)
 	int		i;
 
 	i = -1;
+	ft_printf("test\n");
 	while (all->env[++i])
 	{
 		ft_putstr_fd(all->env[i], 1);
 		write(1, "\n", 1);
 	}
+	free(all->tab);
 }
 
 char		**ft_exporterreur(char **str, int j)
@@ -279,31 +281,35 @@ int			ft_export(t_all *all)
 	int				j;
 
 
-	//export_solo(all);
-	if ((tabnewenv = ft_newenv(all)) == NULL)
-		return (0);
-	if (!(nb_newenv = ft_nbnewenv(tabnewenv, 0, 0)))
-		return (0);
-	if (!(new_env = malloc((all->nb_env + nb_newenv + 1) * sizeof(char*))))
-		return (ret = 127);
-	i = 0;
-	j = 0;
-	while (i < all->nb_env)
+	if (!all->tab[0])
+		export_solo(all);
+	else
 	{
-		new_env[i + j] = ft_strdup(all->env[i]);
-		free(all->env[i]);
-		i++;
-		if (i == all->nb_env - 1)
-			while (j < nb_newenv)
-			{
-				new_env[i + j] = ft_strdup(tabnewenv[j]);
-				j++;
-			}
+		if ((tabnewenv = ft_newenv(all)) == NULL)
+			return (0);
+		if (!(nb_newenv = ft_nbnewenv(tabnewenv, 0, 0)))
+			return (0);
+		if (!(new_env = malloc((all->nb_env + nb_newenv + 1) * sizeof(char*))))
+			return (ret = 127);
+		i = 0;
+		j = 0;
+		while (i < all->nb_env)
+		{
+			new_env[i + j] = ft_strdup(all->env[i]);
+			free(all->env[i]);
+			i++;
+			if (i == all->nb_env - 1)
+				while (j < nb_newenv)
+				{
+					new_env[i + j] = ft_strdup(tabnewenv[j]);
+					j++;
+				}
+		}
+		new_env[i + j] = 0;
+		all->nb_env += nb_newenv;
+		ft_freexec(tabnewenv);
+		free(all->env);
+		all->env = new_env;
 	}
-	new_env[i + j] = 0;
-	all->nb_env += nb_newenv;
-	ft_freexec(tabnewenv);
-	free(all->env);
-	all->env = new_env;
 	return (0);
 }
