@@ -137,17 +137,20 @@ char		**ft_realsplit(char *tab, char **new, char **redir)
 int			redirerror(char **tab, char** redir)
 {
 	int		i;
+	char	*tmp;
 
-	if (tab[1] && !tab[1][0])
+	tmp = ft_strtrimslash(tab[1], " ");
+	if (tmp && (!tmp[0] || tmp[0] == '\n'))
 	{
 		ft_printf("minishell: line 0: syntax error near unexpected token `newline'\n");
 		ret = 2;
+		free(tmp);
 		return (0);
 	}
+	free(tmp);
 	i = -1;
 	while (redir[++i])
-		if (redir[i][1] && (redir[i][1] != '>' ||
-			(redir[i][0] == '<' && redir[i][1] =='>') || redir[i][2]))
+		if (redir[i][1] && (redir[i][1] == '<' || redir[i][2]))
 		{
 			ft_printf("minishell: line 0: syntax error near unexpected token `%c'\n", redir[i][0]);
 			ret = 2;

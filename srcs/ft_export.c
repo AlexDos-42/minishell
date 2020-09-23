@@ -233,6 +233,8 @@ char		**ft_newenv(t_all *all)
 	while (tabnewenv && tabnewenv[i])
 	{
 		tabnewenv[i] = ft_suprguy(tabnewenv[i]);
+		if (!tabnewenv[i][0])
+			ft_printf("minishell: export: `': not a valid identifier\n");
 		j = -1;
 		eg = 0;
 		while (tabnewenv[i][++j])

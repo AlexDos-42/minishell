@@ -67,6 +67,8 @@ int				ft_unset(t_all *all)
 	while (new[++i])
 	{
 		new[i] = ft_suprguy(new[i]);
+		if (!new[i][0])
+			ft_printf("minishell: unset: `': not a valid identifier\n");
 		j = 0;
 		while (new[i][j] && new[i][j] != '=' && new[i][j] != ' ')
 			j++;
