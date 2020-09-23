@@ -15,13 +15,13 @@
 void		ft_open(t_all *all)
 {
 	if (all->fdin >= 0)
-	{	
+	{
 		all->fdoutc = dup(1);
 		close(1);
 		dup2(all->fdin, 1);
 	}
 	if (all->fdout >= 0)
-	{	
+	{
 		all->fdinc = dup(0);
 		close(0);
 		dup2(all->fdout, 0);
@@ -45,7 +45,7 @@ void		ft_close(t_all *all)
 char	*ft_create_file(t_all *all, char **tab, char **redir, int i)
 {
 	if (redir[i][0] == '>' && redir[1] && redir[i][1] == '>')
-	 	all->fdin = open(tab[i + 1], O_CREAT | O_WRONLY | O_APPEND, 0666);
+		all->fdin = open(tab[i + 1], O_CREAT | O_WRONLY | O_APPEND, 0666);
 	else if (redir[i][0] == '>')
 		all->fdin = open(tab[i + 1], O_CREAT | O_WRONLY | O_TRUNC, 0666);
 	else if (redir[i][0] == '<')
@@ -63,7 +63,7 @@ char	*ft_create_file(t_all *all, char **tab, char **redir, int i)
 
 char	**ft_allredir(char *tab)
 {
-	int 	i;
+	int		i;
 	int		j;
 	int		k;
 	int		l;
@@ -71,7 +71,7 @@ char	**ft_allredir(char *tab)
 
 	i = 0;
 	j = 0;
-	while(tab[i])
+	while (tab[i])
 	{
 		if (tab[i] == '>' || tab[i] == '<')
 		{
@@ -87,8 +87,7 @@ char	**ft_allredir(char *tab)
 	new = ft_calloc(j + 1, sizeof(char *));
 	j = 0;
 	i = 0;
-	
-	while(tab[i])
+	while (tab[i])
 	{
 		if (tab[i] == '>' || tab[i] == '<')
 		{
@@ -96,13 +95,13 @@ char	**ft_allredir(char *tab)
 			k = 0;
 			while (tab[i + k] && (tab[i + k] == '>' || tab[i + k] == '<'))
 				k++;
-			while(tab[i + k + l] && tab[i + k + l] == ' ')
+			while (tab[i + k + l] && tab[i + k + l] == ' ')
 				l++;
 			if (tab[i + k + l] == '>' || tab[i + k + l] == '<')
 				k += l + 1;
 			new[j++] = ft_substr(tab, i, k);
 			i = i + k;
-			while(tab[i] && (tab[i] == ' ' || tab[i] == '>' || tab[i] == '<'))
+			while (tab[i] && (tab[i] == ' ' || tab[i] == '>' || tab[i] == '<'))
 				i++;
 		}
 		else
@@ -131,7 +130,7 @@ char		**ft_addarg(char **tmp)
 				tmp[0] = ft_strjoin(tmp[0], new[j], 1);
 			}
 			free(tmp[i]);
-			tmp[i] = ft_strdup(new[0]);	
+			tmp[i] = ft_strdup(new[0]);
 		}
 		ft_freexec(new);
 	}
@@ -158,16 +157,16 @@ char		**ft_realsplit(char *tab, char **new, char **redir)
 			tmp[j++] = ft_strdup(new[k++]);
 		else
 			tmp[j++] = ft_calloc(1, 1);
-		while(tab[i] && tab[i] != '<' && tab[i] != '>')
+		while (tab[i] && tab[i] != '<' && tab[i] != '>')
 			i++;
-		while(tab[i] && (tab[i] == '<' || tab[i] == '>'))
+		while (tab[i] && (tab[i] == '<' || tab[i] == '>'))
 			i++;
 	}
 	ft_freexec(new);
-	return (tmp);	
+	return (tmp);
 }
 
-int			redirerror(char **tab, char** redir)
+int			redirerror(char **tab, char **redir)
 {
 	int		i;
 	char	*tmp;
@@ -186,9 +185,9 @@ int			redirerror(char **tab, char** redir)
 		if (redir[i][1] && ((redir[i][0] == '<' && redir[i][1]) || redir[i][1] == '<' || redir[i][2]))
 		{
 			if (redir[i][0] && redir[i][1] && redir[i][2] && redir[i][3])
-					ft_printf("minishell: syntax error near unexpected token `%c%c'\n", redir[i][0], redir[i][0]);
-				else
-					ft_printf("minishell: syntax error near unexpected token `%c'\n", redir[i][0]);
+				ft_printf("minishell: syntax error near unexpected token `%c%c'\n", redir[i][0], redir[i][0]);
+			else
+				ft_printf("minishell: syntax error near unexpected token `%c'\n", redir[i][0]);
 			ret = 2;
 			return (0);	
 		}
@@ -203,7 +202,7 @@ char		*ft_join(char **redir, char *tmp, char **new, t_all *all)
 	i = 0;
 	while (redir[i])
 		i++;
-	while(redir[i] && redir[i][0] != '<')
+	while (redir[i] && redir[i][0] != '<')
 		i--;
 	if (new[i] && stat(new[i], &stats) == -1)
 	{

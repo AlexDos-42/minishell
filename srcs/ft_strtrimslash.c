@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_strtrimslash.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edouvier <edouvier@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/09/23 20:51:27 by edouvier          #+#    #+#             */
+/*   Updated: 2020/09/23 20:51:34 by edouvier         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../include/minishell.h"
 
 static int		check(const char c, const char *str)
@@ -20,8 +32,8 @@ char			*ft_strtrimslash(char const *str, char const *set)
 	int		i;
 	int		j;
 	char	*s;
-    int     k;
-    
+	int		k;
+
 	if (!str || !set)
 		return (0);
 	i = 0;
@@ -32,13 +44,13 @@ char			*ft_strtrimslash(char const *str, char const *set)
 		return (ft_calloc(1, sizeof(char)));
 	while (check(str[j], set) == 1)
 	{
-        k = 0;
+		k = 0;
 		if (j == 0)
 			return (NULL);
-        while(j > 0 && str[j - 1  - k] == '\\')
-            k++;
-        if (k % 2 == 1)
-            break;
+		while (j > 0 && str[j - 1  - k] == '\\')
+			k++;
+		if (k % 2 == 1)
+			break ;
 		j--;
 	}
 	s = ft_substr(str, i, j - i + 1);
