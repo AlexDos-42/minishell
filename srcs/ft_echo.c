@@ -14,19 +14,44 @@
 
 void		ft_putstr_echo(char *str, int fd)
 {
-	int i;
+	int		i;
 
 	i = 0;
 	str = ft_suprguy(str);
 	while (str[i])
-			write(fd, &str[i++], 1);
+		write(fd, &str[i++], 1);
 	free(str);
+}
+
+void		ft_echo_bis(char *tmp, char **new, int i)
+{
+	free(tmp);
+	while (new[++i])
+	{
+		ft_putstr_echo(new[i], 1);
+		if (new[i + 1])
+			write(1, " ", 1);
+	}
+	free(new);
+}
+
+void		ft_echo_cond(char *tmp, char **new, int i)
+{
+	free(tmp);
+	while (new[++i])
+	{
+		ft_putstr_echo(new[i], 1);
+		if (new[i + 1])
+			write(1, " ", 1);
+	}
+	write(1, "\n", 1);
+	free(new);
 }
 
 int			ft_echo(t_all *all)
 {
-	char *tmp;
-	char **new;
+	char	*tmp;
+	char	**new;
 	int i;
 
 	i = -1;
@@ -34,28 +59,13 @@ int			ft_echo(t_all *all)
 	{
 		tmp = ft_strtrimslash(all->tab + 2, " ");
 		new = ft_splitspace(tmp, ' ');
-		free(tmp);
-		while (new[++i])
-		{
-			ft_putstr_echo(new[i], 1);
-			if (new[i + 1])
-				write(1, " ", 1);
-		}
-		free(new);
+		ft_echo_bis(tmp, new, i);
 	}
 	else
 	{
 		tmp = ft_strtrimslash(all->tab, " ");
 		new = ft_splitspace(tmp, ' ');
-		free(tmp);
-		while (new[++i])
-		{
-			ft_putstr_echo(new[i], 1);
-			if (new[i + 1])
-				write(1, " ", 1);
-		}
-		write(1, "\n", 1);
-		free(new);
+		ft_echo_cond(tmp, new, i);
 	}
 	free(all->tab);
 	return (ret = 0);
