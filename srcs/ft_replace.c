@@ -12,16 +12,12 @@
 
 #include "../include/minishell.h"
 
-char	*ft_newtab(char *tab, char *env)
+char	*ft_newtab(char *tab, char *env, int i)
 {
-	int		i;
 	int		j;
 	char	*new;
 
-	i = 0;
 	j = 1;
-	while (tab[i] != '$')
-		i++;
 	while (tab[i + j] && tab[i + j] != ' ' && tab[i + j] != '\n' &&
 		tab[i + j] != '\"' && tab[i + j] != '\'' && tab[i + j] != '\\' && tab[i + j] != '$'
 		&& tab[i + j] != ',' && tab[i + j] != '@' && tab[i + j] != '|')
@@ -51,8 +47,8 @@ char	*ft_isinenv(char *tab, t_all *all)
 			i++;
 		if (all->env[k][i] == '=')
 		{
-			if (tab[i + 1] < 48 || (tab[i + 1] > 57 && tab[i + 1] < 65) || (tab[i + 1] > 90
-				&& tab[i + 1] < 97) || tab[i + 1] > 122)
+			if ((tab[i + 1] < 48 || (tab[i + 1] > 57 && tab[i + 1] < 65) || (tab[i + 1] > 90
+				&& tab[i + 1] < 97) || tab[i + 1] > 122) && tab[i + 1] != '_')
 			{
 				env = ft_substr(all->env[k], i + 1,
 				ft_strlen(all->env[k]) - (i + 1));
@@ -92,7 +88,7 @@ char	*ft_replace(char *tab, t_all *all)
 
 	i = -1;
 	j = -1;
-	while (tab[++i])
+	while (tab && tab[++i])
 	{
 		if (tab[i] == '\'' && !isguillemet(i, tab))
 		{
@@ -104,7 +100,8 @@ char	*ft_replace(char *tab, t_all *all)
 		while(tab[i + j] && tab[i + j] == '\\')
 			j++;
 		i += j;
-		if (tab[i + 1] && tab[i] == '$' && tab[i + 1] != ' ' && tab[i + 1] != '\n' && j % 2 == 0)
+		if (tab[i + 1] && tab[i] == '$' && tab[i + 1] != ' ' && tab[i + 1] != '\n' && j % 2 == 0
+			&& isguillemet(i, tab) != 2)
 		{
 			if (tab[i + 1] == '?')
 			{
@@ -116,9 +113,9 @@ char	*ft_replace(char *tab, t_all *all)
 				&& tab[i + 1] != '\"')
 			{
 				env = ft_isinenv(&tab[i], all);
-				if (!(tab = ft_newtab(tab, env)))
+				if (!(tab = ft_newtab(tab, env, i)))
 					return (NULL);
-				i = -1;
+				i--;
 			}
 		}
 	}

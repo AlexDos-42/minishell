@@ -85,7 +85,7 @@ int			ft_unset(t_all *all);
 
 char		*ft_replace(char *tab, t_all *all);
 char		*ft_isinenv(char *tab, t_all *all);
-char		*ft_newtab(char *tab, char *env);
+char		*ft_newtab(char *tab, char *env, int i);
 
 /*
 ** --PIPE--
