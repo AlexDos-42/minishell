@@ -44,8 +44,6 @@ void		ft_close(t_all *all)
 
 char	*ft_create_file(t_all *all, char **tab, char **redir, int i)
 {
-	// ft_printf("tab %s\n", tab[i]);
-	// ft_printf("tab %s\n", tab[i + 1]);
 	if (redir[i][0] == '>' && redir[1] && redir[i][1] == '>')
 	 	all->fdin = open(tab[i + 1], O_CREAT | O_WRONLY | O_APPEND, 0666);
 	else if (redir[i][0] == '>')
@@ -105,6 +103,32 @@ char	**ft_allredir(char *tab)
 	return (new);
 }
 
+char		**ft_addarg(char **tmp)
+{
+	int		i;
+	int		j;
+	char	**new;
+
+	i = 0;
+	while (tmp[++i])
+	{
+		new = ft_splitspace(tmp[i], ' ');
+		if (new[1])
+		{
+			j = 0;
+			while (new[++j])
+			{
+				tmp[0] = ft_strjoin(tmp[0], " ", 1);
+				tmp[0] = ft_strjoin(tmp[0], new[j], 1);
+			}
+			free(tmp[i]);
+			tmp[i] = ft_strdup(new[0]);	
+		}
+		ft_freexec(new);
+	}
+	return (tmp);
+}
+
 char		**ft_realsplit(char *tab, char **new, char **redir)
 {
 	char	**tmp;
@@ -131,7 +155,7 @@ char		**ft_realsplit(char *tab, char **new, char **redir)
 			i++;
 	}
 	ft_freexec(new);
-	return (tmp);	
+	return (ft_addarg(tmp));	
 }
 
 int			redirerror(char **tab, char** redir)
@@ -157,6 +181,33 @@ int			redirerror(char **tab, char** redir)
 			return (0);	
 		}
 	return (1);
+}
+
+char		*ft_join(char **redir, char *tmp, char **new, t_all *all)
+{
+	int i;
+	struct stat		stats;
+
+	i = 0;
+	while (redir[i])
+		i++;
+	while(redir[i] && redir[i][0] != '<')
+		i--;
+	if (new[i] && stat(new[i], &stats) == -1)
+	{
+		ft_printf("minishell: %s: %s\n", new[i], strerror(errno));
+		
+		if (all->fdout >= 0)
+		{
+			dup2(all->fdinc, 0);
+			close(all->fdinc);
+		}
+		free(tmp);
+		ret = 1;
+		tmp = ft_calloc(1,1);
+	}
+	return (tmp);
+	
 }
 
 char		*ft_redirection(char *tab, t_all *all)
@@ -190,7 +241,7 @@ char		*ft_redirection(char *tab, t_all *all)
 			i = 0;
 			tmp = new[0] ? ft_strdup(new[0]) : ft_calloc(1, 1);
 			ft_create_file(all, new, redir, i);
-			
+			tmp = ft_join(redir, tmp, new, all);
 		}
 		else
 			tmp = ft_calloc(1,1);

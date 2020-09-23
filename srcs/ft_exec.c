@@ -192,6 +192,7 @@ int			ft_exec(t_all *all, char *tab)
 			ft_printf("minishell: %s: command not found\n", arg[0]);
 			exit(127);
 		}
+		
 	}
 	wait(&status);
 	ret = WEXITSTATUS(status);
