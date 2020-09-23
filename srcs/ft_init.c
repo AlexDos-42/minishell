@@ -12,12 +12,12 @@
 
 #include "../include/minishell.h"
 
-static void	ft_remplace(t_all *all)
+static void		ft_remplace(t_all *all)
 {
 	int		i;
 
 	i = 0;
-	while(all->env[i] && ft_strncmp(all->env[i], "PWD=", 4))
+	while (all->env[i] && ft_strncmp(all->env[i], "PWD=", 4))
 		i++;
 	if (all->env[i] && !ft_strncmp(all->env[i], "PWD=", 4))
 	{
@@ -27,7 +27,7 @@ static void	ft_remplace(t_all *all)
 	}
 }
 
-char	**tab_env(char **env, size_t *nb_env)
+char			**tab_env(char **env, size_t *nb_env)
 {
 	size_t	i;
 	char	**tmp_env;
@@ -49,8 +49,7 @@ char	**tab_env(char **env, size_t *nb_env)
 	return (tmp_env);
 }
 
-
-void	ft_initenv(t_all *all, char **env)
+void			ft_initenv(t_all *all, char **env)
 {
 	inter = 0;
 	quit = 0;

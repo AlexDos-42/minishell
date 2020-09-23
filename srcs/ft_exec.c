@@ -123,7 +123,7 @@ int			ft_errorexec(char *tab)
 	}
 	else if ((stats.st_mode & S_IXUSR) == 0)
 	{
-		ft_printf("minishell: %s: Permission denied\n",tab);
+		ft_printf("minishell: %s: Permission denied\n", tab);
 		ret = 126;
 		return (ret);
 	}
@@ -146,8 +146,9 @@ char		*ft_haspath(t_all *all, char *tab, int i)
 		if (tmp && (dir = opendir(tmp)) != NULL)
 		{
 			while ((dp = readdir(dir)) != NULL)
-				if (!ft_strncmp(&tab[ft_strlen(tmp) + 1], dp->d_name, ft_strlen(tab) - ft_strlen(tmp) - 1)
-					&& (ft_strlen(tab) - ft_strlen(tmp) - 1) == ft_strlen(dp->d_name))
+				if (!ft_strncmp(&tab[ft_strlen(tmp) + 1], dp->d_name,
+				ft_strlen(tab) - ft_strlen(tmp) - 1) && (ft_strlen(tab)
+				- ft_strlen(tmp) - 1) == ft_strlen(dp->d_name))
 				{
 					closedir(dir);
 					return (tab);
@@ -179,7 +180,7 @@ int			ft_exec(t_all *all, char *tab)
 		if (!arg[0])
 			exit(0);
 		i = -1;
-		while(arg[++i])
+		while (arg[++i])
 			arg[i] = ft_suprguy(arg[i]);
 		if ((tab = ft_exist(all, arg[0], -1)) != NULL)
 			;
@@ -192,7 +193,6 @@ int			ft_exec(t_all *all, char *tab)
 			ft_printf("minishell: %s: command not found\n", arg[0]);
 			exit(127);
 		}
-		
 	}
 	wait(&status);
 	ret = WEXITSTATUS(status);
