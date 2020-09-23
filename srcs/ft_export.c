@@ -30,7 +30,6 @@ char		**ft_exporterreur(char **str, int j)
 	char			**new;
 	int				k;
 
-
 	i = 0;
 	k = 0;
 	while (str && str[i])
@@ -94,8 +93,9 @@ char	*ft_suprguy(char *tabnewenv)
 		if (((tabnewenv[j] != '\"' && tabnewenv[j] != '\'') ||
 		isguillemet(j, tabnewenv)) && tabnewenv[j] != '\\')
 			i++;
-		if (tabnewenv[j] == '\\' && (tabnewenv[j + 1] && tabnewenv[j + 1] == '\\')
-			&& (isguillemet(j, tabnewenv) == 1 || !isguillemet(j, tabnewenv)))
+		if (tabnewenv[j] == '\\' && (tabnewenv[j + 1] &&
+		tabnewenv[j + 1] == '\\') && (isguillemet(j, tabnewenv) == 1
+		|| !isguillemet(j, tabnewenv)))
 		{
 			i++;
 			j++;
@@ -112,7 +112,7 @@ char	*ft_suprguy(char *tabnewenv)
 	while (tabnewenv[i])
 	{
 		if (tabnewenv[i] == '\\' && (tabnewenv[i + 1] && tabnewenv[i + 1] == '\\'
-			&& (isguillemet(i, tabnewenv) == 1 || !isguillemet(j, tabnewenv))))
+		&& (isguillemet(i, tabnewenv) == 1 || !isguillemet(j, tabnewenv))))
 			tmp[j++] = tabnewenv[i++];
 		else if (tabnewenv[i] == '\\' && ((isguillemet(i, tabnewenv) == 2)
 			|| (isguillemet(i, tabnewenv) == 1 &&
@@ -154,8 +154,8 @@ int			isexporterror(char *tab, int j)
 		}
 	}
 	return (0);
-	
 }
+
 int			ft_nbnewenv(char **tabnewenv, int j, int k)
 {
 	int i;
@@ -166,14 +166,14 @@ int			ft_nbnewenv(char **tabnewenv, int j, int k)
 	{
 		j = -1;
 		if (isexporterror(tabnewenv[i], 0))
-				if ((tabnewenv = ft_exporterreur(tabnewenv, i)) == NULL)
-					return(0);
+			if ((tabnewenv = ft_exporterreur(tabnewenv, i)) == NULL)
+				return (0);
 		while (tabnewenv[i] && tabnewenv[i][++j])
 		{
 			if (isexporterror(tabnewenv[i], j))
 			{
 				if ((tabnewenv = ft_exporterreur(tabnewenv, i)) == NULL)
-					return(0);
+					return (0);
 				j = -1;
 			}
 			else if (tabnewenv[i][j] == '=')
@@ -193,6 +193,7 @@ char		**ft_freetab(char **tabnewenv, int i)
 	int				j;
 	int				k;
 	char			**new;
+	
 	j = 0;
 	while (tabnewenv[j])
 		j++;
@@ -204,7 +205,7 @@ char		**ft_freetab(char **tabnewenv, int i)
 	new = ft_calloc(j, sizeof(char*));
 	j = -1;
 	k = 0;
-	while(tabnewenv[++j])
+	while (tabnewenv[++j])
 	{
 		if (j != i)
 			new[k++] = ft_strdup(tabnewenv[j]);
@@ -243,12 +244,12 @@ char		**ft_newenv(t_all *all)
 			if (eg == 0)
 			{
 				j = -1;
-				while(tabnewenv[i][++j] && eg == 0)
+				while (tabnewenv[i][++j] && eg == 0)
 					eg = isexporterror(tabnewenv[i], j);
 			}
 			tabnewenv = ft_freetab(tabnewenv, i);
 		}
-		else	
+		else
 			i++;
 	}
 	return (tabnewenv);
@@ -279,7 +280,6 @@ int			ft_export(t_all *all)
 	char			**new_env;
 	int				nb_newenv;
 	int				j;
-
 
 	if (!all->tab[0])
 		export_solo(all);
