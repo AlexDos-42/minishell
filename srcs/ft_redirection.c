@@ -66,6 +66,7 @@ char	**ft_allredir(char *tab)
 	int 	i;
 	int		j;
 	int		k;
+	int		l;
 	char	**new;
 
 	i = 0;
@@ -86,15 +87,23 @@ char	**ft_allredir(char *tab)
 	new = ft_calloc(j + 1, sizeof(char *));
 	j = 0;
 	i = 0;
+	
 	while(tab[i])
 	{
 		if (tab[i] == '>' || tab[i] == '<')
 		{
+			l = 0;
 			k = 0;
 			while (tab[i + k] && (tab[i + k] == '>' || tab[i + k] == '<'))
 				k++;
+			while(tab[i + k + l] && tab[i + k + l] == ' ')
+				l++;
+			if (tab[i + k + l] == '>' || tab[i + k + l] == '<')
+				k += l + 1;
 			new[j++] = ft_substr(tab, i, k);
 			i = i + k;
+			while(tab[i] && (tab[i] == ' ' || tab[i] == '>' || tab[i] == '<'))
+				i++;
 		}
 		else
 			i++;
@@ -155,7 +164,7 @@ char		**ft_realsplit(char *tab, char **new, char **redir)
 			i++;
 	}
 	ft_freexec(new);
-	return (ft_addarg(tmp));	
+	return (tmp);	
 }
 
 int			redirerror(char **tab, char** redir)
@@ -166,7 +175,7 @@ int			redirerror(char **tab, char** redir)
 	tmp = ft_strtrimslash(tab[1], " ");
 	if (tmp && (!tmp[0] || tmp[0] == '\n'))
 	{
-		ft_printf("minishell: line 0: syntax error near unexpected token `newline'\n");
+		ft_printf("minishell: syntax error near unexpected token `newline'\n");
 		ret = 2;
 		free(tmp);
 		return (0);
@@ -174,9 +183,12 @@ int			redirerror(char **tab, char** redir)
 	free(tmp);
 	i = -1;
 	while (redir[++i])
-		if (redir[i][1] && (redir[i][1] == '<' || redir[i][2]))
+		if (redir[i][1] && ((redir[i][0] == '<' && redir[i][1]) || redir[i][1] == '<' || redir[i][2]))
 		{
-			ft_printf("minishell: line 0: syntax error near unexpected token `%c'\n", redir[i][0]);
+			if (redir[i][0] && redir[i][1] && redir[i][2] && redir[i][3])
+					ft_printf("minishell: syntax error near unexpected token `%c%c'\n", redir[i][0], redir[i][0]);
+				else
+					ft_printf("minishell: syntax error near unexpected token `%c'\n", redir[i][0]);
 			ret = 2;
 			return (0);	
 		}
@@ -210,6 +222,31 @@ char		*ft_join(char **redir, char *tmp, char **new, t_all *all)
 	
 }
 
+int			redirspace(char **redir)
+{
+	int		i;
+	int		j;
+
+	i = -1;
+	while (redir[++i])
+	{
+		j = -1;
+		while (redir[i][++j])
+		{
+			if (redir[i][j] == ' ')
+			{
+				if (redir[i][0] && redir[i][1]&& redir[i][2] && redir[i][3])
+					ft_printf("minishell: syntax error near unexpected token `%c%c'\n", redir[i][0], redir[i][0]);
+				else
+					ft_printf("minishell: syntax error near unexpected token `%c'\n", redir[i][0]);
+				ret = 2;
+				return(0);
+			}
+		}
+	}
+	return (1);
+}
+
 char		*ft_redirection(char *tab, t_all *all)
 {
 	int		i;
@@ -217,16 +254,23 @@ char		*ft_redirection(char *tab, t_all *all)
 	char	**new;
 	char	*tmp;
 
-	i = -1;
+	i = 0;
 	redir = ft_allredir(tab);
 	all->fdin = -5;
 	all->fdout = -5;
-	if (redir != NULL)
+	if (redir != NULL && !redirspace(redir))
+	{
+		ft_freexec(redir);
+		redir = NULL;
+		tab = ft_strdup("");
+	}
+	else if (redir != NULL)
 	{
 		new = ft_splitslash(tab, "><");
 		new = ft_realsplit(tab, new, redir);
 		if (redirerror(new, redir))
 		{
+			ft_addarg(new);
 			while (new[++i])
 			{
 				tmp = ft_strtrimslash(new[i], " ");
@@ -249,5 +293,7 @@ char		*ft_redirection(char *tab, t_all *all)
 		ft_freexec(new);
 		return (tmp);
 	}
-	return (ft_strdup(tab));
+	else
+		tab = ft_strdup(tab);
+	return (tab);
 }
