@@ -12,10 +12,10 @@
 
 #include "../include/minishell.h"
 
-int	ft_ispipe(char *tab)
+int		ft_ispipe(char *tab)
 {
-	int p;
-	int i;
+	int		p;
+	int		i;
 
 	i = -1;
 	p = 0;
@@ -62,23 +62,11 @@ void	ft_pipefork(char **tab, int p, int k, t_all *all)
 		;
 }
 
-int		ft_pipe(char *tab, t_all *all)
+int		ft_pipeinit(char *tab, t_all *all, int i, int p)
 {
-	int		i;
-	int		p;
 	char	**tabpipe;
 	char	*tmp;
 
-	(void)all;
-	i = -1;
-	p = 0;
-	while (tab[++i] && (tab[i] == ' ' || tab[i] == '|'))
-		if (tab[i] == '|')
-		{
-			g_ret = 1;
-			ft_printf("minishell: syntax error near unexpected token `|'\n");
-			return (0);
-		}
 	while (tab[++i])
 		p += ischarset(tab, i, "|") && tab[i - 1] != '|' &&
 		!isguillemet(i, tab) ? 1 : 0;
@@ -99,5 +87,21 @@ int		ft_pipe(char *tab, t_all *all)
 		}
 		free(tabpipe);
 	}
+	return (0);
+}
+
+int		ft_pipe(char *tab, t_all *all)
+{
+	int		i;
+
+	i = -1;
+	while (tab[++i] && (tab[i] == ' ' || tab[i] == '|'))
+		if (tab[i] == '|')
+		{
+			g_ret = 1;
+			ft_printf("minishell: syntax error near unexpected token `|'\n");
+			return (0);
+		}
+	ft_pipeinit(tab, all, i, 0);
 	return (0);
 }
