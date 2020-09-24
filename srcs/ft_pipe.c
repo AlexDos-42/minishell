@@ -62,6 +62,7 @@ int		ft_pipe(char *tab, t_all *all)
 	int		i;
 	int		p;
 	char	**tabpipe;
+	char	*tmp;
 
 	(void)all;
 	i = -1;
@@ -78,8 +79,10 @@ int		ft_pipe(char *tab, t_all *all)
 	if (p)
 	{
 		tabpipe = ft_splitslash(tab, "|");
-		if (tabpipe[0] && !tabpipe[1])
+		tmp = ft_strtrimslash(tabpipe[1], " ");
+		if (tabpipe[0] && !tmp[0])
 			ret = 1;
+		free(tmp);
 		ft_pipefork(tabpipe, p, 0, all);
 		i = -1;
 		while (tabpipe[++i])
