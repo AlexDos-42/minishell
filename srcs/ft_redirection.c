@@ -12,15 +12,15 @@
 
 #include "../include/minishell.h"
 
-void		ft_open(t_all *all)
+void		ft_open(t_all *all, int j)
 {
-	if (all->fdin >= 0)
+	if (all->fdin >= 0 && j == 1)
 	{
 		all->fdoutc = dup(1);
 		close(1);
 		dup2(all->fdin, 1);
 	}
-	if (all->fdout >= 0)
+	if (all->fdout >= 0 && j == 2)
 	{
 		all->fdinc = dup(0);
 		close(0);
@@ -28,37 +28,58 @@ void		ft_open(t_all *all)
 	}
 }
 
-void		ft_close(t_all *all)
+void		ft_close(t_all *all, int i)
 {
-	if (all->fdin >= 0)
+	if (all->fdin >= 0 && i == 1)
 	{
 		dup2(all->fdoutc, 1);
 		close(all->fdoutc);
+		all->fdin = -5;
 	}
-	if (all->fdout >= 0)
+	if (all->fdout >= 0 && i == 2)
 	{
 		dup2(all->fdinc, 0);
 		close(all->fdinc);
+		all->fdout = -5;
 	}
 }
 
-char	*ft_create_file(t_all *all, char **tab, char **redir, int i)
+void	ft_create_file(t_all *all, char **tab, char **redir, int i)
 {
-	if (redir[i][0] == '>' && redir[1] && redir[i][1] == '>')
+	int		j;
+
+	j = 0;
+	if (redir[i][0] == '>' && redir[i][1] && redir[i][1] == '>' && (j = 1))
 		all->fdin = open(tab[i + 1], O_CREAT | O_WRONLY | O_APPEND, 0666);
-	else if (redir[i][0] == '>')
+	else if (redir[i][0] == '>' && (j = 1))
 		all->fdin = open(tab[i + 1], O_CREAT | O_WRONLY | O_TRUNC, 0666);
-	else if (redir[i][0] == '<')
+	else if (redir[i][0] == '<' && (j = 2))
 		all->fdout = open(tab[i + 1], O_RDONLY);
-	ft_open(all);
+	ft_open(all, j);
 	if (redir[i][0] == '>')
 		if (redir[i + 1])
-			if (redir[++i][0] == '>')
-			{
-				ft_close(all);
-				ft_create_file(all, tab, redir, i);
-			}
-	return (NULL);
+		{
+			j = 0;
+			while (redir[i + ++j])
+				if (redir[i + j][0] == '>')
+				{
+					ft_close(all, 1);
+					ft_create_file(all, tab, redir, i + j);
+					break;
+				}
+		}
+	if (redir[i][0] == '<')
+		if (redir[i + 1])
+		{
+			j = 0;
+			while (redir[i + ++j])
+				if (redir[i + j][0] == '<')
+				{
+					ft_close(all, 2);
+					ft_create_file(all, tab, redir, i + j);
+					break;
+				}
+		}
 }
 
 char	**ft_allredir(char *tab)
@@ -283,7 +304,16 @@ char		*ft_redirection(char *tab, t_all *all)
 			}
 			i = 0;
 			tmp = new[0] ? ft_strdup(new[0]) : ft_calloc(1, 1);
-			ft_create_file(all, new, redir, i);
+			i = 0;
+			while(redir[i] && redir[i][0] != '>')
+				i++;
+			if (redir[i] && redir[i][0] == '>')
+				ft_create_file(all, new, redir, i);
+			i = 0;
+			while(redir[i] && redir[i][0] != '<')
+				i++;
+			if (redir[i] && redir[i][0] == '<')
+				ft_create_file(all, new, redir, i);
 			tmp = ft_join(redir, tmp, new, all);
 		}
 		else
