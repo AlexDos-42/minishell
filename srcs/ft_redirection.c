@@ -56,10 +56,9 @@ void	ft_create_file(t_all *all, char **tab, char **redir, int i)
 	else if (redir[i][0] == '<' && (j = 2))
 		all->fdout = open(tab[i + 1], O_RDONLY);
 	ft_open(all, j);
+	j = 0;
 	if (redir[i][0] == '>')
 		if (redir[i + 1])
-		{
-			j = 0;
 			while (redir[i + ++j])
 				if (redir[i + j][0] == '>')
 				{
@@ -67,11 +66,8 @@ void	ft_create_file(t_all *all, char **tab, char **redir, int i)
 					ft_create_file(all, tab, redir, i + j);
 					break ;
 				}
-		}
 	if (redir[i][0] == '<')
 		if (redir[i + 1])
-		{
-			j = 0;
 			while (redir[i + ++j])
 				if (redir[i + j][0] == '<')
 				{
@@ -79,7 +75,6 @@ void	ft_create_file(t_all *all, char **tab, char **redir, int i)
 					ft_create_file(all, tab, redir, i + j);
 					break ;
 				}
-		}
 }
 
 char	**ft_allredir(char *tab)
@@ -208,11 +203,13 @@ int			redirerror(char **tab, char **redir)
 		{
 			if (redir[i][0] && redir[i][1] && redir[i][2] && redir[i][3])
 			{
-				ft_printf("minishell: syntax error near unexpected token `%c%c'\n", redir[i][0], redir[i][0]);
+				ft_printf("minishell: syntax error near unexpected token");
+				ft_printf("`%c%c'\n", redir[i][0], redir[i][0]);
 			}
 			else
 			{
-				ft_printf("minishell: syntax error near unexpected token `%c'\n", redir[i][0]);
+				ft_printf("minishell: syntax error near unexpected token");
+				ft_printf("`%c'\n", redir[i][0]);
 			}
 			g_ret = 2;
 			return (0);
@@ -259,9 +256,15 @@ int			redirspace(char **redir)
 			if (redir[i][j] == ' ')
 			{
 				if (redir[i][0] && redir[i][1] && redir[i][2] && redir[i][3])
-					ft_printf("minishell: syntax error near unexpected token `%c%c'\n", redir[i][0], redir[i][0]);
+				{
+					ft_printf("minishell: syntax error near unexpected token");
+					ft_printf("`%c%c'\n", redir[i][0], redir[i][0]);
+				}
 				else
-					ft_printf("minishell: syntax error near unexpected token `%c'\n", redir[i][0]);
+				{
+					ft_printf("minishell: syntax error near unexpected token");
+					ft_printf("`%c'\n", redir[i][0]);
+				}
 				g_ret = 2;
 				return (0);
 			}
