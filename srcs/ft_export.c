@@ -78,7 +78,7 @@ char		**ft_newenv(t_all *all, int i, int eg)
 	return (ft_newenvbis(all, i, eg, tabnewenv));
 }
 
-int		ft_exportinit(t_all *all, unsigned int i, int j, int nb_newenv)
+int			ft_exportinit(t_all *all, unsigned int i, int j, int nb_newenv)
 {
 	char			**tabnewenv;
 	char			**new_env;
