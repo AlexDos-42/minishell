@@ -51,8 +51,8 @@ char			**tab_env(char **env, size_t *nb_env)
 
 void			ft_initenv(t_all *all, char **env)
 {
-	inter = 0;
-	quit = 0;
+	g_inter = 0;
+	g_quit = 0;
 	all->pwd = getcwd(NULL, 0);
 	all->env = tab_env(env, &all->nb_env);
 	ft_remplace(all);

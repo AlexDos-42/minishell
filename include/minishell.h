@@ -21,12 +21,11 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <dirent.h>
-# include "error.h"
 # include <limits.h>
 
-int	inter;
-int	quit;
-int	ret;
+int			g_inter;
+int			g_quit;
+int			g_ret;
 
 typedef struct		s_all
 {

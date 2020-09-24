@@ -20,7 +20,7 @@ int			is_exec(char *tmp, char *tab)
 	{
 		ft_printf("minishell: %s: command not found\n", tab);
 		free(tmp);
-		ret = 127;
+		g_ret = 127;
 	}
 	return (1);
 }

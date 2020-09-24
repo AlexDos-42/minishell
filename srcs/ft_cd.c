@@ -52,13 +52,13 @@ void			ft_cd_bis(t_all *all, char **new)
 		chdir("/home/alesanto");
 		free(all->pwd);
 		all->pwd = getcwd(NULL, 0);
-		ret = 0;
+		g_ret = 0;
 	}
 	else if (chdir(new[0]) == 0)
 	{
 		free(all->pwd);
 		all->pwd = getcwd(NULL, 0);
-		ret = 0;
+		g_ret = 0;
 	}
 	else
 		ft_printf("minishell: cd: %s: %s\n", new[0], strerror(errno));
@@ -75,7 +75,7 @@ int				ft_cd(t_all *all)
 		new[0] = ft_suprguy(new[0]);
 	free(all->tab);
 	free(tmp);
-	ret = 1;
+	g_ret = 1;
 	ft_cd_bis(all, new);
 	ft_freexec(new);
 	ft_remplace(all);
