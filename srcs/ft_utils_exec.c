@@ -57,7 +57,6 @@ char		*ft_haspath(t_all *all, char *tab, int i)
 				ft_strlen(tab) - ft_strlen(tmp) - 1) && (ft_strlen(tab)
 				- ft_strlen(tmp) - 1) == ft_strlen(dp->d_name))
 				{
-					closedir(dir);
 					return (tab);
 				}
 			closedir(dir);
@@ -65,6 +64,24 @@ char		*ft_haspath(t_all *all, char *tab, int i)
 		free(tmp);
 	}
 	return (NULL);
+}
+
+void		ft_exec_bis(t_all *all, char *tab, int i, char **arg)
+{
+	i = -1;
+	while (arg[++i])
+		arg[i] = ft_suprguy(arg[i]);
+	if ((tab = ft_exist(all, arg[0], -1)) != NULL)
+		;
+	else if ((tab = ft_haspath(all, arg[0], ft_strlen(arg[0]))) != NULL)
+		;
+	else if (ft_strchr(arg[0], '/') && (i = ft_errorexec(arg[0])))
+		exit(i);
+	if (execve(tab, arg, all->env) == -1)
+	{
+		ft_printf("minishell: %s: command not found\n", arg[0]);
+		exit(127);
+	}
 }
 
 int			ft_exec(t_all *all, char *tab)
@@ -86,20 +103,7 @@ int			ft_exec(t_all *all, char *tab)
 		arg = ft_splitspace(tab, ' ');
 		if (!arg[0])
 			exit(g_ret);
-		i = -1;
-		while (arg[++i])
-			arg[i] = ft_suprguy(arg[i]);
-		if ((tab = ft_exist(all, arg[0], -1)) != NULL)
-			;
-		else if ((tab = ft_haspath(all, arg[0], ft_strlen(arg[0]))) != NULL)
-			;
-		else if (ft_strchr(arg[0], '/') && (i = ft_errorexec(arg[0])))
-			exit(i);
-		if (execve(tab, arg, all->env) == -1)
-		{
-			ft_printf("minishell: %s: command not found\n", arg[0]);
-			exit(127);
-		}
+		ft_exec_bis(all, tab, i, arg);
 	}
 	wait(&status);
 	g_ret = WEXITSTATUS(status);

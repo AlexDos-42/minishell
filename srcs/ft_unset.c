@@ -45,7 +45,6 @@ void			ft_suprenv(t_all *all, char *new, unsigned int p, int o)
 				}
 				free(all->env);
 				all->env = new_tab;
-				return ;
 			}
 		p++;
 	}
@@ -60,7 +59,6 @@ int				ft_unset(t_all *all)
 	char			**new;
 
 	i = -1;
-	g_ret = 0;
 	tmp = ft_strtrimslash(all->tab, " ");
 	new = ft_splitspace(tmp, ' ');
 	free(tmp);
