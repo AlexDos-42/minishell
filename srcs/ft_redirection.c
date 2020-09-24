@@ -228,7 +228,6 @@ char		*ft_join(char **redir, char *tmp, char **new, t_all *all)
 	if (new[i] && stat(new[i], &stats) == -1)
 	{
 		ft_printf("minishell: %s: %s\n", new[i], strerror(errno));
-		
 		if (all->fdout >= 0)
 		{
 			dup2(all->fdinc, 0);

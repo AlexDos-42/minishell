@@ -85,7 +85,7 @@ int			ft_exec(t_all *all, char *tab)
 			exit(127);
 		arg = ft_splitspace(tab, ' ');
 		if (!arg[0])
-			exit(0);
+			exit(ret);
 		i = -1;
 		while (arg[++i])
 			arg[i] = ft_suprguy(arg[i]);
