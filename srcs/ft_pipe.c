@@ -24,6 +24,15 @@ int	ft_ispipe(char *tab)
 	return (p);
 }
 
+void	ft_pipefork_bis(char **tab, int p, t_all *all, int *pipefd)
+{
+	dup2(pipefd[0], STDIN_FILENO);
+	close(pipefd[0]);
+	close(pipefd[1]);
+	ft_loop(tab[p], all);
+	exit(0);
+}
+
 void	ft_pipefork(char **tab, int p, int k, t_all *all)
 {
 	int		pipefd[2];
@@ -34,11 +43,7 @@ void	ft_pipefork(char **tab, int p, int k, t_all *all)
 		exit(0);
 	if (!(child_left = fork()))
 	{
-		dup2(pipefd[0], STDIN_FILENO);
-		close(pipefd[0]);
-		close(pipefd[1]);
-		ft_loop(tab[p], all);
-		exit(0);
+		ft_pipefork_bis(tab, p, all, pipefd);
 	}
 	if (!(child_right = fork()))
 	{
@@ -75,7 +80,8 @@ int		ft_pipe(char *tab, t_all *all)
 			return (0);
 		}
 	while (tab[++i])
-		p += ischarset(tab, i, "|") && tab[i - 1] != '|' &&!isguillemet(i, tab) ? 1 : 0;
+		p += ischarset(tab, i, "|") && tab[i - 1] != '|' &&
+		!isguillemet(i, tab) ? 1 : 0;
 	if (p)
 	{
 		tabpipe = ft_splitslash(tab, "|");
