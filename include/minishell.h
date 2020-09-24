@@ -75,10 +75,17 @@ int					ft_cd(t_all *all);
 int					ft_exit(t_all *all);
 int					ft_env(t_all *all);
 int					ft_export(t_all *all);
-char				*ft_suprguy(char *tabnewenv);
+char				**ft_freetab(char **tabnewenv, int i);
+int					isexporterror(char *tab, int j);
+int					ft_isenvexist(t_all *all, char *tab);
+char				**ft_exporterreur(char **str, int j);
 int					ft_unset(t_all *all);
+<<<<<<< HEAD
 int					ft_minishell(t_all *all, char *str);
 
+=======
+void				export_solo(t_all *all);
+>>>>>>> 7b2da0e415129ad697077f317a37f7dfa7d7333f
 
 /*
 ** --REPLACE--
@@ -112,6 +119,7 @@ int					isguillemet(int is, const char *str);
 char				**ft_splitspace(const char *str, char c);
 char				*ft_splitbuiltin(const char *str, char c);
 int					isguillemet(int is, const char *str);
+char				*ft_suprguy(char *tab);
 
 /*
 ** --EXECUTION--
