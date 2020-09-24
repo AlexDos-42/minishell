@@ -37,6 +37,7 @@ SRC =		main.c \
 		ft_utils_pipeerror.c \
 		ft_suprguy.c \
 		ft_parsing_next.c \
+		ft_redirection_next.c \
 
 PATHSRCS = srcs
 
