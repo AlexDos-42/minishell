@@ -207,9 +207,13 @@ int			redirerror(char **tab, char **redir)
 		|| redir[i][1] == '<' || redir[i][2]))
 		{
 			if (redir[i][0] && redir[i][1] && redir[i][2] && redir[i][3])
+			{
 				ft_printf("minishell: syntax error near unexpected token `%c%c'\n", redir[i][0], redir[i][0]);
+			}
 			else
+			{
 				ft_printf("minishell: syntax error near unexpected token `%c'\n", redir[i][0]);
+			}
 			g_ret = 2;
 			return (0);
 		}
@@ -236,7 +240,7 @@ char		*ft_join(char **redir, char *tmp, char **new, t_all *all)
 		}
 		free(tmp);
 		g_ret = 1;
-		tmp = ft_calloc(1,1);
+		tmp = ft_calloc(1, 1);
 	}
 	return (tmp);
 }
@@ -259,7 +263,7 @@ int			redirspace(char **redir)
 				else
 					ft_printf("minishell: syntax error near unexpected token `%c'\n", redir[i][0]);
 				g_ret = 2;
-				return(0);
+				return (0);
 			}
 		}
 	}
