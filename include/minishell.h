@@ -136,5 +136,7 @@ char				**ft_realsplit(char *tab, char **new, char **redir);
 char				**ft_addarg(char **tmp);
 char				**ft_allredir(char *tab);
 int					redirerror(char **tab, char **redir);
+char				**ft_allredir(char *tab);
+char				**ft_all_redir_bis(char *tab, char **new, int i, int j);
 
 #endif

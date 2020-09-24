@@ -38,6 +38,7 @@ SRC =		main.c \
 		ft_suprguy.c \
 		ft_parsing_next.c \
 		ft_redirection_next.c \
+		ft_redirection_bis.c \
 
 PATHSRCS = srcs
 
