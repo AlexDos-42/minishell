@@ -78,24 +78,6 @@ char		**ft_newenv(t_all *all, int i, int eg)
 	return (ft_newenvbis(all, i, eg, tabnewenv));
 }
 
-char	*ft_strdupfree(char *src)
-{
-	int		i;
-	char	*dest;
-
-	i = 0;
-	if (!(dest = (char *)malloc(ft_strlen(src) * sizeof(char) + 1)))
-		return (0);
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	free(src);
-	return (dest);
-}
-
 int		ft_exportinit(t_all *all, unsigned int i, int j, int nb_newenv)
 {
 	char			**tabnewenv;
