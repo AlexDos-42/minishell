@@ -77,6 +77,8 @@ int					ft_env(t_all *all);
 int					ft_export(t_all *all);
 char				*ft_suprguy(char *tabnewenv);
 int					ft_unset(t_all *all);
+int					ft_minishell(t_all *all, char *str);
+
 
 /*
 ** --REPLACE--
