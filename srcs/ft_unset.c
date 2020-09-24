@@ -18,7 +18,7 @@ int				ft_error(char *tmp)
 	tmp = ft_strjoin(tmp, "': not a valid identifier", 1);
 	ft_printf("%s\n", tmp);
 	free(tmp);
-	ret = 1;
+	g_ret = 1;
 	return (0);
 }
 
@@ -60,7 +60,7 @@ int				ft_unset(t_all *all)
 	char			**new;
 
 	i = -1;
-	ret = 0;
+	g_ret = 0;
 	tmp = ft_strtrimslash(all->tab, " ");
 	new = ft_splitspace(tmp, ' ');
 	free(tmp);

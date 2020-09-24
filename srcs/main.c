@@ -17,13 +17,13 @@ void	ft_prompt2(t_all *all, char *str)
 {
 	int			i;
 
-	inter = 0;
+	g_inter = 0;
 	ft_minishell(all, str);
 	i = -1;
 	while (all->env[++i])
 		free(all->env[i]);
 	free(all->env);
-	exit(ret);
+	exit(g_ret);
 }
 
 void	ft_prompt(t_all *all, char *tmp, char *str)
@@ -35,7 +35,7 @@ void	ft_prompt(t_all *all, char *tmp, char *str)
 		i = read(0, tmp, 10);
 		tmp[i] = '\0';
 		str = ft_strjoin(str, tmp, 1);
-		inter = 0;
+		g_inter = 0;
 		if (ft_strnstr(str, "\n", ft_strlen(str)))
 		{
 			if (ft_minishell(all, str) == 2)
@@ -45,7 +45,7 @@ void	ft_prompt(t_all *all, char *tmp, char *str)
 					free(all->env[i]);
 				free(all->env);
 				free(str);
-				exit(ret);
+				exit(g_ret);
 			}
 			free(str);
 			str = malloc(sizeof(char) * 1);
@@ -59,23 +59,23 @@ void	ctrl(int signal)
 {
 	if (signal == SIGINT)
 	{
-		inter = 1;
-		ret = 130;
+		g_inter = 1;
+		g_ret = 130;
 		write(1, "\nminishell $>", 13);
 	}
 	else if (signal == SIGQUIT)
 	{
 		write(1, "\n", 1);
-		inter = 0;
+		g_inter = 0;
 	}
 }
 
 void	ft_zero(t_all *all)
 {
 	ft_memset(all, 0, sizeof(t_all));
-	ret = 0;
-	inter = 0;
-	quit = 0;
+	g_ret = 0;
+	g_inter = 0;
+	g_quit = 0;
 }
 
 int		main(int argc, char **argv, char **env)

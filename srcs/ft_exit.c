@@ -46,7 +46,7 @@ int		ft_exitret(char **tab)
 		res = res % 256;
 	}
 	ft_freexec(tab);
-	return (ret = res);
+	return (g_ret = res);
 }
 
 int		ft_cleanexit(char *tab)
@@ -104,6 +104,6 @@ int		ft_cleanexit(char *tab)
 
 int		ft_exit(t_all *all)
 {
-	ret = ft_cleanexit(all->tab);
+	g_ret = ft_cleanexit(all->tab);
 	return (2);
 }

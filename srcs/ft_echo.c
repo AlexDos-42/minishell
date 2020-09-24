@@ -68,5 +68,5 @@ int		ft_echo(t_all *all)
 		ft_echo_cond(tmp, new, i);
 	}
 	free(all->tab);
-	return (ret = 0);
+	return (g_ret = 0);
 }

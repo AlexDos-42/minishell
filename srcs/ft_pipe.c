@@ -70,7 +70,7 @@ int		ft_pipe(char *tab, t_all *all)
 	while (tab[++i] && (tab[i] == ' ' || tab[i] == '|'))
 		if (tab[i] == '|')
 		{
-			ret = 1;
+			g_ret = 1;
 			ft_printf("minishell: syntax error near unexpected token `|'\n");
 			return (0);
 		}
@@ -81,7 +81,7 @@ int		ft_pipe(char *tab, t_all *all)
 		tabpipe = ft_splitslash(tab, "|");
 		tmp = ft_strtrimslash(tabpipe[1], " ");
 		if (tabpipe[0] && !tmp[0])
-			ret = 1;
+			g_ret = 1;
 		free(tmp);
 		ft_pipefork(tabpipe, p, 0, all);
 		i = -1;

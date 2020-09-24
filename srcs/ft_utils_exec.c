@@ -19,20 +19,20 @@ int			ft_errorexec(char *tab)
 	if (stat(tab, &stats) == -1)
 	{
 		ft_printf("minishell: %s: %s\n", tab, strerror(errno));
-		ret = 127;
-		return (ret);
+		g_ret = 127;
+		return (g_ret);
 	}
 	if (S_ISREG(stats.st_mode) == 0)
 	{
 		ft_printf("minishell: %s: Is a directory\n", tab);
-		ret = 126;
-		return (ret);
+		g_ret = 126;
+		return (g_ret);
 	}
 	else if ((stats.st_mode & S_IXUSR) == 0)
 	{
 		ft_printf("minishell: %s: Permission denied\n", tab);
-		ret = 126;
-		return (ret);
+		g_ret = 126;
+		return (g_ret);
 	}
 	return (0);
 }
@@ -85,7 +85,7 @@ int			ft_exec(t_all *all, char *tab)
 			exit(127);
 		arg = ft_splitspace(tab, ' ');
 		if (!arg[0])
-			exit(ret);
+			exit(g_ret);
 		i = -1;
 		while (arg[++i])
 			arg[i] = ft_suprguy(arg[i]);
@@ -102,6 +102,6 @@ int			ft_exec(t_all *all, char *tab)
 		}
 	}
 	wait(&status);
-	ret = WEXITSTATUS(status);
+	g_ret = WEXITSTATUS(status);
 	return (0);
 }

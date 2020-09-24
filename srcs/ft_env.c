@@ -22,7 +22,7 @@ int		ft_env(t_all *all)
 	if (tmp[0])
 	{
 		ft_printf("env: «%s»: Aucun fichier ou dossier de ce type\n", all->tab);
-		ret = 127;
+		g_ret = 127;
 	}
 	else
 	{
@@ -31,9 +31,9 @@ int		ft_env(t_all *all)
 			ft_putstr_fd(all->env[i], 1);
 			write(1, "\n", 1);
 		}
-		ret = 0;
+		g_ret = 0;
 	}
 	free(tmp);
 	free(all->tab);
-	return (ret);
+	return (g_ret);
 }

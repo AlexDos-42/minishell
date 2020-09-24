@@ -52,7 +52,7 @@ char		**ft_exporterreur(char **str, int j)
 	else
 		new = NULL;
 	ft_freexec(str);
-	ret = 1;
+	g_ret = 1;
 	return (new);
 }
 
@@ -161,7 +161,7 @@ int			ft_nbnewenv(char **tabnewenv, int j, int k)
 	int i;
 
 	i = 0;
-	ret = 0;
+	g_ret = 0;
 	while (tabnewenv && tabnewenv[i])
 	{
 		j = -1;
@@ -290,7 +290,7 @@ int			ft_export(t_all *all)
 		if (!(nb_newenv = ft_nbnewenv(tabnewenv, 0, 0)))
 			return (0);
 		if (!(new_env = malloc((all->nb_env + nb_newenv + 1) * sizeof(char*))))
-			return (ret = 127);
+			return (g_ret = 127);
 		i = 0;
 		j = 0;
 		while (i < all->nb_env)
