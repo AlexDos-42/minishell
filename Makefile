@@ -35,6 +35,7 @@ SRC =		main.c \
 		ft_utils_export.c \
 		ft_guillemet.c \
 		ft_utils_pipeerror.c \
+		ft_suprguy.c \
 
 PATHSRCS = srcs
 
