@@ -66,12 +66,12 @@ int		ft_pipe(char *tab, t_all *all)
 	(void)all;
 	i = -1;
 	p = 0;
-	while(tab[++i] && (tab[i] == ' ' || tab[i] == '|'))
+	while (tab[++i] && (tab[i] == ' ' || tab[i] == '|'))
 		if (tab[i] == '|')
 		{
 			ret = 1;
 			ft_printf("minishell: syntax error near unexpected token `|'\n");
-			return(0);
+			return (0);
 		}
 	while (tab[++i])
 		p += ischarset(tab, i, "|") && tab[i - 1] != '|' && !isguillemet(i, tab) ? 1 : 0;

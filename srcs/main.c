@@ -29,7 +29,7 @@ void	ft_prompt2(t_all *all, char *str)
 void	ft_prompt(t_all *all, char *tmp, char *str)
 {
 	int			i;
-	
+
 	while (1)
 	{
 		i = read(0, tmp, 10);
@@ -100,7 +100,6 @@ int		main(int argc, char **argv, char **env)
 	if (argc == 3 && argv[1][0] == '-' && argv[1][1] == 'c')
 	{
 		ft_initenv(&all, env);
-		//write(1, "minishell $>", 12);
 		ft_prompt2(&all, argv[2]);
 	}
 	return (0);

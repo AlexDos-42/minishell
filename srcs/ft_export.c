@@ -142,7 +142,7 @@ int			isexporterror(char *tab, int j)
 	if (tab[j] == '=' && j == 0)
 	{
 		ft_printf("minishell: export: `%s': not a valid identifier\n", tab);
-			return (1);
+		return (1);
 	}
 	if (tab[j] < 48 || (tab[j] > 57 && tab[j] < 65) || (tab[j] > 90
 		&& tab[j] < 97) || tab[j] > 122)
@@ -193,7 +193,7 @@ char		**ft_freetab(char **tabnewenv, int i)
 	int				j;
 	int				k;
 	char			**new;
-	
+
 	j = 0;
 	while (tabnewenv[j])
 		j++;

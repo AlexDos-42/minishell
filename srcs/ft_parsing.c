@@ -12,22 +12,29 @@
 
 #include "../include/minishell.h"
 
-int		ft_ptrfct(t_all *all)
+int		ft_fonc(int i, t_all *all)
 {
 	int		(*fonc[8])(t_all *);
+
+	fonc[1] = ft_echo;
+	fonc[2] = ft_pwd;
+	fonc[3] = ft_cd;
+	fonc[4] = ft_exit;
+	fonc[5] = ft_env;
+	fonc[6] = ft_export;
+	fonc[7] = ft_unset;
+	i = fonc[all->fct](all);
+	return (i);
+}
+
+int		ft_ptrfct(t_all *all)
+{
 	int		i;
 
 	i = 0;
 	if (all->fct != 0)
 	{
-		fonc[1] = ft_echo;
-		fonc[2] = ft_pwd;
-		fonc[3] = ft_cd;
-		fonc[4] = ft_exit;
-		fonc[5] = ft_env;
-		fonc[6] = ft_export;
-		fonc[7] = ft_unset;
-		i = fonc[all->fct](all);
+		ft_fonc(i, all);
 		all->fct = 0;
 	}
 	else
@@ -53,7 +60,8 @@ int		ft_realbuiltin(char *tab, char *str, int i)
 	j = 0;
 	new = ft_splitbuiltin(tab, ' ');
 	new = ft_suprguy(new);
-	if (!ft_strncmp(new, str, i) && (!new[ft_strlen(str)] || new[ft_strlen(str)] == '\n'))
+	if (!ft_strncmp(new, str, i) && (!new[ft_strlen(str)] ||
+	new[ft_strlen(str)] == '\n'))
 		j = 1;
 	free(new);
 	return (j);

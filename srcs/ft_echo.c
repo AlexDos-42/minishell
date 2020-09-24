@@ -12,9 +12,9 @@
 
 #include "../include/minishell.h"
 
-void		ft_putstr_echo(char *str, int fd)
+void	ft_putstr_echo(char *str, int fd)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	str = ft_suprguy(str);
@@ -23,7 +23,7 @@ void		ft_putstr_echo(char *str, int fd)
 	free(str);
 }
 
-void		ft_echo_bis(char *tmp, char **new, int i)
+void	ft_echo_bis(char *tmp, char **new, int i)
 {
 	free(tmp);
 	while (new[++i])
@@ -35,7 +35,7 @@ void		ft_echo_bis(char *tmp, char **new, int i)
 	free(new);
 }
 
-void		ft_echo_cond(char *tmp, char **new, int i)
+void	ft_echo_cond(char *tmp, char **new, int i)
 {
 	free(tmp);
 	while (new[++i])
@@ -48,11 +48,11 @@ void		ft_echo_cond(char *tmp, char **new, int i)
 	free(new);
 }
 
-int			ft_echo(t_all *all)
+int		ft_echo(t_all *all)
 {
 	char	*tmp;
 	char	**new;
-	int i;
+	int		i;
 
 	i = -1;
 	if (!ft_strncmp(all->tab, "-n", 2))
