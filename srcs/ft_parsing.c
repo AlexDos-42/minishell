@@ -130,7 +130,7 @@ int		ft_minishell(t_all *all, char *str)
 	k = -1;
 	while (tab && tab[++k])
 	{
-		if ((tab[k] = ft_replace(tab[k], all)))
+		if ((tab[k] = ft_replace(tab[k], all, -1, -1)))
 		{
 			if (ft_ispipe(tab[k]))
 				ft_pipe(tab[k], all);

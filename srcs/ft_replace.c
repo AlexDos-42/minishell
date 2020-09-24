@@ -63,12 +63,13 @@ char	*ft_isinenv(char *tab, t_all *all)
 	return (env);
 }
 
-char	*ft_ret(char *tab)
+char	*ft_ret(char *tab, int p)
 {
 	char	*new;
 	int		i;
 	char	*c_ret;
 
+	(void)p;
 	i = 0;
 	while (tab[i] != '$')
 		i++;
@@ -82,22 +83,24 @@ char	*ft_ret(char *tab)
 	return (new);
 }
 
-char	*ft_replace(char *tab, t_all *all)
+int		ft_isitnot(char *tab, int i)
 {
-	int		i;
-	int		j;
+	if (tab[i + 1] != '$' && tab[i + 1] != ';' && tab[i + 1]
+			!= '\\' && tab[i + 1] != ':' && tab[i + 1] != '%' && tab[i + 1]
+			!= '\'' && tab[i + 1] != '\"')
+		return (1);
+	return (0);
+}
+
+char	*ft_replace(char *tab, t_all *all, int i, int j)
+{
 	char	*env;
 
-	i = -1;
-	j = -1;
 	while (tab && tab[++i])
 	{
 		if (tab[i] == '\'' && !isguillemet(i, tab))
-		{
-			i++;
-			while (tab[i] && tab[i] != '\'')
-				i++;
-		}
+			while (tab[++i] && tab[i] != '\'')
+				;
 		j = 0;
 		while (tab[i + j] && tab[i + j] == '\\')
 			j++;
@@ -106,18 +109,12 @@ char	*ft_replace(char *tab, t_all *all)
 		tab[i + 1] != '\n' && j % 2 == 0 && isguillemet(i, tab) != 2)
 		{
 			if (tab[i + 1] == '?')
-			{
-				tab = ft_ret(tab);
-				i = -1;
-			}
-			else if (tab[i + 1] != '$' && tab[i + 1] != ';' && tab[i + 1]
-			!= '\\' && tab[i + 1] != ':' && tab[i + 1] != '%' && tab[i + 1]
-			!= '\'' && tab[i + 1] != '\"')
+				tab = ft_ret(tab, i--);
+			else if (ft_isitnot(tab, i))
 			{
 				env = ft_isinenv(&tab[i], all);
-				if (!(tab = ft_newtab(tab, env, i)))
+				if (!(tab = ft_newtab(tab, env, i--)))
 					return (NULL);
-				i--;
 			}
 		}
 	}
