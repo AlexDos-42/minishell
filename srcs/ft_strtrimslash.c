@@ -31,7 +31,6 @@ char			*ft_strtrimslash(char const *str, char const *set)
 {
 	int		i;
 	int		j;
-	char	*s;
 	int		k;
 
 	if (!str || !set)
@@ -47,12 +46,11 @@ char			*ft_strtrimslash(char const *str, char const *set)
 		k = 0;
 		if (j == 0)
 			return (NULL);
-		while (j > 0 && str[j - 1  - k] == '\\')
+		while (j > 0 && str[j - 1 - k] == '\\')
 			k++;
 		if (k % 2 == 1)
 			break ;
 		j--;
 	}
-	s = ft_substr(str, i, j - i + 1);
-	return (s);
+	return (ft_substr(str, i, j - i + 1));
 }

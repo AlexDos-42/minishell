@@ -24,7 +24,7 @@ static char			**ft_free(char **tab, int i)
 	return (NULL);
 }
 
-int		ischarset(const char *str, int is, char *c)
+int					ischarset(const char *str, int is, char *c)
 {
 	int		i;
 	int		j;
