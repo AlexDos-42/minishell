@@ -73,7 +73,7 @@ char	*ft_ret(char *tab)
 	while (tab[i] != '$')
 		i++;
 	new = ft_substr(tab, 0, i);
-	c_ret = ft_itoa(ret);
+	c_ret = ft_itoa(g_ret);
 	new = ft_strjoin(new, c_ret, 1);
 	free(c_ret);
 	if (tab[i + 2])

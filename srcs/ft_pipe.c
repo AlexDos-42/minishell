@@ -74,7 +74,7 @@ int		ft_pipe(char *tab, t_all *all)
 			return (0);
 		}
 	while (tab[++i])
-		p += ischarset(tab, i, "|") && tab[i - 1] != '|' && !isguillemet(i, tab) ? 1 : 0;
+		p += ischarset(tab, i, "|") && tab[i - 1] != '|' &&!isguillemet(i, tab) ? 1 : 0;
 	if (p)
 	{
 		tabpipe = ft_splitslash(tab, "|");
