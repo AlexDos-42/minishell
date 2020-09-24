@@ -121,5 +121,6 @@ char				**ft_allpath(t_all *all);
 char				*ft_exist(t_all *all, char *tab, int i);
 void				ft_freexec(char **tab);
 char				*ft_strtrimslash(char const *str, char const *set);
+void				istabpipe_suite3(char *tab, t_all *all, int i);
 
 #endif
