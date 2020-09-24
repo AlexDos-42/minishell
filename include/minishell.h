@@ -80,12 +80,7 @@ int					isexporterror(char *tab, int j);
 int					ft_isenvexist(t_all *all, char *tab);
 char				**ft_exporterreur(char **str, int j);
 int					ft_unset(t_all *all);
-<<<<<<< HEAD
-int					ft_minishell(t_all *all, char *str);
-
-=======
 void				export_solo(t_all *all);
->>>>>>> 7b2da0e415129ad697077f317a37f7dfa7d7333f
 
 /*
 ** --REPLACE--
