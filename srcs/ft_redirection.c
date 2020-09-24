@@ -164,7 +164,7 @@ char		**ft_addarg(char **tmp)
 	return (tmp);
 }
 
-char		**ft_realsplit(char *tab, char **new, char **redir)
+char	**ft_realsplit(char *tab, char **new, char **redir)
 {
 	char	**tmp;
 	int		i;
@@ -193,20 +193,10 @@ char		**ft_realsplit(char *tab, char **new, char **redir)
 	return (tmp);
 }
 
-int			redirerror(char **tab, char **redir)
+int		redirerror_bis(char **redir)
 {
 	int		i;
-	char	*tmp;
 
-	tmp = ft_strtrimslash(tab[1], " ");
-	if (tmp && (!tmp[0] || tmp[0] == '\n'))
-	{
-		ft_printf("minishell: syntax error near unexpected token `newline'\n");
-		g_ret = 2;
-		free(tmp);
-		return (0);
-	}
-	free(tmp);
 	i = -1;
 	while (redir[++i])
 		if (redir[i][1] && ((redir[i][0] == '<' && redir[i][1])
@@ -225,6 +215,23 @@ int			redirerror(char **tab, char **redir)
 			g_ret = 2;
 			return (0);
 		}
+	return (1);
+}
+
+int			redirerror(char **tab, char **redir)
+{
+	char	*tmp;
+
+	tmp = ft_strtrimslash(tab[1], " ");
+	if (tmp && (!tmp[0] || tmp[0] == '\n'))
+	{
+		ft_printf("minishell: syntax error near unexpected token `newline'\n");
+		g_ret = 2;
+		free(tmp);
+		return (0);
+	}
+	free(tmp);
+	redirerror_bis(redir);
 	return (1);
 }
 
