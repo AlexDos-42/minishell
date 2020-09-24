@@ -24,50 +24,6 @@ static char			**ft_free(char **tab, int i)
 	return (NULL);
 }
 
-int					isguillemet(int is, const char *str)
-{
-	int j;
-	int i;
-	int k;
-
-	j = -1;
-	i = 0;
-	k = 0;
-	while (++j < is && !i)
-	{
-		while (str[j] && str[j] == '\\' && j + k < is)
-			k++;
-		j += k;
-		if (j == is && (str[j] == '\"' || str[j] == '\'') && k % 2 == 1)
-			return (1);
-		if (j < is && str[j] && str[j] == '\"' && k % 2 == 0)
-		{
-			k = 0;
-			j++;
-			while (j < is && (str[j] != '\"' || (str[j] == '\"' && k % 2 == 1)))
-			{
-				k = 0;
-				while (str[j + k] && str[j + k] == '\\' && j + k < is)
-					k++;
-				j += k ? k : 1;
-			}
-			if (j == is && (str[j] != '\"' || (str[j] == '\"' && k % 2 == 1)))
-				i = 1;
-		}
-		else if (j < is && str[j] && str[j] == '\'' && k % 2 == 0)
-		{
-			k = 0;
-			j++;
-			while (j != is && str[j] != '\'')
-				j++;
-			if (j == is && str[j] != '\'')
-				i = 2;
-		}
-		k = 0;
-	}
-	return (i);
-}
-
 int		ischarset(const char *str, int is, char *c)
 {
 	int		i;

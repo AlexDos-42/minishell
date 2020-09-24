@@ -33,6 +33,7 @@ SRC =		main.c \
 		ft_strtrimslash.c \
 		ft_utils_exec.c \
 		ft_utils_export.c \
+		ft_guillemet.c \
 
 PATHSRCS = srcs
 

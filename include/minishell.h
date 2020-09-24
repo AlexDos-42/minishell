@@ -109,6 +109,7 @@ int					ischarset(const char *str, int is, char *c);
 int					isguillemet(int is, const char *str);
 char				**ft_splitspace(const char *str, char c);
 char				*ft_splitbuiltin(const char *str, char c);
+int					isguillemet(int is, const char *str);
 
 /*
 ** --EXECUTION--
