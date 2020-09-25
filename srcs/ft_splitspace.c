@@ -29,10 +29,10 @@ int					ischarsetspace(const char *str, int is, char c)
 	int i;
 
 	i = 0;
-	if (is > 0 && str[is] == c && str[is - 1] == '\\')
+	if (is > 0 && (str[is] == c || str[is] == '\t') && str[is - 1] == '\\')
 		while (is > i && str[is - 1 - i] == '\\')
 			i++;
-	if (str[is] == c && !isguillemet(is, str) && i % 2 == 0)
+	if ((str[is] == c || str[is] == '\t') && !isguillemet(is, str) && i % 2 == 0)
 		return (1);
 	return (0);
 }
@@ -85,7 +85,7 @@ char				**ft_splitspace(const char *str, char c)
 	while (i < ft_nbr_mots(str, c))
 	{
 		j = 0;
-		while (str[is] == c && str[is])
+		while ((str[is] == c || str[is] == '\t') && str[is])
 			is++;
 		if (!(tab[i] = malloc(sizeof(char) * (ft_taillem(str, is, c) + 1))))
 			return (ft_free(tab, i));

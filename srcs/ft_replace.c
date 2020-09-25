@@ -98,9 +98,12 @@ char	*ft_replace(char *tab, t_all *all, int i, int j)
 
 	while (tab && tab[++i])
 	{
+		j = 0;
 		if (tab[i] == '\'' && !isguillemet(i, tab))
-			while (tab[++i] && tab[i] != '\'')
+			while (tab[i + ++j] && tab[i + j] != '\'')
 				;
+		if (tab[i + j] == '\'')
+			i += j;
 		j = 0;
 		while (tab[i + j] && tab[i + j] == '\\')
 			j++;

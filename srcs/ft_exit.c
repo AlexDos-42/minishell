@@ -33,12 +33,12 @@ int		ft_exitret(char **tab, int i, int sign)
 	}
 	else
 	{
-		if (sign == -1)
-			res *= -1;
+		res *= sign == -1 ? -1 : 1;
 		res = res % 256;
 	}
 	ft_freexec(tab);
-	return (g_ret = res);
+	g_ret = res;
+	return (2);
 }
 
 int		isnumberexit(char **new, int i)
@@ -65,6 +65,7 @@ int		ft_cleanexit(char **new, int i)
 				ft_printf("minishell: exit: %s: numeric argument required\n",
 				new[0]);
 				ft_freexec(new);
+				g_ret = 2;
 				return (2);
 			}
 		}
@@ -74,6 +75,7 @@ int		ft_cleanexit(char **new, int i)
 	{
 		ft_printf("minishell: exit: too many arguments\n");
 		ft_freexec(new);
+		g_ret = 1;
 		return (1);
 	}
 	return (ft_exitret(new, 0, 1));
@@ -102,6 +104,7 @@ int		ft_exit(t_all *all)
 		i++;
 	if (new[0][i] == '-' || new[0][i] == '+')
 		i++;
-	g_ret = ft_cleanexit(new, i);
-	return (2);
+	if (ft_cleanexit(new, i) == 2)
+		return (2);
+	return (0);
 }
