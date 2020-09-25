@@ -12,11 +12,30 @@
 
 #include "../include/minishell.h"
 
-char		*ft_join(char **redir, char *tmp, char **new, t_all *all)
+void		init_file(t_all *all, char **new, char **redir)
+{
+	int		i;
+
+	i = 0;
+	while (redir[i] && redir[i][0] != '>')
+		i++;
+	if (redir[i] && redir[i][0] == '>')
+		ft_create_file(all, new, redir, i);
+	i = 0;
+	while (redir[i] && redir[i][0] != '<')
+		i++;
+	if (redir[i] && redir[i][0] == '<')
+		ft_create_file(all, new, redir, i);
+}
+
+char		*ft_join(char **redir, char **new, t_all *all)
 {
 	int				i;
 	struct stat		stats;
+	char			*tmp;
 
+	init_file(all, new, redir);
+	tmp = new[0] ? ft_strdup(new[0]) : ft_calloc(1, 1);
 	i = 0;
 	while (redir[i])
 		i++;
@@ -66,14 +85,38 @@ int			redirspace(char **redir)
 	return (1);
 }
 
-char		*ft_redirection(char *tab, t_all *all)
+char		*ft_redirection_suite(char *tab, t_all *all, char **redir, int i)
 {
-	int		i;
-	char	**redir;
 	char	**new;
 	char	*tmp;
 
-	i = 0;
+	new = ft_realsplit(tab, ft_splitslash(tab, "><"), redir);
+	if (redirerror(new, redir))
+	{
+		ft_addarg(new);
+		while (new[++i])
+		{
+			tmp = ft_suprguy(ft_strtrimslash(new[i], " "));
+			free(new[i]);
+			if (tmp[0] && tmp[ft_strlen(tmp) - 1] == '\n')
+				new[i] = ft_substr(tmp, 0, ft_strlen(tmp) - 1);
+			else
+				new[i] = ft_strdup(tmp);
+			free(tmp);
+		}
+		tmp = ft_join(redir, new, all);
+	}
+	else
+		tmp = ft_calloc(1, 1);
+	ft_freexec(redir);
+	ft_freexec(new);
+	return (tmp);
+}
+
+char		*ft_redirection(char *tab, t_all *all)
+{
+	char	**redir;
+
 	redir = ft_allredir(tab);
 	all->fdin = -5;
 	all->fdout = -5;
@@ -84,43 +127,7 @@ char		*ft_redirection(char *tab, t_all *all)
 		tab = ft_strdup("");
 	}
 	else if (redir != NULL)
-	{
-		new = ft_splitslash(tab, "><");
-		new = ft_realsplit(tab, new, redir);
-		if (redirerror(new, redir))
-		{
-			ft_addarg(new);
-			while (new[++i])
-			{
-				tmp = ft_strtrimslash(new[i], " ");
-				free(new[i]);
-				tmp = ft_suprguy(tmp);
-				if (tmp[0] && tmp[ft_strlen(tmp) - 1] == '\n')
-					new[i] = ft_substr(tmp, 0, ft_strlen(tmp) - 1);
-				else
-					new[i] = ft_strdup(tmp);
-				free(tmp);
-			}
-			i = 0;
-			tmp = new[0] ? ft_strdup(new[0]) : ft_calloc(1, 1);
-			i = 0;
-			while (redir[i] && redir[i][0] != '>')
-				i++;
-			if (redir[i] && redir[i][0] == '>')
-				ft_create_file(all, new, redir, i);
-			i = 0;
-			while (redir[i] && redir[i][0] != '<')
-				i++;
-			if (redir[i] && redir[i][0] == '<')
-				ft_create_file(all, new, redir, i);
-			tmp = ft_join(redir, tmp, new, all);
-		}
-		else
-			tmp = ft_calloc(1, 1);
-		ft_freexec(redir);
-		ft_freexec(new);
-		return (tmp);
-	}
+		tab = ft_redirection_suite(tab, all, redir, 0);
 	else
 		tab = ft_strdup(tab);
 	return (tab);

@@ -12,7 +12,7 @@
 
 #include "../include/minishell.h"
 
-char	**ft_minishell_again(char **tab, t_all *all, int k, int stop)
+int		ft_minishell_again(char **tab, t_all *all, int k, int stop)
 {
 	while (tab && tab[++k])
 	{
@@ -29,7 +29,7 @@ char	**ft_minishell_again(char **tab, t_all *all, int k, int stop)
 		}
 		free(tab[k]);
 	}
-	return (tab);
+	return (stop);
 }
 
 int		ft_minishell(t_all *all, char *str)
@@ -49,7 +49,7 @@ int		ft_minishell(t_all *all, char *str)
 		}
 	tab = ft_splitslash(str, ";");
 	k = -1;
-	ft_minishell_again(tab, all, k, stop);
+	stop = ft_minishell_again(tab, all, k, stop);
 	if (tab)
 		free(tab);
 	return (stop);

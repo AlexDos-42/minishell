@@ -130,7 +130,7 @@ void				istabpipe_suite3(char *tab, t_all *all, int i);
 void				ft_create_file(t_all *all, char **tab, char **redir, int i);
 char				*ft_redirection(char *tab, t_all *all);
 int					redirspace(char **redir);
-char				*ft_join(char **redir, char *tmp, char **new, t_all *all);
+char				*ft_join(char **redir, char **new, t_all *all);
 int					redirerror_bis(char **redir);
 char				**ft_realsplit(char *tab, char **new, char **redir);
 char				**ft_addarg(char **tmp);
