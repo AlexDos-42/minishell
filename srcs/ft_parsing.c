@@ -34,7 +34,7 @@ int		ft_ptrfct(t_all *all)
 	i = 0;
 	if (all->fct != 0)
 	{
-		ft_fonc(i, all);
+		i = ft_fonc(i, all);
 		all->fct = 0;
 	}
 	else
