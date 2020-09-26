@@ -130,6 +130,5 @@ int		redirerror(char **tab, char **redir)
 		return (0);
 	}
 	free(tmp);
-	redirerror_bis(redir);
-	return (1);
+	return (redirerror_bis(redir));
 }
