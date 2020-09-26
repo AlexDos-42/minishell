@@ -74,7 +74,7 @@ int		ft_pipeinit(char *tab, t_all *all, int i, int p)
 	{
 		tabpipe = ft_splitslash(tab, "|");
 		tmp = ft_strtrimslash(tabpipe[1], " ");
-		if (tabpipe[0] && !tmp[0])
+		if (tabpipe[0] && (!tmp[0] || tmp[0] == '\n'))
 			g_ret = 1;
 		free(tmp);
 		ft_pipefork(tabpipe, p, 0, all);
