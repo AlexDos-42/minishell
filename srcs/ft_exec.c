@@ -37,12 +37,8 @@ int			isexec(char *tab)
 	tmp = ft_suprguy(tmp);
 	j = ft_strlen(tmp) - 1;
 	if (j > 0)
-	{
 		if (tmp[j] == 'h' && tmp[j - 1] == 's' && tmp[j - 2] == '.')
-		{
 			is_exec(tmp, tab);
-		}
-	}
 	free(tmp);
 	return (0);
 }
@@ -105,5 +101,5 @@ char		*ft_exist(t_all *all, char *tab, int i)
 			}
 		ft_freexec(path);
 	}
-	return (NULL);
+	return (tab);
 }
