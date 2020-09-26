@@ -44,14 +44,20 @@ PATHSRCS = srcs
 
 HEADERS = ./include
 
-FLAGS = -Wall -Wextra -Werror -g -fsanitize=address 
+FLAGS = -Wall -Wextra -Werror #-g -fsanitize=address 
 
 SRCS = $(addprefix $(PATHSRCS)/,$(SRC))
+OBJS = $(addprefix $(PATHSRCS)/,$(SRC:%.c=%.o))
+
 LIBS = ./libft/libft.a
 
 all: $(NAME)
 
-$(NAME):
+$(OBJ_DIR)/%.o: %.c
+	@mkdir -p $(OBJ_DIR)
+	@(gcc $(FLAGS) -c $< -o $@)
+
+$(NAME): $(OBJS)
 	@echo "Compilation..."
 	@(make re -C libft/)
 	@(gcc $(FLAGS) $(SRCS) $(LIBS) -o $(NAME))
@@ -60,6 +66,7 @@ $(NAME):
 clean:
 	@echo "Clean"
 	@(make clean -C ./libft/)
+	@(rm -rf ./srcs/*.o)
 
 fclean:	clean
 	@echo "Fclean"

@@ -32,7 +32,8 @@ void	ft_prompt(t_all *all, char *tmp, char *str)
 
 	while (1)
 	{
-		i = read(0, tmp, 10);
+		if ((i = read(0, tmp, 10)) == 0)
+			exit(0);
 		tmp[i] = '\0';
 		str = ft_strjoin(str, tmp, 1);
 		g_inter = 0;
@@ -57,17 +58,24 @@ void	ft_prompt(t_all *all, char *tmp, char *str)
 
 void	ctrl(int signal)
 {
+	int status;
+
+	status = 0;
+	while (wait(&status) > 0)
+		;
 	if (signal == SIGINT)
 	{
 		g_inter = 1;
 		g_ret = 130;
 		write(1, "\nminishell $>", 13);
 	}
-	else if (signal == SIGQUIT)
+	else if (status == 131)
 	{
-		write(1, "\n", 1);
-		g_inter = 0;
+		g_ret = 131;
+		write(1, "Quit (core dumped)\n", 19);
+		g_inter = 1;
 	}
+	
 }
 
 void	ft_zero(t_all *all)
@@ -88,7 +96,7 @@ int		main(int argc, char **argv, char **env)
 	ft_zero(&all);
 	if (signal(SIGINT, ctrl) == SIG_ERR || \
 		signal(SIGQUIT, ctrl) == SIG_ERR)
-		exit(1);
+		{};
 	if (argc == 1)
 	{
 		ft_initenv(&all, env);
