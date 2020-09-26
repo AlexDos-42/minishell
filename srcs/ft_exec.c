@@ -101,5 +101,5 @@ char		*ft_exist(t_all *all, char *tab, int i)
 			}
 		ft_freexec(path);
 	}
-	return (tab);
+	return (NULL);
 }

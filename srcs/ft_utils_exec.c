@@ -44,7 +44,7 @@ char		*ft_haspath(t_all *all, char *tab, int i)
 	char			*tmp;
 
 	(void)all;
-	if (tab[0] == '/')
+	if (tab[0] == '/'  || tab[0] == '.')
 	{
 		while (tab[i] != '/')
 			i--;
@@ -57,6 +57,8 @@ char		*ft_haspath(t_all *all, char *tab, int i)
 				ft_strlen(tab) - ft_strlen(tmp) - 1) && (ft_strlen(tab)
 				- ft_strlen(tmp) - 1) == ft_strlen(dp->d_name))
 				{
+					free(tmp);
+					closedir(dir);
 					return (tab);
 				}
 			closedir(dir);
@@ -74,8 +76,8 @@ void		ft_exec_bis(t_all *all, char *tab, int i, char **arg)
 	if ((tab = ft_exist(all, arg[0], -1)) != NULL)
 		;
 	else if ((tab = ft_haspath(all, arg[0], ft_strlen(arg[0]))) != NULL)
-		;
-	else if (ft_strchr(arg[0], '/') && (i = ft_errorexec(arg[0])))
+		i = i;
+	if (ft_strchr(arg[0], '/') && (i = ft_errorexec(arg[0])))
 		exit(i);
 	if (execve(tab, arg, all->env) == -1)
 	{
