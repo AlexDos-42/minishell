@@ -57,8 +57,7 @@ int		ft_cleanexit(char **new, int i)
 		if (isnumberexit(new, i))
 		{
 			while (new[0][i] && ((new[0][i] == ' ' || new[0][i] == '\t') &&
-					(!new[0][i + 1] || new[0][i + 1] == ' '
-					|| new[0][i + 1] == '\t')))
+			(!new[0][i + 1] || new[0][i + 1] == ' ' || new[0][i + 1] == '\t')))
 				i++;
 			if (new[0][i])
 			{

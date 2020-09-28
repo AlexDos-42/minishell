@@ -32,7 +32,8 @@ int					ischarsetspace(const char *str, int is, char c)
 	if (is > 0 && (str[is] == c || str[is] == '\t') && str[is - 1] == '\\')
 		while (is > i && str[is - 1 - i] == '\\')
 			i++;
-	if ((str[is] == c || str[is] == '\t') && !isguillemet(is, str) && i % 2 == 0)
+	if ((str[is] == c || str[is] == '\t') && !isguillemet(is, str)
+	&& i % 2 == 0)
 		return (1);
 	return (0);
 }
