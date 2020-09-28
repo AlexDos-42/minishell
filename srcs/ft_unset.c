@@ -79,3 +79,20 @@ int				ft_unset(t_all *all)
 	free(new);
 	return (0);
 }
+
+int				ft_pipe(char *tab, t_all *all)
+{
+	int		i;
+
+	i = -1;
+	while (tab[++i] && (tab[i] == ' ' || tab[i] == '|'))
+		if (tab[i] == '|')
+		{
+			g_ret = 1;
+			ft_printf("minishell: syntax error near unexpected token `|'\n");
+			return (0);
+		}
+	if (is_two_pipe(tab) == 0)
+		return (0);
+	return (ft_pipeinit(tab, all, i, 0));
+}

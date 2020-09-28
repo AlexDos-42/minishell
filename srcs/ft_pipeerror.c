@@ -79,7 +79,7 @@ void		istabpipe_suite4(char *tab, t_all *all)
 		tmp = ft_strtrimslash(tab, " ");
 	new = ft_splitspace(tmp, ' ');
 	free(tmp);
-	tmp = ft_strdup(new[0]);
+	tmp = new[0] ? ft_strdup(new[0]) : ft_strdup("");
 	tmp = ft_suprguy(tmp);
 	if (isexec(tmp))
 		return (free(tmp));
