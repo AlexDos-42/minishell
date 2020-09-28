@@ -44,7 +44,7 @@ char		*ft_haspath(t_all *all, char *tab, int i)
 	char			*tmp;
 
 	(void)all;
-	if (tab[0] == '/'  || tab[0] == '.')
+	if (tab[0] == '/' || tab[0] == '.')
 	{
 		while (tab[i] != '/')
 			i--;
