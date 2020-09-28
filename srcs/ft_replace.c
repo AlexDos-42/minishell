@@ -63,26 +63,6 @@ char	*ft_isinenv(char *tab, t_all *all)
 	return (env);
 }
 
-char	*ft_ret(char *tab, int p)
-{
-	char	*new;
-	int		i;
-	char	*c_ret;
-
-	(void)p;
-	i = 0;
-	while (tab[i] != '$')
-		i++;
-	new = ft_substr(tab, 0, i);
-	c_ret = ft_itoa(g_ret);
-	new = ft_strjoin(new, c_ret, 1);
-	free(c_ret);
-	if (tab[i + 2])
-		new = ft_strjoin(new, &tab[i + 2], 1);
-	free(tab);
-	return (new);
-}
-
 int		ft_isitnot(char *tab, int i)
 {
 	if (tab[i + 1] != '$' && tab[i + 1] != ';' && tab[i + 1]
@@ -92,18 +72,23 @@ int		ft_isitnot(char *tab, int i)
 	return (0);
 }
 
+int		simple_quote(char *tab, int i, int j)
+{
+	j = 0;
+	if (tab[i] == '\'' && !isguillemet(i, tab))
+		while (tab[i + ++j] && tab[i + j] != '\'')
+			;
+	return (j);
+}
+
 char	*ft_replace(char *tab, t_all *all, int i, int j)
 {
 	char	*env;
 
 	while (tab && tab[++i])
 	{
-		j = 0;
-		if (tab[i] == '\'' && !isguillemet(i, tab))
-			while (tab[i + ++j] && tab[i + j] != '\'')
-				;
-		if (tab[i + j] == '\'')
-			i += j;
+		j = simple_quote(tab, i, j);
+		i += (tab[i + j] == '\'') ? j : 0;
 		j = 0;
 		while (tab[i + j] && tab[i + j] == '\\')
 			j++;

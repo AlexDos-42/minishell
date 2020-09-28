@@ -138,5 +138,6 @@ char				**ft_allredir(char *tab);
 int					redirerror(char **tab, char **redir);
 char				**ft_allredir(char *tab);
 char				**ft_all_redir_bis(char *tab, char **new, int i, int j);
+char				*ft_ret(char *tab, int p);
 
 #endif

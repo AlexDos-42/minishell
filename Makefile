@@ -44,7 +44,7 @@ PATHSRCS = srcs
 
 HEADERS = ./include
 
-FLAGS = -Wall -Wextra -Werror #-g -fsanitize=address 
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address 
 
 SRCS = $(addprefix $(PATHSRCS)/,$(SRC))
 OBJS = $(addprefix $(PATHSRCS)/,$(SRC:%.c=%.o))

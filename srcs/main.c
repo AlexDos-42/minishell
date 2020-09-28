@@ -36,7 +36,6 @@ void	ft_prompt(t_all *all, char *tmp, char *str)
 			exit(0);
 		tmp[i] = '\0';
 		str = ft_strjoin(str, tmp, 1);
-		g_inter = 0;
 		if (ft_strnstr(str, "\n", ft_strlen(str)))
 		{
 			if (ft_minishell(all, str) == 2)
@@ -67,7 +66,9 @@ void	ctrl(int signal)
 	{
 		g_inter = 1;
 		g_ret = 130;
-		write(1, "\nminishell $>", 13);
+		write(1, "\n", 1);
+		if (status == 0)
+			write(1, "minishell $>", 12);
 	}
 	else if (status == 131)
 	{
@@ -75,7 +76,6 @@ void	ctrl(int signal)
 		write(1, "Quit (core dumped)\n", 19);
 		g_inter = 1;
 	}
-	
 }
 
 void	ft_zero(t_all *all)
@@ -94,9 +94,8 @@ int		main(int argc, char **argv, char **env)
 
 	all.argv = argv;
 	ft_zero(&all);
-	if (signal(SIGINT, ctrl) == SIG_ERR || \
-		signal(SIGQUIT, ctrl) == SIG_ERR)
-		{};
+	signal(SIGINT, ctrl);
+	signal(SIGQUIT, ctrl);
 	if (argc == 1)
 	{
 		ft_initenv(&all, env);

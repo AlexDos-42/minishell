@@ -12,6 +12,26 @@
 
 #include "../include/minishell.h"
 
+char		*ft_ret(char *tab, int p)
+{
+	char	*new;
+	int		i;
+	char	*c_ret;
+
+	(void)p;
+	i = 0;
+	while (tab[i] != '$')
+		i++;
+	new = ft_substr(tab, 0, i);
+	c_ret = ft_itoa(g_ret);
+	new = ft_strjoin(new, c_ret, 1);
+	free(c_ret);
+	if (tab[i + 2])
+		new = ft_strjoin(new, &tab[i + 2], 1);
+	free(tab);
+	return (new);
+}
+
 int			ft_errorexec(char *tab)
 {
 	struct stat		stats;
@@ -37,13 +57,11 @@ int			ft_errorexec(char *tab)
 	return (0);
 }
 
-char		*ft_haspath(t_all *all, char *tab, int i)
+char		*ft_haspath(char *tab, int i, char *tmp)
 {
 	DIR				*dir;
 	struct dirent	*dp;
-	char			*tmp;
 
-	(void)all;
 	if (tab[0] == '/' || tab[0] == '.')
 	{
 		while (tab[i] != '/')
@@ -75,7 +93,7 @@ void		ft_exec_bis(t_all *all, char *tab, int i, char **arg)
 		arg[i] = ft_suprguy(arg[i]);
 	if ((tab = ft_exist(all, arg[0], -1)) != NULL)
 		;
-	else if ((tab = ft_haspath(all, arg[0], ft_strlen(arg[0]))) != NULL)
+	else if ((tab = ft_haspath(arg[0], ft_strlen(arg[0]), NULL)) != NULL)
 		i = i;
 	if (ft_strchr(arg[0], '/') && (i = ft_errorexec(arg[0])))
 		exit(i);
