@@ -91,7 +91,7 @@ char	**ft_all_redir_bis(char *tab, char **new, int i, int j)
 
 	while (tab[i])
 	{
-		if (tab[i] == '>' || tab[i] == '<')
+		if ((tab[i] == '>' || tab[i] == '<') && !isguillemet(i, tab))
 		{
 			l = 0;
 			k = 0;

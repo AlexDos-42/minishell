@@ -28,7 +28,7 @@ void			ft_suprenv(t_all *all, char *new, unsigned int p, int o)
 	unsigned int	k;
 	char			**new_tab;
 
-	while (all->env[p] && p < all->nb_env - 1)
+	while (all->env[p] && p < all->nb_env)
 	{
 		o = -1;
 		while (all->env[p][++o] && (all->env[p][o] == new[o]))
@@ -43,8 +43,11 @@ void			ft_suprenv(t_all *all, char *new, unsigned int p, int o)
 						new_tab[k++] = ft_strdup(all->env[i]);
 					free(all->env[i++]);
 				}
+				free(all->env[i++]);
 				free(all->env);
 				all->env = new_tab;
+				free(new);
+				return ;
 			}
 		p++;
 	}

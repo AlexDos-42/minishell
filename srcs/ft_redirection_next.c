@@ -20,7 +20,10 @@ void		init_file(t_all *all, char **new, char **redir)
 	while (redir[i] && redir[i][0] != '>')
 		i++;
 	if (redir[i] && redir[i][0] == '>')
+	{
+		istabpipe(new[0], all);
 		ft_create_file(all, new, redir, i);
+	}
 	i = 0;
 	while (redir[i] && redir[i][0] != '<')
 		i++;

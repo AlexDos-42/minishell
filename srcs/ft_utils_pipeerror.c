@@ -107,8 +107,8 @@ void		istabpipe(char *tab, t_all *all)
 		while (tab[i + 4] == ' ')
 			i++;
 		if (tab[i + 4])
-			ft_printf("env: %s:\n", tab);
+			ft_printf("env: %s: Aucun fichier ou dossier de ce type\n", tab);
 	}
-	else
+	else 
 		istabpipe_suite(tab, all, i);
 }

@@ -39,13 +39,33 @@ int			ft_nbnewenv(char **tabnewenv, int j, int k, int i)
 	return (k);
 }
 
+int			dble(char **tab, int i)
+{
+	int				j;
+	int				k;
+
+	j = 1;
+	k = 0;
+	while (tab[i][k] != '=')
+		k++;
+	while (tab && tab[i + j])
+	{
+		if (!ft_strncmp(tab[i], tab[i + j], k))
+			return (1);
+		j++;
+	}
+	return (0);
+}
+
 char		**ft_newenvbis(t_all *all, int i, int eg, char **tabnewenv)
 {
 	int				j;
 
+	while (tabnewenv && tabnewenv[++i])
+		tabnewenv[i] = ft_suprguy(tabnewenv[i]);
+	i = 0;
 	while (tabnewenv && tabnewenv[i])
 	{
-		tabnewenv[i] = ft_suprguy(tabnewenv[i]);
 		if (!tabnewenv[i][0])
 			ft_printf("minishell: export: `': not a valid identifier\n");
 		j = -1;
@@ -53,7 +73,7 @@ char		**ft_newenvbis(t_all *all, int i, int eg, char **tabnewenv)
 		while (tabnewenv[i][++j])
 			if (tabnewenv[i][j] == '=')
 				eg = 1;
-		if (eg == 0 || ft_isenvexist(all, tabnewenv[i]))
+		if (eg == 0 || ft_isenvexist(all, tabnewenv[i]) || dble(tabnewenv, i))
 		{
 			if (eg == 0 && (j = -1))
 				while (tabnewenv[i][++j] && eg == 0)
@@ -83,7 +103,7 @@ int			ft_exportinit(t_all *all, unsigned int i, int j, int nb_newenv)
 	char			**tabnewenv;
 	char			**new_env;
 
-	if ((tabnewenv = ft_newenv(all, 0, 0)) == NULL ||
+	if ((tabnewenv = ft_newenv(all, -1, 0)) == NULL ||
 		!(nb_newenv = ft_nbnewenv(tabnewenv, 0, 0, 0)))
 		return (0);
 	if (!(new_env = malloc((all->nb_env + nb_newenv + 1) * sizeof(char*))))
@@ -92,12 +112,11 @@ int			ft_exportinit(t_all *all, unsigned int i, int j, int nb_newenv)
 	{
 		new_env[i + j] = ft_strdup(all->env[i]);
 		free(all->env[i++]);
-		if (i == all->nb_env - 1)
-			while (j < nb_newenv)
-			{
-				new_env[i + j] = ft_strdup(tabnewenv[j]);
-				j++;
-			}
+	}
+	while (j < nb_newenv)
+	{
+			new_env[i + j] = ft_strdup(tabnewenv[j]);
+			j++;
 	}
 	new_env[i + j] = 0;
 	all->nb_env += nb_newenv;

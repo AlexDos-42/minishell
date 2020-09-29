@@ -56,7 +56,7 @@ int			ft_isenvexist(t_all *all, char *tab)
 	int				o;
 
 	p = 0;
-	while (all->env[p] && p < all->nb_env - 1)
+	while (all->env[p] && p < all->nb_env)
 	{
 		o = 0;
 		while (all->env[p][o] && (all->env[p][o] == tab[o]))
