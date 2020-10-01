@@ -48,9 +48,8 @@ char	**ft_addarg(char **tmp)
 	while (tmp[++i])
 	{
 		new = ft_splitspace(tmp[i], ' ');
-		if (new[1])
+		if (new[1] && !(j = 0))
 		{
-			j = 0;
 			while (new[++j])
 			{
 				tab = ft_strtrim(new[j], "\n");
@@ -67,29 +66,29 @@ char	**ft_addarg(char **tmp)
 	return (tmp);
 }
 
-char	**ft_realsplit(char *tab, char **new, char **redir)
+char	**ft_realsplit(char *t, char **new, char **redir, int k)
 {
 	char	**tmp;
 	int		i;
 	int		j;
-	int		k;
 
-	k = 0;
 	j = 0;
 	i = 0;
 	while (redir[i])
 		i++;
 	tmp = ft_calloc(sizeof(char*), i + 2);
 	i = 0;
-	while (tab[i])
+	while (t[i])
 	{
-		if (tab[i] && ((tab[i] != '<' && tab[i] != '>') || (tab[i] == '<' && tab[i] == '>' && isguillemet(i, tab))) && tab[i] != '\n')
+		if (t[i] && ((t[i] != '<' && t[i] != '>') || (t[i] == '<' &&
+	t[i] == '>' && isguillemet(i, t))) && t[i] != '\n')
 			tmp[j++] = ft_strdup(new[k++]);
 		else
 			tmp[j++] = ft_calloc(1, 1);
-		while (tab[i] && ((tab[i] != '<' && tab[i] != '>') || ((tab[i] == '<' || tab[i] == '>') && isguillemet(i, tab))))
+		while (t[i] && ((t[i] != '<' && t[i] != '>') || ((t[i] == '<'
+	|| t[i] == '>') && isguillemet(i, t))))
 			i++;
-		while (tab[i] && (tab[i] == '<' || tab[i] == '>') && !isguillemet(i, tab))
+		while (t[i] && (t[i] == '<' || t[i] == '>') && !isguillemet(i, t))
 			i++;
 	}
 	ft_freexec(new);

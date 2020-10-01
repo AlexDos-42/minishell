@@ -34,52 +34,49 @@ int		ft_minishell_again(char **tab, t_all *all, int k, int stop)
 
 void	print_err(char c, char *str, int i)
 {
-	int j;
+	int		j;
 
 	j = 0;
 	while (str[++i] && (str[i] == ' ' || str[i] == '\t' || str[i] == c))
 		if (str[i] == c)
 			j++;
 	if (c == ';')
-			ft_printf("minishell: syntax error near unexpected token `;;'\n");
-	if (c == '|')
-	{
+		ft_printf("minishell: syntax error near unexpected token `;;'\n");
+	else if (c == '|')
 		if (j <= 1)
 			ft_printf("minishell: syntax error near unexpected token `|'\n");
 		else
 			ft_printf("minishell: syntax error near unexpected token `||'\n");
-	}
-	if (c == '>')
-	{
+	else if (c == '>')
 		if (j == 0)
 			ft_printf("minishell: syntax error near unexpected token `>'\n");
-		else 
+		else
 			ft_printf("minishell: syntax error near unexpected token `>>'\n");
-	}
-	if (c == '<')
+	else if (c == '<')
 	{
 		if (j <= 2)
 			ft_printf("minishell: syntax error near unexpected token `<'\n");
-		else 
+		else
 			ft_printf("minishell: syntax error near unexpected token `<<'\n");
 	}
 }
 
 int		ifminichek(char *str)
 {
-	int i;
-	char c;
+	int		i;
+	char	c;
 
 	i = 0;
-	while(str[i])
+	while (str[i])
 	{
-		if ((str[i] == ';' || str[i] == '|' || str[i] == '<' || str[i] == '>') && !isguillemet(i, str))
+		if ((str[i] == ';' || str[i] == '|' || str[i] == '<'
+		|| str[i] == '>') && !isguillemet(i, str))
 		{
 			c = str[i];
 			if (c == '>' && str[i + 1] && str[i + 1] == '>')
 				i++;
 			i++;
-			while(str[i] == ' ' || str[i] == '\t')
+			while (str[i] == ' ' || str[i] == '\t')
 				i++;
 			if (str[i] == c)
 			{
@@ -105,17 +102,18 @@ int		ft_minishell(t_all *all, char *str)
 		if (str[k] == ';')
 		{
 			if (str[k + 1] && str[k + 1] == ';')
-				ft_printf("minishell: syntax error near unexpected token `;;'\n");
+				ft_printf(
+					"minishell: syntax error near unexpected token `;;'\n");
 			else
-				ft_printf("minishell: syntax error near unexpected token `;'\n");
+				ft_printf(
+					"minishell: syntax error near unexpected token `;'\n");
 			g_ret = 1;
 			return (stop);
 		}
 	if (ifminichek(str))
-		return(stop);
+		return (stop);
 	tab = ft_splitslash(str, ";");
-	k = -1;
-	stop = ft_minishell_again(tab, all, k, stop);
+	stop = ft_minishell_again(tab, all, -1, stop);
 	if (tab)
 		free(tab);
 	return (stop);

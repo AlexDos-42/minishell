@@ -109,6 +109,6 @@ void		istabpipe(char *tab, t_all *all)
 		if (tab[i + 4])
 			ft_printf("env: %s: Aucun fichier ou dossier de ce type\n", tab);
 	}
-	else 
+	else
 		istabpipe_suite(tab, all, i);
 }

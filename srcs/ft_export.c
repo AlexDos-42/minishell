@@ -39,24 +39,6 @@ int			ft_nbnewenv(char **tabnewenv, int j, int k, int i)
 	return (k);
 }
 
-int			dble(char **tab, int i)
-{
-	int				j;
-	int				k;
-
-	j = 1;
-	k = 0;
-	while (tab[i][k] != '=')
-		k++;
-	while (tab && tab[i + j])
-	{
-		if (!ft_strncmp(tab[i], tab[i + j], k))
-			return (1);
-		j++;
-	}
-	return (0);
-}
-
 char		**ft_newenvbis(t_all *all, int i, int eg, char **tabnewenv)
 {
 	int				j;
@@ -115,8 +97,8 @@ int			ft_exportinit(t_all *all, unsigned int i, int j, int nb_newenv)
 	}
 	while (j < nb_newenv)
 	{
-			new_env[i + j] = ft_strdup(tabnewenv[j]);
-			j++;
+		new_env[i + j] = ft_strdup(tabnewenv[j]);
+		j++;
 	}
 	new_env[i + j] = 0;
 	all->nb_env += nb_newenv;

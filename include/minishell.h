@@ -81,6 +81,7 @@ int					ft_isenvexist(t_all *all, char *tab);
 char				**ft_exporterreur(char **str, int j);
 int					ft_unset(t_all *all);
 void				export_solo(t_all *all);
+int					dble(char **tab, int i);
 
 /*
 ** --REPLACE--
@@ -132,7 +133,7 @@ char				*ft_redirection(char *tab, t_all *all);
 int					redirspace(char **redir);
 char				*ft_join(char **redir, char **new, t_all *all);
 int					redirerror_bis(char **redir);
-char				**ft_realsplit(char *tab, char **new, char **redir);
+char				**ft_realsplit(char *tab, char **new, char **redir, int k);
 char				**ft_addarg(char **tmp);
 char				**ft_allredir(char *tab);
 int					redirerror(char **tab, char **redir);

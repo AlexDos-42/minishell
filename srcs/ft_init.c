@@ -12,6 +12,24 @@
 
 #include "../include/minishell.h"
 
+int				dble(char **tab, int i)
+{
+	int		j;
+	int		k;
+
+	j = 1;
+	k = 0;
+	while (tab[i][k] != '=')
+		k++;
+	while (tab && tab[i + j])
+	{
+		if (!ft_strncmp(tab[i], tab[i + j], k))
+			return (1);
+		j++;
+	}
+	return (0);
+}
+
 static void		ft_remplace(t_all *all)
 {
 	int		i;

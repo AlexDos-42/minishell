@@ -28,23 +28,20 @@ void			ft_suprenv(t_all *all, char *new, unsigned int p, int o)
 	unsigned int	k;
 	char			**new_tab;
 
-	while (all->env[p] && p < all->nb_env)
+	while (all->env[p] && p < all->nb_env && ((o = -1) == -1))
 	{
-		o = -1;
 		while (all->env[p][++o] && (all->env[p][o] == new[o]))
-			if (all->env[p][o + 1] == '=')
+			if (all->env[p][o + 1] == '=' && !(k = 0))
 			{
 				i = 0;
-				k = 0;
 				new_tab = ft_calloc(sizeof(char*), all->nb_env--);
 				while (k < all->nb_env)
 				{
 					if (i != p)
 						new_tab[k++] = ft_strdup(all->env[i]);
-					free(all->env[i++]);
+					i++;
 				}
-				free(all->env[i++]);
-				free(all->env);
+				ft_freexec(all->env);
 				all->env = new_tab;
 				free(new);
 				return ;

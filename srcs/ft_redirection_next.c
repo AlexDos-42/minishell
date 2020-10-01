@@ -93,7 +93,7 @@ char		*ft_redirection_suite(char *tab, t_all *all, char **redir, int i)
 	char	**new;
 	char	*tmp;
 
-	new = ft_realsplit(tab, ft_splitslash(tab, "><"), redir);
+	new = ft_realsplit(tab, ft_splitslash(tab, "><"), redir, 0);
 	if (redirerror(new, redir))
 	{
 		ft_addarg(new);
