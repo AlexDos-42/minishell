@@ -69,7 +69,7 @@ void		istabpipe_suite4(char *tab, t_all *all)
 	char		*tmpp;
 	char		**new;
 
-	if (tab && tab[ft_strlen(tab) - 1] == '\n')
+	if (tab && tab[ft_strlen(tab) ? ft_strlen(tab) - 1 : 0] == '\n')
 	{
 		tmpp = ft_substr(tab, 0, ft_strlen(tab) - 1);
 		tmp = ft_strtrimslash(tmpp, " ");
@@ -84,7 +84,7 @@ void		istabpipe_suite4(char *tab, t_all *all)
 	if (isexec(tmp))
 		return (free(tmp));
 	tmp = ispath(tmp, all);
-	if (!ft_existpipe(all, tmp, -1))
+	if (!ft_existpipe(all, tmp, -1) && tmp && tmp[0])
 		ft_printf("minishell: %s: command not found\n", tmp);
 	free(tmp);
 	ft_freexec(new);
