@@ -21,6 +21,11 @@ void		export_solo(t_all *all)
 	{
 		ft_printf("export %s\n", all->env[i]);
 	}
+	i = -1;
+	while (all->ext[++i])
+	{
+		ft_printf("export %s\n", all->ext[i]);
+	}
 	free(all->tab);
 }
 

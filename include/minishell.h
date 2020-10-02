@@ -34,6 +34,8 @@ typedef struct		s_all
 	char			*tab;
 	char			*pwd;
 	char			**env;
+	char			**ext;
+	int				nb_ext;
 	int				ret;
 	size_t			nb_env;
 	int				fdin;

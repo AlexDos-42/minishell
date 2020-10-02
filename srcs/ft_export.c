@@ -39,6 +39,25 @@ int			ft_nbnewenv(char **tabnewenv, int j, int k, int i)
 	return (k);
 }
 
+void		put_export(int eg, t_all *all, int j, char *tab)
+{
+	char	**tmp;
+	int		i;
+
+	i = -1;
+	if (eg == 1 || (eg == 0 && j == 1))
+		return ;
+	tmp = ft_calloc(sizeof(char*), all->nb_ext + 2);
+	while (++i < all->nb_ext)
+		tmp[i] = ft_strdup(all->ext[i]);
+	if (i != 0)
+		ft_freexec(all->ext);
+	tmp[i] = ft_strdup(tab);
+	tmp[++i] = NULL;
+	all->ext = tmp;
+	all->nb_ext++;
+}
+
 char		**ft_newenvbis(t_all *all, int i, int eg, char **tabnewenv)
 {
 	int				j;
@@ -57,6 +76,7 @@ char		**ft_newenvbis(t_all *all, int i, int eg, char **tabnewenv)
 				eg = 1;
 		if (eg == 0 || ft_isenvexist(all, tabnewenv[i]) || dble(tabnewenv, i))
 		{
+			put_export(eg, all, j, tabnewenv[i]);
 			if (eg == 0 && (j = -1))
 				while (tabnewenv[i][++j] && eg == 0)
 					eg = isexporterror(tabnewenv[i], j);
