@@ -25,15 +25,16 @@ void	ft_prompt(t_all *all, char *tmp, char *str)
 		str = ft_strjoin(str, tmp, 1);
 		if (ft_strnstr(str, "\n", ft_strlen(str)))
 		{
-			if (ft_minishell(all, str) == 2)
-			{
-				i = -1;
-				while (all->env[++i])
-					free(all->env[i]);
-				free(all->env);
-				free(str);
-				exit(g_ret);
-			}
+			if (str[0] != '\n')
+				if (ft_minishell(all, str) == 2)
+				{
+					i = -1;
+					while (all->env[++i])
+						free(all->env[i]);
+					free(all->env);
+					free(str);
+					exit(g_ret);
+				}
 			free(str);
 			str = malloc(sizeof(char) * 1);
 			str[0] = '\0';
@@ -51,7 +52,6 @@ void	ctrl(int signal)
 		;
 	if (signal == SIGINT)
 	{
-		g_inter = 1;
 		g_ret = 130;
 		write(1, "\n", 1);
 		if (status == 0)
@@ -59,9 +59,10 @@ void	ctrl(int signal)
 	}
 	else if (status == 131)
 	{
-		g_ret = 131;
-		write(1, "Quit (core dumped)\n", 19);
 		g_inter = 1;
+		g_ret = 131;
+		wait(&status);
+		write(1, "Quit (core dumped)\n", 19);
 	}
 }
 

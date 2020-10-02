@@ -98,6 +98,9 @@ int		ft_minishell(t_all *all, char *str)
 
 	stop = 0;
 	k = -1;
+	if (g_inter == 1)
+		g_ret = 131;
+	g_inter = 0;
 	while (str[++k] && (str[k] == ';' || str[k] == ' '))
 		if (str[k] == ';')
 		{
