@@ -22,11 +22,22 @@ void	ft_putstr_echo(char *str, int fd)
 	free(str);
 }
 
-void	ft_echo_bis(char *tmp, char **new, int i)
+int	ft_echo_bis(char **new, int i)
 {
-	free(tmp);
-	while (new[++i] && !ft_strncmp(new[i], "-n", 2) && ft_strlen(new[i]) == 2)
-		free(new[i]);
+	int j;
+
+	while (new[++i] && !ft_strncmp(new[i], "-n", 2))
+	{
+		j = 1;
+		while (new[i][j] && new[i][j] == 'n')
+			j++;
+		if (i == 0 && new[0][j])
+			return (0);
+		if (!new[i][j])
+			free(new[i]);
+		else
+			break;
+	}
 	while (new[i])
 	{
 		ft_putstr_echo(new[i], 1);
@@ -35,11 +46,12 @@ void	ft_echo_bis(char *tmp, char **new, int i)
 		++i;
 	}
 	free(new);
+	return (1);
 }
 
-void	ft_echo_cond(char *tmp, char **new, int i)
+void	ft_echo_cond(char **new, int i)
 {
-	free(tmp);
+	
 	while (new[++i])
 	{
 		ft_putstr_echo(new[i], 1);
@@ -59,13 +71,18 @@ int		ft_echo(t_all *all)
 	i = -1;
 	tmp = ft_strtrimslash(all->tab, " ");
 	new = ft_splitspace(tmp, ' ');
+	free(tmp);
 	while (new[++i])
 		new[i] = ft_suprguy(new[i]);
 	i = -1;
-	if (new[0] && !ft_strncmp(new[0], "-n", 2) && ft_strlen(new[0]) == 2)
-		ft_echo_bis(tmp, new, i);
-	else
-		ft_echo_cond(tmp, new, i);
+	if (new[0] && !ft_strncmp(new[0], "-n", 2))
+		if (ft_echo_bis(new, i))
+		{
+			free(all->tab);
+			return (g_ret = 0);
+		}
+	i = -1;
+	ft_echo_cond(new, i);
 	free(all->tab);
 	return (g_ret = 0);
 }
