@@ -49,13 +49,13 @@ typedef struct		s_all
 */
 
 int					main(int argc, char **argv, char **env);
-void				ft_prompt(t_all *all, char *tmp, char *str);
+void				ft_prompt(t_all *all, char *tmp, char *str, int i);
 
 /*
 ** --PARSING--
 */
 
-int					ft_minishell(t_all *all, char *str);
+int					ft_minishell(t_all *all, char *str, int stop, int k);
 void				ft_nbfct(t_all *all, char *tab);
 int					ft_ptrfct(t_all *all);
 int					ft_loop(char *tab, t_all *all);
@@ -80,6 +80,8 @@ int					ft_export(t_all *all);
 char				**ft_freetab(char **tabnewenv, int i);
 int					isexporterror(char *tab, int j);
 int					ft_isenvexist(t_all *all, char *tab);
+int					ft_isenvexist_ext(t_all *all, char *tab);
+void				put_export(int eg, t_all *all, int j, char *tab);
 int					ft_isenvexist_ext(t_all *all, char *tab);
 char				**ft_exporterreur(char **str, int j);
 int					ft_unset(t_all *all);

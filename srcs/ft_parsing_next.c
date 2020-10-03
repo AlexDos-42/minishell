@@ -90,14 +90,10 @@ int		ifminichek(char *str)
 	return (0);
 }
 
-int		ft_minishell(t_all *all, char *str)
+int		ft_minishell(t_all *all, char *str, int stop, int k)
 {
-	int		k;
 	char	**tab;
-	int		stop;
 
-	stop = 0;
-	k = -1;
 	if (g_inter == 1)
 		g_ret = 131;
 	g_inter = 0;

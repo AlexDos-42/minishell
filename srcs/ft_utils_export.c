@@ -56,26 +56,6 @@ char		**ft_exporterreur(char **str, int j)
 	return (new);
 }
 
-int			ft_isenvexist_ext(t_all *all, char *tab)
-{
-	int				p;
-	int				o;
-
-	p = 0;
-	while (all->nb_ext && all->ext[p] && p < all->nb_ext)
-	{
-		o = 0;
-		while (all->ext[p][o] && (all->ext[p][o] == tab[o]))
-		{
-			if (!all->ext[p][o + 1] && !tab[o + 1])
-				return (1);
-			o++;
-		}
-		p++;
-	}
-	return (0);
-}
-
 int			ft_isenvexist(t_all *all, char *tab)
 {
 	unsigned int	p;

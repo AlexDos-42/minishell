@@ -22,7 +22,7 @@ void	ft_putstr_echo(char *str, int fd)
 	free(str);
 }
 
-int	ft_echo_bis(char **new, int i)
+int		ft_echo_bis(char **new, int i)
 {
 	int j;
 
@@ -36,7 +36,7 @@ int	ft_echo_bis(char **new, int i)
 		if (!new[i][j])
 			free(new[i]);
 		else
-			break;
+			break ;
 	}
 	while (new[i])
 	{
@@ -51,7 +51,6 @@ int	ft_echo_bis(char **new, int i)
 
 void	ft_echo_cond(char **new, int i)
 {
-	
 	while (new[++i])
 	{
 		ft_putstr_echo(new[i], 1);
@@ -85,4 +84,24 @@ int		ft_echo(t_all *all)
 	ft_echo_cond(new, i);
 	free(all->tab);
 	return (g_ret = 0);
+}
+
+int		ft_isenvexist_ext(t_all *all, char *tab)
+{
+	int		p;
+	int		o;
+
+	p = 0;
+	while (all->nb_ext && all->ext[p] && p < all->nb_ext)
+	{
+		o = 0;
+		while (all->ext[p][o] && (all->ext[p][o] == tab[o]))
+		{
+			if (!all->ext[p][o + 1] && !tab[o + 1])
+				return (1);
+			o++;
+		}
+		p++;
+	}
+	return (0);
 }

@@ -23,7 +23,8 @@ int				dble_ext(char **tab, int i)
 		k++;
 	while (tab && tab[i + j])
 	{
-		if (!ft_strncmp(tab[i], tab[i + j], k) && ft_strlen(tab[i + j]) == ft_strlen(tab[i]))
+		if (!ft_strncmp(tab[i], tab[i + j], k) &&
+		ft_strlen(tab[i + j]) == ft_strlen(tab[i]))
 			return (0);
 		j++;
 	}

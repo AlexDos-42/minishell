@@ -24,8 +24,8 @@ int				ft_error(char *tmp)
 
 void			ft_suprext(t_all *all, char *new, int p, int o)
 {
-	int	i;
-	int	k;
+	int				i;
+	int				k;
 	char			**new_tab;
 
 	while (all->nb_ext && all->ext[p] && p < all->nb_ext && ((o = -1) == -1))
