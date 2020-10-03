@@ -1,7 +1,12 @@
+_BOLD		=\e[1m
 _R			=\e[0m
+
 _RED		=\e[91m
 _GREEN		=\e[92m
+_YELLOW		=\e[93m
 _BLUE		=\e[94m
+_MAGENTA	=\e[35m
+_CYAN		=\e[96m
 _WHITE		=\e[97m
 
 # **************************************************************************** #
@@ -68,7 +73,7 @@ $(OBJ_DIR)/%.o: %.c
 	@gcc $(FLAGS) -I $(HEADERS)  -c $< -o $@
 	@echo "$(_GREEN)Compiling :$(_WHITE) $<$(_R)"
 
-$(NAME): $(INC) $(OBJ)
+$(NAME): titre $(INC) $(OBJ)
 	@echo "$(_GREEN)Compilation completed.$(_R)"
 	@make -C libft/ > /dev/null
 	@(gcc $(FLAGS) -I $(HEADERS)  -o $@ $(OBJ) $(LIBS))
@@ -87,4 +92,8 @@ fclean:	clean
 
 re:	fclean all
 
-.PHONY:	all clean fclean re
+titre:
+	@echo "\e[1;92mMinishell - 42 project -$(_R)"
+	@echo "\e[1;92m________________________$(_R)"
+
+.PHONY:	all clean fclean re titre
