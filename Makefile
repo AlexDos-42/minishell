@@ -71,13 +71,13 @@ all: $(NAME)
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(OBJ_DIR)
 	@gcc $(FLAGS) -I $(HEADERS)  -c $< -o $@
-	@echo "$(_GREEN)Compiling :$(_WHITE) $<$(_R)"
+	@echo "$(_YELLOW)Compiling :$(_WHITE) $<$(_R)"
 
 $(NAME): titre $(INC) $(OBJ)
-	@echo "$(_GREEN)Compilation completed.$(_R)"
+	@echo "$(_YELLOW)Compilation completed.$(_R)"
 	@make -C libft/ > /dev/null
 	@(gcc $(FLAGS) -I $(HEADERS)  -o $@ $(OBJ) $(LIBS))
-	@(echo "$(_GREEN)Executable $(NAME) created.$(_R)")
+	@(echo "$(_YELLOW)Executable $(NAME) created.$(_R)")
 
 clean:
 	@echo "$(_BLUE)Clean$(_R)"
@@ -93,7 +93,7 @@ fclean:	clean
 re:	fclean all
 
 titre:
-	@echo "\e[1;92mMinishell - 42 project -$(_R)"
-	@echo "\e[1;92m________________________$(_R)"
+	@echo "\e[1;93mMinishell - 42 project -$(_R)"
+	@echo "\e[1;93m________________________$(_R)"
 
 .PHONY:	all clean fclean re titre
