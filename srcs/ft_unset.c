@@ -22,6 +22,33 @@ int				ft_error(char *tmp)
 	return (0);
 }
 
+void			ft_suprext(t_all *all, char *new, int p, int o)
+{
+	int	i;
+	int	k;
+	char			**new_tab;
+
+	while (all->nb_ext && all->ext[p] && p < all->nb_ext && ((o = -1) == -1))
+	{
+		while (all->ext[p][++o] && new[o] && (all->ext[p][o] == new[o]))
+			if (!(all->ext[p][o + 1]) && !new[o + 1] && !(k = 0))
+			{
+				i = -1;
+				new_tab = ft_calloc(sizeof(char*), all->nb_ext--);
+				while (k < all->nb_ext)
+					if (++i != p)
+						new_tab[k++] = ft_strdup(all->ext[i]);
+				new_tab[k] = NULL;
+				ft_freexec(all->ext);
+				all->ext = new_tab;
+				if (all->nb_ext == 0)
+					ft_freexec(all->ext);
+				return ;
+			}
+		p++;
+	}
+}
+
 void			ft_suprenv(t_all *all, char *new, unsigned int p, int o)
 {
 	unsigned int	i;
@@ -31,16 +58,13 @@ void			ft_suprenv(t_all *all, char *new, unsigned int p, int o)
 	while (all->env[p] && p < all->nb_env && ((o = -1) == -1))
 	{
 		while (all->env[p][++o] && (all->env[p][o] == new[o]))
-			if (all->env[p][o + 1] == '=' && !(k = 0))
+			if (all->env[p][o + 1] == '=' && !new[o + 1] && !(k = 0))
 			{
-				i = 0;
+				i = -1;
 				new_tab = ft_calloc(sizeof(char*), all->nb_env--);
 				while (k < all->nb_env)
-				{
-					if (i != p)
+					if (++i != p)
 						new_tab[k++] = ft_strdup(all->env[i]);
-					i++;
-				}
 				ft_freexec(all->env);
 				all->env = new_tab;
 				free(new);
@@ -48,6 +72,7 @@ void			ft_suprenv(t_all *all, char *new, unsigned int p, int o)
 			}
 		p++;
 	}
+	ft_suprext(all, new, 0, 0);
 	free(new);
 }
 

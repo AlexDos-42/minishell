@@ -12,6 +12,24 @@
 
 #include "../include/minishell.h"
 
+int				dble_ext(char **tab, int i)
+{
+	int		j;
+	int		k;
+
+	j = 1;
+	k = 0;
+	while (!tab[i][k])
+		k++;
+	while (tab && tab[i + j])
+	{
+		if (!ft_strncmp(tab[i], tab[i + j], k) && ft_strlen(tab[i + j]) == ft_strlen(tab[i]))
+			return (0);
+		j++;
+	}
+	return (1);
+}
+
 int				dble(char **tab, int i)
 {
 	int		j;
@@ -23,7 +41,7 @@ int				dble(char **tab, int i)
 		k++;
 	while (tab && tab[i + j])
 	{
-		if (!ft_strncmp(tab[i], tab[i + j], k))
+		if (!ft_strncmp(tab[i], tab[i + j], k) && tab[i + j][k] == '=')
 			return (1);
 		j++;
 	}

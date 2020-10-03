@@ -41,7 +41,7 @@ int			ft_nbnewenv(char **tabnewenv, int j, int k, int i)
 
 void		put_export(int eg, t_all *all, int j, char *tab)
 {
-	char	**tmp;
+	char				**tmp;
 	int		i;
 
 	i = -1;
@@ -76,7 +76,8 @@ char		**ft_newenvbis(t_all *all, int i, int eg, char **tabnewenv)
 				eg = 1;
 		if (eg == 0 || ft_isenvexist(all, tabnewenv[i]) || dble(tabnewenv, i))
 		{
-			put_export(eg, all, j, tabnewenv[i]);
+			if (dble_ext(tabnewenv, i) && !ft_isenvexist_ext(all, tabnewenv[i]))
+				put_export(eg, all, j, tabnewenv[i]);
 			if (eg == 0 && (j = -1))
 				while (tabnewenv[i][++j] && eg == 0)
 					eg = isexporterror(tabnewenv[i], j);

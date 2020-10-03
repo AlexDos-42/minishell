@@ -22,10 +22,11 @@ void		export_solo(t_all *all)
 		ft_printf("export %s\n", all->env[i]);
 	}
 	i = -1;
-	while (all->ext[++i])
-	{
-		ft_printf("export %s\n", all->ext[i]);
-	}
+	if (all->nb_ext > 0)
+		while (all->ext[++i])
+		{
+			ft_printf("export %s\n", all->ext[i]);
+		}
 	free(all->tab);
 }
 
@@ -53,6 +54,26 @@ char		**ft_exporterreur(char **str, int j)
 	ft_freexec(str);
 	g_ret = 1;
 	return (new);
+}
+
+int			ft_isenvexist_ext(t_all *all, char *tab)
+{
+	int				p;
+	int				o;
+
+	p = 0;
+	while (all->nb_ext && all->ext[p] && p < all->nb_ext)
+	{
+		o = 0;
+		while (all->ext[p][o] && (all->ext[p][o] == tab[o]))
+		{
+			if (!all->ext[p][o + 1] && !tab[o + 1])
+				return (1);
+			o++;
+		}
+		p++;
+	}
+	return (0);
 }
 
 int			ft_isenvexist(t_all *all, char *tab)

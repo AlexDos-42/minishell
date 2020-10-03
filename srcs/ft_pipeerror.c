@@ -25,7 +25,7 @@ char		*ispath(char *tmp, t_all *all)
 		{
 			if (!ft_strncmp(tmp, path[i], ft_strlen(path[i])))
 			{
-				tab = ft_strdup(&tmp[ft_strlen(path[i])]);
+				tab = ft_strdup(&tmp[ft_strlen(path[i]) + 1]);
 				ft_freexec(path);
 				free(tmp);
 				return (tab);

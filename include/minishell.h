@@ -80,10 +80,12 @@ int					ft_export(t_all *all);
 char				**ft_freetab(char **tabnewenv, int i);
 int					isexporterror(char *tab, int j);
 int					ft_isenvexist(t_all *all, char *tab);
+int					ft_isenvexist_ext(t_all *all, char *tab);
 char				**ft_exporterreur(char **str, int j);
 int					ft_unset(t_all *all);
 void				export_solo(t_all *all);
 int					dble(char **tab, int i);
+int					dble_ext(char **tab, int i);
 
 /*
 ** --REPLACE--
