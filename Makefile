@@ -1,3 +1,9 @@
+_R			=\e[0m
+_RED		=\e[91m
+_GREEN		=\e[92m
+_BLUE		=\e[94m
+_WHITE		=\e[97m
+
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
@@ -10,7 +16,7 @@
 #                                                                              #
 # **************************************************************************** #
 
-NAME = minishell 
+NAME = minishell
 
 SRC =		main.c \
 		ft_parsing.c \
@@ -40,14 +46,18 @@ SRC =		main.c \
 		ft_redirection_next.c \
 		ft_redirection_bis.c \
 
-PATHSRCS = srcs
+HEADERS = ./include/
+INC = minishell.h
+vpath %.h $(HEADERS)
 
-HEADERS = ./include
+PATHSRCS = ./srcs
+SRCS = $(addprefix $(PATHSRCS)/,$(SRC))
+
+OBJ_DIR = obj
+OBJ = $(addprefix $(OBJ_DIR)/,$(SRC:%.c=%.o))
+vpath %.c $(PATHSRCS)
 
 FLAGS = -Wall -Wextra -Werror -g -fsanitize=address 
-
-SRCS = $(addprefix $(PATHSRCS)/,$(SRC))
-OBJS = $(addprefix $(PATHSRCS)/,$(SRC:%.c=%.o))
 
 LIBS = ./libft/libft.a
 
@@ -55,22 +65,24 @@ all: $(NAME)
 
 $(OBJ_DIR)/%.o: %.c
 	@mkdir -p $(OBJ_DIR)
-	@(gcc $(FLAGS) -c $< -o $@)
+	@gcc $(FLAGS) -I $(HEADERS)  -c $< -o $@
+	@echo "$(_GREEN)Compiling :$(_WHITE) $<$(_R)"
 
-$(NAME): $(OBJS)
-	@echo "Compilation..."
-	@(make re -C libft/)
-	@(gcc $(FLAGS) $(SRCS) $(LIBS) -o $(NAME))
-	@(echo "Compilation terminée")
+$(NAME): $(INC) $(OBJ)
+	@echo "$(_GREEN)Compilation completed.$(_R)"
+	@make -C libft/ > /dev/null
+	@(gcc $(FLAGS) -I $(HEADERS)  -o $@ $(OBJ) $(LIBS))
+	@(echo "$(_GREEN)Executable $(NAME) created.$(_R)")
 
 clean:
-	@echo "Clean"
-	@(make clean -C ./libft/)
+	@echo "$(_BLUE)Clean$(_R)"
+	@make clean -C ./libft/ > /dev/null
 	@(rm -rf ./srcs/*.o)
+	@(rm -rf $(OBJ_DIR))
 
 fclean:	clean
-	@echo "Fclean"
-	@(make fclean -C ./libft/)
+	@echo "$(_BLUE)Fclean$(_R)"
+	@make fclean -C ./libft/ > /dev/null
 	@(rm -rf $(NAME))
 
 re:	fclean all
