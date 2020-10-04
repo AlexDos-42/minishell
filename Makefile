@@ -22,6 +22,7 @@ _WHITE		=\e[97m
 # **************************************************************************** #
 
 NAME = minishell
+LOG = $(LOGPATH) 'date +'%y.%m.%d %H:%M:%S''
 
 SRC =		main.c \
 		ft_parsing.c \
@@ -91,6 +92,11 @@ fclean:	clean
 	@(rm -rf $(NAME))
 
 re:	fclean all
+
+git: fclean
+	git add *
+	git commit -m "$(LOG): ---"
+	git push
 
 titre:
 	@echo "\e[1;93mMinishell - 42 project -$(_R)"
