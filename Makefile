@@ -22,7 +22,7 @@ _WHITE		=\e[97m
 # **************************************************************************** #
 
 NAME = minishell
-LOG = $(LOGPATH) 'date +'%y.%m.%d %H:%M:%S''
+LOG = $(LOGPATH) `date +'%y.%m.%d %H:%M:%S'`
 
 SRC =		main.c \
 		ft_parsing.c \
