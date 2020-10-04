@@ -23,6 +23,7 @@ _WHITE		=\e[97m
 
 NAME = minishell
 LOGFILE = $(LOGPATH) `date +'%y.%m.%d %H:%M:%S'`
+MSG = ---
 
 SRC =		main.c \
 		ft_parsing.c \
@@ -95,7 +96,7 @@ re:	fclean all
 
 git: fclean
 	git add *
-	git commit -m "$(LOGFILE): ---"
+	git commit -m "$(LOGFILE): $(MSG)"
 	git push
 
 titre:
