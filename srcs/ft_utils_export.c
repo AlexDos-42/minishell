@@ -15,11 +15,16 @@
 void		export_solo(t_all *all)
 {
 	int		i;
+	int		k;
 
 	i = -1;
 	while (all->env[++i])
 	{
-		ft_printf("export %s\n", all->env[i]);
+		k = -1;
+		ft_printf("export ");
+		while (all->env[i][++k] != '=')
+			write(1, &all->env[i][k], 1);
+		ft_printf("=\"%s\"\n", &all->env[i][k + 1]);
 	}
 	i = -1;
 	if (all->nb_ext > 0)
