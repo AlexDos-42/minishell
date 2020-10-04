@@ -22,8 +22,6 @@ _WHITE		=\e[97m
 # **************************************************************************** #
 
 NAME = minishell
-LOGFILE = $(LOGPATH) `date +'%y.%m.%d %H:%M:%S'`
-MSG = ---
 
 SRC =		main.c \
 		ft_parsing.c \
@@ -53,27 +51,32 @@ SRC =		main.c \
 		ft_redirection_next.c \
 		ft_redirection_bis.c \
 
+### Librairies ###
 HEADERS = ./include/
 INC = minishell.h
 vpath %.h $(HEADERS)
 
+### Sources ###
 PATHSRCS = ./srcs
 SRCS = $(addprefix $(PATHSRCS)/,$(SRC))
 
+### Objets ###
 OBJ_DIR = obj
-OBJ = $(addprefix $(OBJ_DIR)/,$(SRC:%.c=%.o))
+OBJ = $(addprefix $(OBJ_DIR)/,$(SRC:.c=.o))
 vpath %.c $(PATHSRCS)
 
+### Flags ###
 FLAGS = -Wall -Wextra -Werror -g -fsanitize=address 
 
+### Libft ###
 LIBS = ./libft/libft.a
 
 all: $(NAME)
 
-$(OBJ_DIR)/%.o: %.c
+$(OBJ_DIR)/%.o: $(PATHSRCS)/%.c
 	@mkdir -p $(OBJ_DIR)
-	@gcc $(FLAGS) -I $(HEADERS)  -c $< -o $@
-	@echo "$(_YELLOW)Compiling :$(_WHITE) $<$(_R)"
+	@gcc $(FLAGS) -I $(HEADERS) -c $< -o $@
+	@echo "$(_YELLOW)Compiling ➜$(_WHITE) $<$(_R)"
 
 $(NAME): titre $(INC) $(OBJ)
 	@echo "$(_YELLOW)Compilation completed.$(_R)"
@@ -93,11 +96,6 @@ fclean:	clean
 	@(rm -rf $(NAME))
 
 re:	fclean all
-
-git: fclean
-	git add *
-	git commit -m "$(LOGFILE): $(MSG)"
-	git push
 
 titre:
 	@echo "\e[1;93mMinishell - 42 project -$(_R)"
