@@ -45,7 +45,7 @@ char		**ft_exporterreur(char **str, int j)
 	k = 0;
 	while (str && str[i])
 		i++;
-	if (i != 1)
+	if (i > 1)
 	{
 		new = ft_calloc(i, sizeof(char *));
 		i = -1;

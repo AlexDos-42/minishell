@@ -86,7 +86,7 @@ int		ft_echo(t_all *all)
 	return (g_ret = 0);
 }
 
-int		ft_isenvexist_ext(t_all *all, char *tab)
+int		isenvexist_ext(t_all *all, char *tab)
 {
 	int		p;
 	int		o;

@@ -78,10 +78,10 @@ $(OBJ_DIR)/%.o: $(PATHSRCS)/%.c
 	@gcc $(FLAGS) -I $(HEADERS) -c $< -o $@
 	@echo "$(_YELLOW)Compiling ➜$(_WHITE) $<$(_R)"
 
-$(NAME): titre $(INC) $(OBJ)
+$(NAME): titre $(OBJ)
 	@echo "$(_YELLOW)Compilation completed.$(_R)"
 	@make -C libft/ > /dev/null
-	@(gcc $(FLAGS) -I $(HEADERS)  -o $@ $(OBJ) $(LIBS))
+	@(gcc $(FLAGS) -I $(HEADERS) $(OBJ) -o $(NAME) $(LIBS))
 	@(echo "$(_YELLOW)Executable $(NAME) created.$(_R)")
 
 clean:

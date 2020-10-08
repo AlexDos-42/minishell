@@ -12,103 +12,110 @@
 
 #include "../include/minishell.h"
 
-void		istabpipe_next(char *tmp, int i, int j, char *tab)
-{
-	tmp = ft_substr(tab, i + 7, j);
-	ft_printf("minishell: unset: « %s »");
-	ft_printf("%s: identifiant non valable\n", tmp);
-	free(tmp);
-}
-
-void		istabpipe_suite2(char *tab, t_all *all, int i)
-{
-	int			j;
-	int			k;
-	char		*tmp;
-
-	tmp = 0;
-	if (!ft_strncmp(&tab[i], "export ", 7))
-	{
-		while (tab[i + 7])
-		{
-			k = 0;
-			j = 0;
-			while (tab[i + 7] == ' ')
-				i++;
-			if (tab[i + 7] == '=')
-				k = 1;
-			while (tab[i + 7 + j] && tab[i + 7 + j] != ' ')
-				j++;
-			if (k == 1)
-				istabpipe_next(tmp, i, j, tab);
-			i += j;
-		}
-	}
-	else
-		istabpipe_suite3(tab, all, i);
-}
-
-void		istabpipe_bis(char *tmp, int i, int j, char *tab)
-{
-	tmp = ft_substr(tab, i + 3, j);
-	if ((ft_strlen(tmp) == 1 && (tmp[0] != '.' || tmp[0] != '~')) ||
-	(ft_strlen(tmp) == 2 && tmp[0] != '.' && tmp[1] != '.')
-	|| chdir(tmp) != 0)
-		ft_printf("cd: %s: %s\n", strerror(errno), tmp);
-	free(tmp);
-}
-
-void		istabpipe_suite(char *tab, t_all *all, int i)
+void		istabpipe_next(char **new, int i)
 {
 	int			j;
 	char		*tmp;
-	int			k;
 
-	tmp = 0;
-	if (!ft_strncmp(&tab[i], "cd ", 3))
+	tmp = "not a valid identifier";
+	while (new[++i])
 	{
-		j = 0;
-		k = 0;
-		while (tab[i + 3] == ' ')
-			i++;
-		while (tab[i + 3 + j + k])
+		new[i] = ft_suprguy(new[i]);
+		j = -1;
+		if ((new[i][0] > 47 && new[i][0] < 58) || new[i][0] == '=')
 		{
-			j += k;
-			k = 0;
-			j++;
-			while (tab[i + 3 + j + k] == ' ')
-				k++;
+			if (g_pipe != 2)
+				ft_printf("minishell: export: `%s': %s\n", new[i], tmp);
+			g_quit = 1;
 		}
-		if (j)
-			istabpipe_bis(tmp, i, j, tab);
+		else
+			while (new[i][++j] && new[i][j] != '=')
+				if (new[i][j] < 48 || (new[i][j] > 58 && new[i][j] < 65) ||
+				(new[i][j] > 90 && new[i][j] < 97) || new[i][j] > 122)
+				{
+					if (g_pipe != 2)
+						ft_printf("minishell: export: `%s': %s\n", new[i], tmp);
+					g_quit = 1;
+					break ;
+				}
+	}
+}
+
+void		istabpipe_suite2(char **new, t_all *all, int i)
+{
+	if (!ft_strncmp(new[0], "export", 6) && !new[0][i + 6])
+	{
+		if (new[0])
+			istabpipe_next(new, 0);
 	}
 	else
-		istabpipe_suite2(tab, all, i);
+		istabpipe_suite3(new, all, i);
+}
+
+void		istabpipe_bis(char **new)
+{
+	new[1] = ft_suprguy(new[1]);
+	if (new[2])
+	{
+		if (g_pipe != 2)
+			ft_printf("mminishell: cd: too many arguments\n");
+		g_quit = 1;
+	}
+	else if ((ft_strlen(new[1]) == 1 && (new[1][0] != '.' || new[1][0] != '~'))
+	|| (ft_strlen(new[1]) == 2 && new[1][0] != '.' && new[1][1] != '.')
+	|| chdir(new[1]) != 0)
+	{
+		if (g_pipe != 2)
+			ft_printf("minishell: cd: `%s': No such file or directory\n",
+			new[1]);
+		g_quit = 1;
+	}
+}
+
+void		istabpipe_suite(char **new, t_all *all, int i, char *tmp)
+{
+	if (!ft_strncmp(new[0], "env", 3) && !new[0][i + 3])
+	{
+		if (new[1])
+		{
+			new[1] = ft_suprguy(new[1]);
+			if (g_pipe != 2 && (new[1][0] == '.' || new[1][0] == '/'))
+				ft_printf("%s `%s': Permission non accordée\n", tmp, new[1]);
+			else if (g_pipe != 2)
+				ft_printf("%s `%s': No such file or directory\n", tmp, new[1]);
+			g_quit = 1;
+		}
+	}
+	else if (!ft_strncmp(new[0], "cd", 2) && (new[0][i + 2]))
+	{
+		if (new[1])
+			istabpipe_bis(new);
+		else
+		{
+			if (g_pipe != 2)
+				ft_printf("minishell: cd: HOME not set\n");
+			g_quit = 1;
+		}
+	}
+	else
+		istabpipe_suite2(new, all, i);
 }
 
 void		istabpipe(char *tab, t_all *all)
 {
 	int			i;
+	char		*tmp;
+	char		**new;
 
 	i = 0;
-	while (tab[i] == ' ')
-		i++;
-	if (!ft_strncmp(&tab[i], "echo ", 5) || (!ft_strncmp(&tab[i], "exit", 4)))
+	tmp = suprredir(ft_strtrimslash(tab, " "), 0, 0, ft_calloc(1, 1));
+	new = ft_splitspace(tmp, ' ');
+	free(tmp);
+	new[0] = ft_suprguy(new[0]);
+	if (((!ft_strncmp(new[0], "echo", 4) || !ft_strncmp(new[0], "exit", 4)) &&
+	!new[0][4]) || (!ft_strncmp(new[0], "pwd", 3) && !new[0][i + 3]))
 		;
-	else if (!ft_strncmp(&tab[i], "pwd ", 4))
-	{
-		while (tab[i + 4] == ' ')
-			i++;
-		if (tab[i + 4])
-			ft_printf("pwd: too many arguments\n");
-	}
-	else if (!ft_strncmp(&tab[i], "env ", 4))
-	{
-		while (tab[i + 4] == ' ')
-			i++;
-		if (tab[i + 4])
-			ft_printf("env: %s: Aucun fichier ou dossier de ce type\n", tab);
-	}
 	else
-		istabpipe_suite(tab, all, i);
+		istabpipe_suite(new, all, i, "minishell: env:");
+	ft_freexec(new);
 }

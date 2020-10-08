@@ -119,8 +119,10 @@ void	put_export(int eg, t_all *all, int j, char *tab)
 	tmp = ft_calloc(sizeof(char*), all->nb_ext + 2);
 	while (++i < all->nb_ext)
 		tmp[i] = ft_strdup(all->ext[i]);
-	if (i != 0)
+	if (i > 0)
 		ft_freexec(all->ext);
+	else
+		free(all->ext);
 	tmp[i] = ft_strdup(tab);
 	tmp[++i] = NULL;
 	all->ext = tmp;

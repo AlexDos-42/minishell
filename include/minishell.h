@@ -26,6 +26,7 @@
 int			g_inter;
 int			g_quit;
 int			g_ret;
+int			g_pipe;
 
 typedef struct		s_all
 {
@@ -65,7 +66,7 @@ int					ft_loop(char *tab, t_all *all);
 */
 
 void				ft_initenv(t_all *all, char **env);
-char				**tab_env(char **env, size_t *nb_env);
+void				tab_env(char **env, t_all *all);
 
 /*
 ** --FONCTIONS--
@@ -80,7 +81,7 @@ int					ft_export(t_all *all);
 char				**ft_freetab(char **tabnewenv, int i);
 int					isexporterror(char *tab, int j);
 int					ft_isenvexist(t_all *all, char *tab);
-int					ft_isenvexist_ext(t_all *all, char *tab);
+int					isenvexist_ext(t_all *all, char *tab);
 void				put_export(int eg, t_all *all, int j, char *tab);
 int					ft_isenvexist_ext(t_all *all, char *tab);
 char				**ft_exporterreur(char **str, int j);
@@ -110,6 +111,7 @@ void				istabpipe(char *tab, t_all *all);
 */
 
 char				*ft_redirection(char *tab, t_all *all);
+char				*suprredir(char *tab, int i, int j, char *tmp);
 
 /*
 ** --SPLITSLASH--
@@ -133,7 +135,7 @@ char				**ft_allpath(t_all *all);
 char				*ft_exist(t_all *all, char *tab, int i);
 void				ft_freexec(char **tab);
 char				*ft_strtrimslash(char const *str, char const *set);
-void				istabpipe_suite3(char *tab, t_all *all, int i);
+void				istabpipe_suite3(char **new, t_all *all, int i);
 void				ft_create_file(t_all *all, char **tab, char **redir, int i);
 char				*ft_redirection(char *tab, t_all *all);
 int					redirspace(char **redir);

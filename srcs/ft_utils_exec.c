@@ -100,8 +100,10 @@ void		ft_exec_bis(t_all *all, char *tab, int i, char **arg)
 	if (execve(tab, arg, all->env) == -1)
 	{
 		ft_printf("minishell: %s: command not found\n", arg[0]);
+		ft_freexec(arg);
 		exit(127);
 	}
+	ft_freexec(arg);
 }
 
 int			ft_exec(t_all *all, char *tab)

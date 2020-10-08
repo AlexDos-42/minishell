@@ -13,31 +13,44 @@
 #include "../include/minishell.h"
 #include <signal.h>
 
+void	ft_clean(t_all *all, char *tmp, char *str)
+{
+	int i;
+
+	i = -1;
+	while (all->env[++i])
+		free(all->env[i]);
+	free(tmp);
+	free(all->env);
+	free(str);
+	free(all->pwd);
+	if (all->nb_ext)
+		ft_freexec(all->ext);
+	else
+		free(all->ext);
+	exit(g_ret);
+}
+
 void	ft_prompt(t_all *all, char *tmp, char *str, int i)
 {
 	while (1)
 	{
 		if ((i = read(0, tmp, 10)) == 0)
-			exit(0);
+			ft_clean(all, tmp, str);
 		tmp[i] = '\0';
 		str = ft_strjoin(str, tmp, 1);
 		if (ft_strnstr(str, "\n", ft_strlen(str)))
 		{
 			if (str[0] != '\n')
 				if (ft_minishell(all, str, 0, -1) == 2)
-				{
-					i = -1;
-					while (all->env[++i])
-						free(all->env[i]);
-					free(all->env);
-					free(str);
-					exit(g_ret);
-				}
+					ft_clean(all, tmp, str);
 			free(str);
 			str = malloc(sizeof(char) * 1);
 			str[0] = '\0';
 			write(1, "minishell $>", 12);
 		}
+		free(tmp);
+		tmp = ft_calloc(sizeof(char), 11);
 	}
 }
 

@@ -63,64 +63,59 @@ int			ft_existpipe(t_all *all, char *tab, int i)
 	return (0);
 }
 
-void		istabpipe_suite4(char *tab, t_all *all)
+void		istabpipe_suite4(char **new, t_all *all)
 {
 	char		*tmp;
-	char		*tmpp;
-	char		**new;
 
-	if (tab && tab[ft_strlen(tab) ? ft_strlen(tab) - 1 : 0] == '\n')
-	{
-		tmpp = ft_substr(tab, 0, ft_strlen(tab) - 1);
-		tmp = ft_strtrimslash(tmpp, " ");
-		free(tmpp);
-	}
-	else
-		tmp = ft_strtrimslash(tab, " ");
-	new = ft_splitspace(tmp, ' ');
-	free(tmp);
 	tmp = new[0] ? ft_strdup(new[0]) : ft_strdup("");
-	tmp = ft_suprguy(tmp);
 	if (isexec(tmp))
 		return (free(tmp));
 	tmp = ispath(tmp, all);
 	if (!ft_existpipe(all, tmp, -1) && tmp && tmp[0])
-		ft_printf("minishell: %s: command not found\n", tmp);
-	free(tmp);
-	ft_freexec(new);
-}
-
-void		ispipe_again(char *tmp, int i, int j, char *tab)
-{
-	tmp = ft_substr(tab, i + 6, j);
-	ft_printf("minishell: unset: « %s »");
-	ft_printf("%s: identifiant non valable\n", tmp);
-	free(tmp);
-}
-
-void		istabpipe_suite3(char *tab, t_all *all, int i)
-{
-	int			j;
-	int			k;
-	char		*tmp;
-
-	tmp = 0;
-	if (!ft_strncmp(&tab[i], "unset ", 6))
 	{
-		while (tab[i + 6])
+		if (g_pipe != 2)
+			ft_printf("minishell: %s: command not found\n", tmp);
+		g_quit = 1;
+	}
+	free(tmp);
+}
+
+void		ispipe_again(char **new, char *tmp)
+{
+	int			i;
+	int			j;
+
+	i = 0;
+	while (new[++i])
+	{
+		new[i] = ft_suprguy(new[i]);
+		if ((new[i][0] > 47 && new[i][0] < 58) || new[i][0] == '=')
 		{
-			k = 0;
-			j = -1;
-			while (tab[i + 6] == ' ')
-				i++;
-			while (tab[i + 6 + ++j] && tab[i + 6 + j] != ' ')
-				if (tab[i + 6 + j] == '=')
-					k = 1;
-			if (k == 1)
-				ispipe_again(tmp, i, j, tab);
-			i += j;
+			if (g_pipe != 2)
+				ft_printf("%s `%s': not a valid identifier\n", tmp, new[i]);
+			g_quit = 1;
 		}
+		else if ((j = -1) == -1)
+			while (new[i][++j])
+				if (new[i][j] < 48 || (new[i][j] > 58 && new[i][j] < 65)
+				|| (new[i][j] > 90 && new[i][j] < 97) || new[i][j] > 122)
+				{
+					if (g_pipe != 2)
+						ft_printf("%s `%s': not a valid identifier\n",
+						tmp, new[i]);
+					g_quit = 1;
+					break ;
+				}
+	}
+}
+
+void		istabpipe_suite3(char **new, t_all *all, int i)
+{
+	if (!ft_strncmp(new[0], "unset", 5) && !new[0][i + 5])
+	{
+		if (new[1])
+			ispipe_again(new, "minishell: unset:");
 	}
 	else
-		istabpipe_suite4(&tab[i], all);
+		istabpipe_suite4(new, all);
 }

@@ -21,6 +21,8 @@ void		init_file(t_all *all, char **new, char **redir)
 		i++;
 	if (redir[i] && redir[i][0] == '>')
 	{
+		g_quit = 0;
+		g_pipe = 2;
 		istabpipe(new[0], all);
 		ft_create_file(all, new, redir, i);
 	}

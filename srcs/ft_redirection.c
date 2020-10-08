@@ -67,6 +67,8 @@ void	ft_new_redir(char **redir, int i, char **tab, t_all *all)
 					ft_create_file(all, tab, redir, i + j);
 					break ;
 				}
+	if (g_quit == 1)
+		ft_close(all, 1);
 }
 
 void	ft_create_file(t_all *all, char **tab, char **redir, int i)
@@ -82,6 +84,7 @@ void	ft_create_file(t_all *all, char **tab, char **redir, int i)
 		all->fdout = open(tab[i + 1], O_RDONLY);
 	ft_open(all, j);
 	ft_new_redir(redir, i, tab, all);
+	g_quit = 0;
 }
 
 char	**ft_all_redir_bis(char *tab, char **new, int i, int j)

@@ -81,11 +81,11 @@ int		ft_pipeinit(char *tab, t_all *all, int i, int p)
 		i = -1;
 		while (tabpipe[++i])
 		{
+			g_pipe = 0;
 			if (tabpipe[i + 1])
 				istabpipe(tabpipe[i], all);
-			free(tabpipe[i]);
 		}
-		free(tabpipe);
+		ft_freexec(tabpipe);
 	}
 	return (0);
 }

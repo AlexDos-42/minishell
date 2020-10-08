@@ -12,16 +12,6 @@
 
 #include "../include/minishell.h"
 
-int				ft_error(char *tmp)
-{
-	tmp = ft_strjoin("minishell: unset: `", tmp, 2);
-	tmp = ft_strjoin(tmp, "': not a valid identifier", 1);
-	ft_printf("%s\n", tmp);
-	free(tmp);
-	g_ret = 1;
-	return (0);
-}
-
 void			ft_suprext(t_all *all, char *new, int p, int o)
 {
 	int				i;
@@ -67,23 +57,46 @@ void			ft_suprenv(t_all *all, char *new, unsigned int p, int o)
 						new_tab[k++] = ft_strdup(all->env[i]);
 				ft_freexec(all->env);
 				all->env = new_tab;
-				free(new);
 				return ;
 			}
 		p++;
 	}
 	ft_suprext(all, new, 0, 0);
-	free(new);
+}
+
+int				ft_error(t_all *all, char **new, int i)
+{
+	int				j;
+
+	j = -1;
+	while (new[i][++j])
+	{
+		if (new[i][j] < 48 || (new[i][j] > 58 && new[i][j] < 65)
+		|| (new[i][j] > 90 && new[i][j] < 97) || new[i][j] > 122
+		|| (new[i][0] > 48 && new[i][0] < 58))
+		{
+			ft_printf("minishell: unset: `%s': not a valid identifier\n",
+			new[i]);
+			g_ret = 1;
+			break ;
+		}
+		if (!new[i][j + 1])
+		{
+			ft_suprenv(all, new[i], 0, 0);
+			break ;
+		}
+	}
+	return (0);
 }
 
 int				ft_unset(t_all *all)
 {
 	int				i;
-	int				j;
 	char			*tmp;
 	char			**new;
 
 	i = -1;
+	g_ret = 0;
 	tmp = ft_strtrimslash(all->tab, " ");
 	new = ft_splitspace(tmp, ' ');
 	free(tmp);
@@ -91,17 +104,15 @@ int				ft_unset(t_all *all)
 	{
 		new[i] = ft_suprguy(new[i]);
 		if (!new[i][0])
-			ft_printf("minishell: unset: `': not a valid identifier\n");
-		j = 0;
-		while (new[i][j] && new[i][j] != '=' && new[i][j] != ' ')
-			j++;
-		if (new[i][j])
-			ft_error(new[i]);
-		else
-			ft_suprenv(all, new[i], 0, 0);
+		{
+			ft_printf("minishell: unset: `%c': not a valid identifier\n",
+			new[i][0]);
+			g_ret = 1;
+		}
+		ft_error(all, new, i);
 	}
 	free(all->tab);
-	free(new);
+	ft_freexec(new);
 	return (0);
 }
 

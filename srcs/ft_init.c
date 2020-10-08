@@ -19,7 +19,7 @@ int				dble_ext(char **tab, int i)
 
 	j = 1;
 	k = 0;
-	while (!tab[i][k])
+	while (tab[i][k])
 		k++;
 	while (tab && tab[i + j])
 	{
@@ -64,33 +64,31 @@ static void		ft_remplace(t_all *all)
 	}
 }
 
-char			**tab_env(char **env, size_t *nb_env)
+void			tab_env(char **env, t_all *all)
 {
 	size_t	i;
-	char	**tmp_env;
 
 	i = 0;
 	while (env[i])
 		i++;
-	if (!(tmp_env = ft_calloc(sizeof(char*), (i + 1))))
-		return (NULL);
-	tmp_env[i] = NULL;
+	all->env = ft_calloc(sizeof(char*), (i + 1));
+	all->env[i] = NULL;
 	i = 0;
 	while (env[i])
 	{
-		if (!(tmp_env[i] = ft_strdup(env[i])))
-			return (NULL);
+		all->env[i] = ft_strdup(env[i]);
 		i++;
 	}
-	*nb_env = i;
-	return (tmp_env);
+	all->nb_env = i;
 }
 
 void			ft_initenv(t_all *all, char **env)
 {
 	g_inter = 0;
 	g_quit = 0;
+	g_pipe = 0;
+	all->ext = ft_calloc(1, 1);
 	all->pwd = getcwd(NULL, 0);
-	all->env = tab_env(env, &all->nb_env);
+	tab_env(env, all);
 	ft_remplace(all);
 }

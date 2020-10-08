@@ -12,23 +12,39 @@
 
 #include "../include/minishell.h"
 
-static void		ft_remplace(t_all *all)
+void			ft_remplaceold(t_all *all, char *tmp)
 {
 	int			i;
-	char		**newenv;
 
 	i = 0;
+	while (all->env[i] && ft_strncmp(all->env[i], "OLDPWD=", 7))
+		i++;
+	if (tmp && all->env[i] && !ft_strncmp(all->env[i], "OLDPWD=", 7))
+	{
+		free(all->env[i]);
+		all->env[i] = ft_strdup(tmp + 4);
+		all->env[i] = ft_strjoin("OLDPWD=", all->env[i], 2);
+		free(tmp);
+	}
+}
+
+static void		ft_remplace(t_all *all, int i)
+{
+	char		**newenv;
+	char		*tmp;
+
 	while (all->env[i] && ft_strncmp(all->env[i], "PWD=", 4))
 		i++;
 	if (all->env[i] && !ft_strncmp(all->env[i], "PWD=", 4))
 	{
+		tmp = ft_strdup(all->env[i]);
 		free(all->env[i]);
 		all->env[i] = ft_strdup(all->pwd);
 		all->env[i] = ft_strjoin("PWD=", all->env[i], 2);
+		ft_remplaceold(all, tmp);
 	}
-	else
+	else if ((i = -1) == -1)
 	{
-		i = -1;
 		newenv = ft_calloc(all->nb_env + 2, sizeof(char*));
 		while (all->env[++i])
 			newenv[i] = ft_strdup(all->env[i]);
@@ -78,6 +94,6 @@ int				ft_cd(t_all *all)
 	g_ret = 1;
 	ft_cd_bis(all, new);
 	ft_freexec(new);
-	ft_remplace(all);
+	ft_remplace(all, 0);
 	return (0);
 }
