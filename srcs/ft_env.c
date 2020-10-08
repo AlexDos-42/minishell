@@ -77,3 +77,19 @@ char	*suprredir(char *tab, int i, int j, char *tmp)
 	free(tab);
 	return (tmp);
 }
+
+int		iserrorput(char *tab, int j)
+{
+	if (tab[0] == '0' || tab[0] == '1' || tab[0] == '2'
+			|| tab[0] == '3' || tab[0] == '4'
+			|| tab[0] == '5' || tab[0] == '6'
+			|| tab[0] == '7' || tab[0] == '8' || tab[0] == '9')
+		return (1);
+	if (tab[j] == '=' && j == 0)
+		return (1);
+	if (tab[j] < 48 || (tab[j] > 57 && tab[j] < 65) || (tab[j] > 90
+		&& tab[j] < 97) || tab[j] > 122)
+		if (tab[j] != '=' && tab[j] != '_')
+			return (1);
+	return (0);
+}

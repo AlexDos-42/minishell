@@ -89,6 +89,7 @@ int					ft_unset(t_all *all);
 void				export_solo(t_all *all);
 int					dble(char **tab, int i);
 int					dble_ext(char **tab, int i);
+int					iserrorput(char *tab, int j);
 
 /*
 ** --REPLACE--
