@@ -114,7 +114,7 @@ void	put_export(int eg, t_all *all, int j, char *tab)
 	int		i;
 
 	i = -1;
-	if (eg == 1 || (eg == 0 && j == 1))
+	if ((eg == 1 || (eg == 0 && j == 1)))
 		return ;
 	while (tab[++i])
 		if (iserrorput(tab, i))

@@ -91,8 +91,8 @@ int		isenvexist_ext(t_all *all, char *tab)
 	int		p;
 	int		o;
 
-	p = 0;
-	while (all->nb_ext && all->ext[p] && p < all->nb_ext)
+	p = -1;
+	while (all->nb_ext && all->ext[++p] && p < all->nb_ext)
 	{
 		o = 0;
 		while (all->ext[p][o] && (all->ext[p][o] == tab[o]))
@@ -101,7 +101,17 @@ int		isenvexist_ext(t_all *all, char *tab)
 				return (1);
 			o++;
 		}
-		p++;
+	}
+	p = -1;
+	while (all->env[++p])
+	{
+		o = 0;
+		while (all->env[p][o] && (all->env[p][o] == tab[o]))
+		{
+			if (all->env[p][o + 1] == '=' && !tab[o + 1])
+				return (1);
+			o++;
+		}
 	}
 	return (0);
 }

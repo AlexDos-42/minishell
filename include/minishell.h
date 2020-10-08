@@ -98,6 +98,7 @@ int					iserrorput(char *tab, int j);
 char				*ft_replace(char *tab, t_all *all, int i, int j);
 char				*ft_isinenv(char *tab, t_all *all);
 char				*ft_newtab(char *tab, char *env, int i);
+void				ft_suprext(t_all *all, char *new, int p, int o);
 
 /*
 ** --PIPE--

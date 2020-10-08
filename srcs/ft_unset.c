@@ -21,7 +21,7 @@ void			ft_suprext(t_all *all, char *new, int p, int o)
 	while (all->nb_ext && all->ext[p] && p < all->nb_ext && ((o = -1) == -1))
 	{
 		while (all->ext[p][++o] && new[o] && (all->ext[p][o] == new[o]))
-			if (!(all->ext[p][o + 1]) && !new[o + 1] && !(k = 0))
+			if (!(all->ext[p][o + 1]) && (!new[o + 1] || new[o + 1] == '=') && !(k = 0))
 			{
 				i = -1;
 				new_tab = ft_calloc(sizeof(char*), all->nb_ext--);

@@ -96,7 +96,10 @@ int			ft_exportinit(t_all *all, unsigned int i, int j, int nb_newenv)
 		i++;
 	}
 	while (++j < nb_newenv)
+	{
 		new_env[i + j] = ft_strdup(tabnewenv[j]);
+		ft_suprext(all, tabnewenv[j], 0, 0);
+	}
 	new_env[i + j] = 0;
 	all->nb_env += nb_newenv;
 	ft_freexec(tabnewenv);
