@@ -117,7 +117,7 @@ void	put_export(int eg, t_all *all, int j, char *tab)
 	if (eg == 1 || (eg == 0 && j == 1))
 		return ;
 	while (tab[++i])
-		if (iserrorput(tab, j))
+		if (iserrorput(tab, i))
 			return ;
 	i = -1;
 	tmp = ft_calloc(sizeof(char*), all->nb_ext + 2);

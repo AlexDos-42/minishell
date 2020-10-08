@@ -109,7 +109,10 @@ int			ft_export(t_all *all)
 {
 	g_ret = 0;
 	if (!all->tab[0])
-		export_solo(all);
+	{
+		export_solo(all, -1, 0, NULL);
+		free(all->tab);
+	}
 	else
 		ft_exportinit(all, 0, -1, 0);
 	return (0);

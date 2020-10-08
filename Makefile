@@ -50,6 +50,7 @@ SRC =		main.c \
 		ft_parsing_next.c \
 		ft_redirection_next.c \
 		ft_redirection_bis.c \
+		ft_export_solo.c \
 
 ### Librairies ###
 HEADERS = ./include/

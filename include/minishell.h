@@ -86,7 +86,7 @@ void				put_export(int eg, t_all *all, int j, char *tab);
 int					ft_isenvexist_ext(t_all *all, char *tab);
 char				**ft_exporterreur(char **str, int j);
 int					ft_unset(t_all *all);
-void				export_solo(t_all *all);
+void				export_solo(t_all *all, int i, int eg, char *tmp);
 int					dble(char **tab, int i);
 int					dble_ext(char **tab, int i);
 int					iserrorput(char *tab, int j);

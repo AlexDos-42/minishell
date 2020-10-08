@@ -31,8 +31,6 @@ void			ft_suprext(t_all *all, char *new, int p, int o)
 				new_tab[k] = NULL;
 				ft_freexec(all->ext);
 				all->ext = new_tab;
-				if (all->nb_ext == 0)
-					ft_freexec(all->ext);
 				return ;
 			}
 		p++;

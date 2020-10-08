@@ -111,6 +111,11 @@ void		istabpipe(char *tab, t_all *all)
 	tmp = suprredir(ft_strtrimslash(tab, " "), 0, 0, ft_calloc(1, 1));
 	new = ft_splitspace(tmp, ' ');
 	free(tmp);
+	if (!new[0])
+	{
+		ft_freexec(new);
+		return ;
+	}
 	new[0] = ft_suprguy(new[0]);
 	if (((!ft_strncmp(new[0], "echo", 4) || !ft_strncmp(new[0], "exit", 4)) &&
 	!new[0][4]) || (!ft_strncmp(new[0], "pwd", 3) && !new[0][i + 3]))
