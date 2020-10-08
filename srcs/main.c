@@ -35,7 +35,7 @@ void	ft_prompt(t_all *all, char *tmp, char *str, int i)
 {
 	while (1)
 	{
-		if ((i = read(0, tmp, 10)) == 0)
+		if ((i = read(0, tmp, 10)) == 0 && !str[0])
 			ft_clean(all, tmp, str);
 		tmp[i] = '\0';
 		str = ft_strjoin(str, tmp, 1);
@@ -59,6 +59,8 @@ void	ctrl(int signal)
 	int status;
 
 	status = 0;
+	if (status == 0 && signal == 3)
+		ft_printf("\b\b  \b\b");
 	while (wait(&status) > 0)
 		;
 	if (signal == SIGINT)
@@ -73,7 +75,7 @@ void	ctrl(int signal)
 		g_inter = 1;
 		g_ret = 131;
 		wait(&status);
-		write(1, "Quit (core dumped)\n", 19);
+		write(1, "^\\Quit (core dumped)\n", 21);
 	}
 }
 
