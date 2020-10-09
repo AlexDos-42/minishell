@@ -61,13 +61,11 @@ static void		ft_remplace(t_all *all, int i)
 
 void			ft_cd_bis(t_all *all, char **new)
 {
-	if (!new[0])
-		ft_printf("minishell: cd: HOME not set\n");
-	else if (new[1])
+	if (new && new[0] && new[1])
 		ft_printf("minishell: cd: too many arguments\n");
-	else if (!new[0][0] || (new[0][0] == '~' && !new[0][1]))
+	else if (!new[0] || (new[0][0] == '~' && !new[0][1]))
 	{
-		chdir("/home/alesanto");
+		chdir("/home/user42");
 		free(all->pwd);
 		all->pwd = getcwd(NULL, 0);
 		g_ret = 0;
@@ -76,6 +74,12 @@ void			ft_cd_bis(t_all *all, char **new)
 	{
 		free(all->pwd);
 		all->pwd = getcwd(NULL, 0);
+		if (!all->pwd && errno == 2)
+		{
+			ft_printf("minishell: cd: %s\n", strerror(errno));
+			all->pwd = ft_strdup("..");
+			return ;
+		}
 		g_ret = 0;
 	}
 	else

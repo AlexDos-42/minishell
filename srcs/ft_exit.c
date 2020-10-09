@@ -92,7 +92,6 @@ int		ft_exit(t_all *all)
 	if (!(tmp[0]))
 	{
 		free(tmp);
-		g_ret = 0;
 		return (2);
 	}
 	new = ft_splitspace(tmp, ' ');

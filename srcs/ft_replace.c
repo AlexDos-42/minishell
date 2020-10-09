@@ -12,11 +12,56 @@
 
 #include "../include/minishell.h"
 
+char	*put_guy_env(char *env)
+{
+	int		i;
+	char	*tmp;
+	int		j;
+
+	j = 0;
+	i = 0;
+	while (env[i])
+	{
+		if (env[i] == ' ')
+		{
+			while (env[i] && env[i] == ' ')
+				i++;
+			if (env[i])
+				j+= 2;
+		}
+		else
+			i++;
+	}
+	tmp = ft_calloc(sizeof(char), ft_strlen(env) + 3 + j);
+	i = 0;
+	j = 0;
+	tmp[j++] = '\"';
+	while (env[i])
+	{
+		if (env[i] == ' ')
+		{
+			tmp[j++] = '\"';
+			while (env[i] && env[i] == ' ')
+				tmp[j++] = env[i++];
+			tmp[j++] = '\"';
+		}
+		else
+			tmp[j++] = env[i++];
+	}
+	tmp[j++] = '\"';
+	tmp[j++] = '\0';
+	ft_printf("tmp %s\n", tmp);
+	free(env);
+	return (tmp);
+}
+
 char	*ft_newtab(char *tab, char *env, int i)
 {
 	int		j;
 	char	*new;
 
+	if (env)
+		env = put_guy_env(env);
 	j = 1;
 	while (tab[i + j] && tab[i + j] != ' ' && tab[i + j] != '\n' &&
 		tab[i + j] != '\"' && tab[i + j] != '\'' && tab[i + j] != '\\'
@@ -26,7 +71,7 @@ char	*ft_newtab(char *tab, char *env, int i)
 	if (i || env)
 		new = ft_substr(tab, 0, i);
 	if (env)
-		new = ft_strjoin(new, env, 1);
+		new = ft_strjoin(new, env, 1);	
 	new = ft_strjoin(new, &tab[i + j], 1);
 	free(tab);
 	if (env)

@@ -47,7 +47,7 @@ void	ft_prompt(t_all *all, char *tmp, char *str, int i)
 			free(str);
 			str = malloc(sizeof(char) * 1);
 			str[0] = '\0';
-			write(1, "minishell $>", 12);
+			write(1, "\e[93mminishell \e[92m$>\e[0m\e[97m", 31);
 		}
 		free(tmp);
 		tmp = ft_calloc(sizeof(char), 11);
@@ -68,7 +68,7 @@ void	ctrl(int signal)
 		g_ret = 130;
 		write(1, "\n", 1);
 		if (status == 0)
-			write(1, "minishell $>", 12);
+			write(1, "\e[93mminishell \e[92m$>\e[0m\e[97m", 31);
 	}
 	else if (status == 131)
 	{
@@ -102,7 +102,7 @@ int		main(int argc, char **argv, char **env)
 		ft_initenv(&all, env);
 		tmp = ft_calloc(sizeof(char), 11);
 		str = ft_calloc(sizeof(char), 1);
-		write(1, "minishell $>", 12);
+		write(1, "\e[93mminishell \e[92m$>\e[0m\e[97m", 31);
 		ft_prompt(&all, tmp, str, 0);
 	}
 	return (0);

@@ -52,6 +52,7 @@ int				dble(char **tab, int i)
 static void		ft_remplace(t_all *all)
 {
 	int		i;
+	int		j;
 
 	i = 0;
 	while (all->env[i] && ft_strncmp(all->env[i], "PWD=", 4))
@@ -61,6 +62,15 @@ static void		ft_remplace(t_all *all)
 		free(all->env[i]);
 		all->env[i] = ft_strdup(all->pwd);
 		all->env[i] = ft_strjoin("PWD=", all->env[i], 2);
+	}
+	i = 0;
+	while (all->env[i] && ft_strncmp(all->env[i], "SHLVL=", 6))
+		i++;
+	if (all->env[i] && !ft_strncmp(all->env[i], "SHLVL=", 6))
+	{
+		free(all->env[i]);
+		j = ft_atoi(&all->env[i][6]) + 1;
+		all->env[i] = ft_strjoin("SHLVL=", ft_itoa(j), 2);
 	}
 }
 
