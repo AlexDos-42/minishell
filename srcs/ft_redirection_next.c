@@ -79,7 +79,7 @@ int			redirspace(char **redir)
 					ft_printf(" `%c%c'\n", redir[i][0], redir[i][0]);
 				}
 				else
-				{	
+				{
 					ft_printf("minishell: syntax error near unexpected token");
 					ft_printf(" `%c'\n", redir[i][0]);
 				}

@@ -70,10 +70,8 @@ int		ififmini(char *str, int i)
 	return (1);
 }
 
-int		ifminichek(char *str, int i, int j)
+int		ifminichek(char *str, int i, int j, char c)
 {
-	char	c;
-
 	while (str[i])
 	{
 		if ((str[i] == ';' || str[i] == '|' || str[i] == '<'
@@ -120,7 +118,7 @@ int		ft_minishell(t_all *all, char *str, int stop, int k)
 			g_ret = 1;
 			return (stop);
 		}
-	if (ifminichek(str, 0, 0))
+	if (ifminichek(str, 0, 0, 0))
 		return (stop);
 	tab = ft_splitslash(str, ";");
 	stop = ft_minishell_again(tab, all, -1, stop);
