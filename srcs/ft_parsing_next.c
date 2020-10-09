@@ -67,6 +67,7 @@ int		ififmini(char *str, int i)
 		ft_printf("minishell: syntax error near unexpected token `;'\n");
 	else
 		ft_printf("minishell: syntax error near unexpected token `|'\n");
+	g_ret = 2;
 	return (1);
 }
 
@@ -89,7 +90,7 @@ int		ifminichek(char *str, int i, int j, char c)
 			if (str[i] == c)
 			{
 				print_err(c, str, i);
-				g_ret = 1;
+				g_ret = 2;
 				return (1);
 			}
 			i = j;
