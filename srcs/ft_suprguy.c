@@ -51,7 +51,7 @@ char	*ft_suprguy(char *tab)
 		if (((tab[j] != '\"' && tab[j] != '\'') ||
 		isguillemet(j, tab)) && tab[j] != '\\')
 			i++;
-		if (tab[j] == '\\' && (tab[j + 1] &&
+		else if (tab[j] == '\\' && (tab[j + 1] &&
 		tab[j + 1] == '\\') && (isguillemet(j, tab) == 1
 		|| !isguillemet(j, tab)))
 		{
@@ -59,8 +59,8 @@ char	*ft_suprguy(char *tab)
 			j++;
 		}
 		else if (tab[j] == '\\' && (isguillemet(j, tab) == 2
-		|| (isguillemet(i, tab) == 1 &&
-			(tab[i + 1] != '\"' || tab[i + 1] != '$'))))
+		|| (isguillemet(j, tab) == 1 &&
+			(tab[j + 1] != '\"' && tab[j + 1] != '$'))))
 			i++;
 		j++;
 	}
