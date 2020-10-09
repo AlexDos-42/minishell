@@ -76,12 +76,12 @@ int			redirspace(char **redir)
 				if (redir[i][0] && redir[i][1] && redir[i][2] && redir[i][3])
 				{
 					ft_printf("minishell: syntax error near unexpected token");
-					ft_printf("`%c%c'\n", redir[i][0], redir[i][0]);
+					ft_printf(" `%c%c'\n", redir[i][0], redir[i][0]);
 				}
 				else
-				{
+				{	
 					ft_printf("minishell: syntax error near unexpected token");
-					ft_printf("`%c'\n", redir[i][0]);
+					ft_printf(" `%c'\n", redir[i][0]);
 				}
 				g_ret = 2;
 				return (0);

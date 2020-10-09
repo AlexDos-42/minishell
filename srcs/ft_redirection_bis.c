@@ -111,7 +111,9 @@ int		redirerror_bis(char **redir)
 			}
 			else
 			{
-				ft_printf("minishell: syntax error near unexpected token");
+				if (redir[i][0] == '<' && redir[i][1] == '>' && !redir[i][2])
+					break ;
+				ft_printf("inishell: syntax error near unexpected token");
 				ft_printf("`%c'\n", redir[i][0]);
 			}
 			g_ret = 2;
