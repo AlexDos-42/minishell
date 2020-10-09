@@ -97,3 +97,12 @@ int				ft_cd(t_all *all)
 	ft_remplace(all, 0);
 	return (0);
 }
+
+char			*if_or_else(char *new, char *tab, int l, int k)
+{
+	if (new[l + k])
+		new = join_tmp(new, l, tab);
+	else if (!new[l + k])
+		new = join_first(new, tab);
+	return (new);
+}

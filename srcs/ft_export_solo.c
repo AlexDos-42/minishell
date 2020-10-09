@@ -1,52 +1,46 @@
 #include "../include/minishell.h"
 
-char		*beta_exp(t_all *all, char *new, int i)
+char		*join_tmp(char *new, int l, char *tab)
 {
-	int			k;
-	int			l;
 	char		*tmp;
 
-	while (!(l = 0) &&all->ext[++i])
+	tmp = ft_strjoin(ft_substr(new, 0, l), tab, 1);
+	tmp = ft_strjoin(tmp, "\n", 1);
+	tmp = ft_strjoin(tmp, ft_substr(new, l, ft_strlen(&new[l])), 3);
+	free(new);
+	return (tmp);
+}
+
+char		*join_first(char *new, char *tab)
+{
+	new = ft_strjoin(new, tab, 1);
+	new = ft_strjoin(new, "\n", 1);
+	return (new);
+}
+
+char		*beta_exp(t_all *all, char *new, int i, int l)
+{
+	int			k;
+
+	while (!(l = 0) && all->ext[++i])
 	{
-		k = 0;
-		if (!new[l + k])
+		if (!(k = 0) && !new[l + k])
 		{
-			new = ft_strjoin(new, all->ext[i], 1);
-			new = ft_strjoin(new, "\n", 1);
+			new = join_first(new, all->ext[i]);
 			break ;
 		}
 		while (new[l + k])
 		{
-			if (new[l + k] == '\n')
-			{
-            	l = l + 1 + k;
-                k = 0;
-            }
+			if (new[l + k] == '\n' && (l = l + 1 + k))
+				k = 0;
 			if (new[l + k] && new[l + k] == all->ext[i][k])
 				k++;
 			else if (new[l + k] && new[l + k] < all->ext[i][k])
-			{
-				while (new[l + k] != '\n')
-					k++;
-				l = l + k;
-				k = 0;
-			}
+				l = combien(new, l, &k);
 			else if (new[l + k])
-			{
-				tmp = ft_strjoin(ft_substr(new, 0, l), all->ext[i], 1);
-				tmp = ft_strjoin(tmp, "\n", 1);
-				tmp = ft_strjoin(tmp, ft_substr(new, l, ft_strlen(&new[l])), 3);
-				free(new);
-				new = tmp;
 				break ;
-			}
-			if (!new[l + k])
-			{
-				new = ft_strjoin(new, all->ext[i], 1);
-				new = ft_strjoin(new, "\n", 1);
-				break ;
-			}
 		}
+		new = if_or_else(new, all->ext[i], l, k);
 	}
 	return (new);
 }
@@ -55,43 +49,25 @@ char		*alpha_beta(t_all *all, char *new, int i)
 {
 	int			k;
 	int			l;
-	char		*tmp;
 
 	while (!(l = 0) && all->env[++i])
 	{
 		k = 0;
 		while (new[l + k])
 		{
-			if (new[l + k] == '\n')
-			{
-            	l = l + 1 + k;
-                k = 0;
-            }
-			if (new[l + k] == all->env[i][k])
+			if (new[l + k] == '\n' && (l = l + 1 + k))
+				k = 0;
+			if (new[l + k] && new[l + k] == all->env[i][k])
 				k++;
 			else if (new[l + k] && new[l + k] < all->env[i][k])
-			{
-				while (new[l + k] != '\n')
-					k++;
-				l = l + k;
-				k = 0;
-			}
+				l = combien(new, l, &k);
 			else if (new[l + k])
-			{
-				tmp = ft_strjoin(ft_substr(new, 0, l), all->env[i], 1);
-				tmp = ft_strjoin(tmp, "\n", 1);
-				tmp = ft_strjoin(tmp, ft_substr(new, l, ft_strlen(&new[l])), 3);
-				free(new);
-				new = tmp;
 				break ;
-			}
-			if (!new[l + k])
-			{
-				new = ft_strjoin(new, all->env[i], 1);
-				new = ft_strjoin(new, "\n", 1);
-				break ;
-			}
 		}
+		if (new[l + k])
+			new = join_tmp(new, l, all->env[i]);
+		else if (!new[l + k])
+			new = join_first(new, all->env[i]);
 	}
 	return (new);
 }
@@ -106,7 +82,7 @@ void		export_solo(t_all *all, int i, int eg, char *tmp)
 	else
 		tmp = ft_calloc(1, 1);
 	if (all->nb_ext > 0)
-		tmp = beta_exp(all, tmp, -1);
+		tmp = beta_exp(all, tmp, -1, 0);
 	while (tmp[++i])
 	{
 		if (i == 0)

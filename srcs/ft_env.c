@@ -93,3 +93,11 @@ int		iserrorput(char *tab, int j)
 			return (1);
 	return (0);
 }
+
+int		combien(char *new, int l, int *k)
+{
+	l = l + *k;
+	while (!(*k = 0) && new[l + *k] && new[l + *k] != '\n')
+		l++;
+	return (l);
+}

@@ -90,11 +90,8 @@ int			ft_exportinit(t_all *all, unsigned int i, int j, int nb_newenv)
 		nb_newenv++;
 	if (!(new_env = malloc((all->nb_env + nb_newenv + 1) * sizeof(char*))))
 		return (g_ret = 127);
-	while (i < all->nb_env)
-	{
+	while (++i < all->nb_env)
 		new_env[i] = ft_strdup(all->env[i]);
-		i++;
-	}
 	while (++j < nb_newenv)
 	{
 		new_env[i + j] = ft_strdup(tabnewenv[j]);
@@ -117,6 +114,6 @@ int			ft_export(t_all *all)
 		free(all->tab);
 	}
 	else
-		ft_exportinit(all, 0, -1, 0);
+		ft_exportinit(all, -1, -1, 0);
 	return (0);
 }

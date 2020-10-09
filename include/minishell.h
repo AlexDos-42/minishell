@@ -99,6 +99,7 @@ char				*ft_replace(char *tab, t_all *all, int i, int j);
 char				*ft_isinenv(char *tab, t_all *all);
 char				*ft_newtab(char *tab, char *env, int i);
 void				ft_suprext(t_all *all, char *new, int p, int o);
+int					combien(char *new, int l, int *k);
 
 /*
 ** --PIPE--
@@ -114,6 +115,9 @@ void				istabpipe(char *tab, t_all *all);
 
 char				*ft_redirection(char *tab, t_all *all);
 char				*suprredir(char *tab, int i, int j, char *tmp);
+char				*if_or_else(char *new, char *tab, int l, int k);
+char				*join_first(char *new, char *tab);
+char				*join_tmp(char *new, int l, char *tab);
 
 /*
 ** --SPLITSLASH--
