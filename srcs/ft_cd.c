@@ -26,6 +26,8 @@ void			ft_remplaceold(t_all *all, char *tmp)
 		all->env[i] = ft_strjoin("OLDPWD=", all->env[i], 2);
 		free(tmp);
 	}
+	else if (tmp)
+		free(tmp);
 }
 
 static void		ft_remplace(t_all *all, int i)
