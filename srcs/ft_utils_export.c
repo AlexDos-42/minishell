@@ -55,6 +55,12 @@ int			ft_isenvexist(t_all *all, char *tab)
 				all->env[p] = ft_strdup(tab);
 				return (1);
 			}
+			else if (tab[o + 1] == '+' && tab[o + 2] == '=')
+			{
+				if (all->env[p][o + 1] == '=')
+					all->env[p] = ft_strjoin(all->env[p], &tab[o + 3], 1);
+				return (1);
+			}
 			o++;
 		}
 		p++;
@@ -106,7 +112,7 @@ int			isexporterror(char *tab, int j)
 	}
 	if (tab[j] < 48 || (tab[j] > 57 && tab[j] < 65) || (tab[j] > 90
 		&& tab[j] < 97) || tab[j] > 122)
-		if (tab[j] != '=' && tab[j] != '_')
+		if (tab[j] != '=' && tab[j] != '_' && !(tab[j] == '+' && tab[j + 1] == '='))
 		{
 			ft_printf("minishell: export: `%s': not a valid identifier\n", tab);
 			return (1);

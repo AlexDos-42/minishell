@@ -38,12 +38,18 @@ int				dble(char **tab, int i)
 
 	j = 1;
 	k = 0;
-	while (tab[i][k] != '=')
+	while (tab[i][k] != '=' && tab[i][k] != '+')
 		k++;
 	while (tab && tab[i + j])
 	{
 		if (!ft_strncmp(tab[i], tab[i + j], k) && tab[i + j][k] == '=')
 			return (1);
+		if (!ft_strncmp(tab[i], tab[i + j], k) && tab[i + j][k] == '+')
+		{
+			tab[i] = ft_strjoin(tab[i], &tab[i + j][k + 2], 1);
+			free(tab[i + j]);
+			tab[i + j] = NULL;
+		}
 		j++;
 	}
 	return (0);

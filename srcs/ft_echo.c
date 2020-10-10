@@ -72,7 +72,14 @@ int		ft_echo(t_all *all)
 	new = ft_splitspace(tmp, ' ');
 	free(tmp);
 	while (new[++i])
+	{
+		if (new[i][0] == '~' && !new[i][1])
+		{	
+			free(new[i]);
+			new[i] = ft_strdup("/home/user42");
+		}
 		new[i] = ft_suprguy(new[i]);
+	}
 	i = -1;
 	if (new[0] && !ft_strncmp(new[0], "-n", 2))
 		if (ft_echo_bis(new, i))

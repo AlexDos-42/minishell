@@ -12,29 +12,37 @@
 
 #include "../include/minishell.h"
 
-char		**ft_nbnewenv(char **tabnewenv, int j, int i)
+char		**ft_nbnewenv(char **tab, int j, int i)
 {
+	char			*tmp;
+
 	g_ret = 0;
-	while (tabnewenv && tabnewenv[i])
+	while (tab && tab[i])
 	{
 		j = -1;
-		if (isexporterror(tabnewenv[i], 0))
-			if ((tabnewenv = ft_exporterreur(tabnewenv, i)) == NULL)
+		if (isexporterror(tab[i], 0))
+			if ((tab = ft_exporterreur(tab, i)) == NULL)
 				return (0);
-		while (tabnewenv[i] && tabnewenv[i][++j])
-			if (isexporterror(tabnewenv[i], j))
+		while (tab[i] && tab[i][++j])
+			if (isexporterror(tab[i], j))
 			{
-				if ((tabnewenv = ft_exporterreur(tabnewenv, i)) == NULL)
-					return (tabnewenv);
+				if ((tab = ft_exporterreur(tab, i)) == NULL)
+					return (tab);
 				break ;
 			}
-			else if (tabnewenv[i][j] == '=')
+			else if (tab[i][j] == '=')
 			{
 				i++;
 				break ;
 			}
+			else if (tab[i][j] == '+')
+			{
+				tmp = ft_strjoin(ft_substr(tab[i], 0, j), ft_substr(tab[i], j + 1, ft_strlen(&tab[i][j])), 3);
+				free(tab[i]);
+				tab[i] = tmp;
+			}
 	}
-	return (tabnewenv);
+	return (tab);
 }
 
 char		**ft_newenvbis(t_all *all, int i, int eg, char **tab)
