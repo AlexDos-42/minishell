@@ -105,7 +105,7 @@ void		export_solo(t_all *all, int i, int eg, char *tmp)
 			ft_printf("\nexport ");
 		else if (tmp[i] == '\n' && !tmp[i + 1] && eg == 1 && !(eg = 0))
 			ft_printf("\"\n");
-		else if (tmp[i] == '=' && (eg = 1))
+		else if (tmp[i] == '=' && (eg == 0) && (eg = 1))
 			write(1, "=\"", 2);
 		else
 			write(1, &tmp[i], 1);

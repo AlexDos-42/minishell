@@ -78,6 +78,31 @@ char	*ft_newtab(char *tab, char *env, int i)
 	return (new);
 }
 
+char	*put_slash(char *env)
+{
+	int		i;
+	int		j;
+	char	*tmp;
+
+	i = -1;
+	j = 0;
+	while (env[++i])
+		if (env[i] == '\"')
+			j++;
+	tmp = ft_calloc(sizeof(char), ft_strlen(env) + j + 1);
+	i = 0;
+	j = 0;
+	while (env[i])
+	{
+		if (env[i] == '\"')
+			tmp[j++] = '\\';
+		tmp[j++] = env[i++];
+	}
+	tmp[j] = '\0';
+	free(env);
+	return (tmp);
+}
+
 char	*ft_isinenv(char *tab, t_all *all)
 {
 	int		k;
@@ -98,7 +123,7 @@ char	*ft_isinenv(char *tab, t_all *all)
 			{
 				env = ft_substr(all->env[k], i + 1,
 				ft_strlen(all->env[k]) - (i + 1));
-				return (env);
+				return (env = put_slash(env));
 			}
 		}
 		k++;
