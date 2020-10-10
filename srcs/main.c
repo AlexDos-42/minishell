@@ -65,6 +65,7 @@ void	ctrl(int signal)
 		;
 	if (signal == SIGINT)
 	{
+		g_inter = 2;
 		g_ret = 130;
 		write(1, "\n", 1);
 		if (status == 0)
