@@ -22,6 +22,8 @@ char	**ft_allredir(char *tab)
 	j = 0;
 	while (tab[i])
 	{
+		if (tab[i] == '\\' && tab[i + 1] && (tab[i + 1] == '\\' || tab[i + 1] == '<' || tab[i + 1] == '>'))
+			i += 2;
 		if ((tab[i] == '>' || tab[i] == '<') && !isguillemet(i, tab))
 		{
 			while (tab[i] && (tab[i] == '>' || tab[i] == '<'))
@@ -113,7 +115,7 @@ int		redirerror_bis(char **redir)
 			{
 				if (redir[i][0] == '<' && redir[i][1] == '>' && !redir[i][2])
 					break ;
-				ft_printf("inishell: syntax error near unexpected token");
+				ft_printf("minishell: syntax error near unexpected token");
 				ft_printf("`%c'\n", redir[i][0]);
 			}
 			g_ret = 2;
@@ -125,7 +127,7 @@ int		redirerror_bis(char **redir)
 int		redirerror(char **tab, char **redir)
 {
 	char	*tmp;
-
+	
 	tmp = ft_strtrimslash(tab[1], " ");
 	if (tmp && (!tmp[0] || tmp[0] == '\n'))
 	{
