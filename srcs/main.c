@@ -31,32 +31,13 @@ void	ft_clean(t_all *all, char *tmp, char *str)
 	exit(g_ret);
 }
 
-// if (i < 10 && str[ft_strlen - 1] != '\n')
-// 		{
-// 			int l;
-// 			int j;
-// 			l = ft_strlen(tmp);
-// 			j = -1;
-// 			while (++j < l)
-// 				write(0, "\b", 1);
-// 			while (--j >= 0)
-// 				write(0, " ", 1);
-// 			while (++j < l)
-// 				write(0, "\b", 1);
-// 			write(0, str, ft_strlen(str));
-// 			free(str);
-// 			str = malloc(sizeof(char) * 1);
-// 			str[0] = '\0';
-// 		}
-
 void	ft_prompt(t_all *all, char *tmp, char *str, int i)
 {
 	while (1)
 	{
-		i = read(0, tmp, 10);
-		tmp[i] = '\0';
-		if (i == 0 && !tmp[0] && !str[0])
+		if ((i = read(0, tmp, 10)) == 0 && !tmp[0] && !str[0])
 			ft_clean(all, tmp, str);
+		tmp[i] = '\0';
 		if (g_inter == 2)
 		{
 			free(str);
