@@ -76,7 +76,6 @@ void	ft_create_file(t_all *all, char **tab, char **redir, int i)
 	int		j;
 
 	j = 0;
-	ft_printf("tab[i + 1] %s\n", tab[i + 1]);
 	if (redir[i][0] == '>' && redir[i][1] && redir[i][1] == '>' && (j = 1))
 		all->fdin = open(tab[i + 1], O_CREAT | O_WRONLY | O_APPEND, 0666);
 	else if (redir[i][0] == '>' && (j = 1))
