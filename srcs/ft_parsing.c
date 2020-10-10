@@ -49,7 +49,7 @@ int		ft_ptrfct(t_all *all)
 		dup2(all->fdinc, 0);
 		close(all->fdinc);
 	}
-	return (i);
+	return (i == -1 ? -1 : g_ret);
 }
 
 int		ft_realbuiltin(char *tab, char *str, int i)

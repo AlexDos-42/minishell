@@ -24,6 +24,15 @@ int		ft_ispipe(char *tab)
 	return (p);
 }
 
+void	ft_pipefork_bis_un(char **tab, int p, t_all *all, int *pipefd)
+{
+	dup2(pipefd[0], STDIN_FILENO);
+	close(pipefd[0]);
+	close(pipefd[1]);
+	g_ret = ft_loop(tab[p], all);
+	exit(g_ret);
+}
+
 void	ft_pipefork_bis(char **tab, int p, t_all *all, int *pipefd)
 {
 	dup2(pipefd[0], STDIN_FILENO);
@@ -42,18 +51,23 @@ void	ft_pipefork(char **tab, int p, int k, t_all *all)
 
 	if (pipe(pipefd) == -1)
 		exit(0);
-	if (!(child_left = fork()))
+	if (p == k && !(child_left = fork()))
+		ft_pipefork_bis_un(tab, p, all, pipefd);
+	else if (p != k && !(child_left = fork()))
 		ft_pipefork_bis(tab, p, all, pipefd);
 	if (!(child_right = fork()))
 	{
 		dup2(pipefd[1], STDOUT_FILENO);
-		close(pipefd[1]);
+		close(pipefd[0]);
 		close(pipefd[1]);
 		if (--p != 0)
-			ft_pipefork(tab, p, k + 1, all);
+			ft_pipefork(tab, p, k, all);
 		else
+		{
 			ft_loop(tab[p], all);
-		exit(0);
+			exit(g_ret);
+		}
+		exit(g_ret);
 	}
 	close(pipefd[1]);
 	close(pipefd[0]);
@@ -77,7 +91,7 @@ int		ft_pipeinit(char *tab, t_all *all, int i, int p)
 		if (tabpipe[0] && (!tmp[0] || tmp[0] == '\n'))
 			g_ret = 1;
 		free(tmp);
-		ft_pipefork(tabpipe, p, 0, all);
+		ft_pipefork(tabpipe, p, p, all);
 		i = -1;
 		while (tabpipe[++i])
 		{
