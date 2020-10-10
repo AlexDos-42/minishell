@@ -92,7 +92,7 @@ int		ft_exit(t_all *all)
 	if (!(tmp[0]))
 	{
 		free(tmp);
-		return (2);
+		return (-1);
 	}
 	new = ft_splitspace(tmp, ' ');
 	free(tmp);
@@ -103,7 +103,7 @@ int		ft_exit(t_all *all)
 	if (new[0][i] == '-' || new[0][i] == '+')
 		i++;
 	if (ft_cleanexit(new, i) == 2)
-		return (2);
+		return (-1);
 	return (0);
 }
 

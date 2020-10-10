@@ -31,18 +31,45 @@ void	ft_clean(t_all *all, char *tmp, char *str)
 	exit(g_ret);
 }
 
+// if (i < 10 && str[ft_strlen - 1] != '\n')
+// 		{
+// 			int l;
+// 			int j;
+// 			l = ft_strlen(tmp);
+// 			j = -1;
+// 			while (++j < l)
+// 				write(0, "\b", 1);
+// 			while (--j >= 0)
+// 				write(0, " ", 1);
+// 			while (++j < l)
+// 				write(0, "\b", 1);
+// 			write(0, str, ft_strlen(str));
+// 			free(str);
+// 			str = malloc(sizeof(char) * 1);
+// 			str[0] = '\0';
+// 		}
+
 void	ft_prompt(t_all *all, char *tmp, char *str, int i)
 {
 	while (1)
 	{
-		if ((i = read(0, tmp, 10)) == 0 && !str[0])
-			ft_clean(all, tmp, str);
+		i = read(0, tmp, 10);
 		tmp[i] = '\0';
+		if (i == 0 && !tmp[0] && !str[0])
+			ft_clean(all, tmp, str);
+		if (g_inter == 2)
+		{
+			free(str);
+			str = malloc(sizeof(char) * 1);
+			str[0] = '\0';
+			g_ret = 130;
+			g_inter = 0;
+		}
 		str = ft_strjoin(str, tmp, 1);
 		if (ft_strnstr(str, "\n", ft_strlen(str)))
 		{
 			if (str[0] != '\n')
-				if (ft_minishell(all, str, 0, -1) == 2)
+				if (ft_minishell(all, str, 0, -1) == -1)
 					ft_clean(all, tmp, str);
 			free(str);
 			str = malloc(sizeof(char) * 1);
@@ -60,7 +87,7 @@ void	ctrl(int signal)
 
 	status = 0;
 	if (status == 0 && signal == 3)
-		ft_printf("\b\b  \b\b");
+		write(0, "\b\b  \b\b", 6);
 	while (wait(&status) > 0)
 		;
 	if (signal == SIGINT)

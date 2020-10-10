@@ -30,7 +30,7 @@ void	ft_pipefork_bis(char **tab, int p, t_all *all, int *pipefd)
 	close(pipefd[0]);
 	close(pipefd[1]);
 	ft_loop(tab[p], all);
-	exit(0);
+	exit(g_ret);
 }
 
 void	ft_pipefork(char **tab, int p, int k, t_all *all)
@@ -38,13 +38,12 @@ void	ft_pipefork(char **tab, int p, int k, t_all *all)
 	int		pipefd[2];
 	int		child_right;
 	int		child_left;
+	int		status;
 
 	if (pipe(pipefd) == -1)
 		exit(0);
 	if (!(child_left = fork()))
-	{
 		ft_pipefork_bis(tab, p, all, pipefd);
-	}
 	if (!(child_right = fork()))
 	{
 		dup2(pipefd[1], STDOUT_FILENO);
@@ -58,8 +57,9 @@ void	ft_pipefork(char **tab, int p, int k, t_all *all)
 	}
 	close(pipefd[1]);
 	close(pipefd[0]);
-	while (wait(NULL) > 0)
+	while (wait(&status) > 0)
 		;
+	g_ret = WEXITSTATUS(status);
 }
 
 int		ft_pipeinit(char *tab, t_all *all, int i, int p)

@@ -150,6 +150,35 @@ int		simple_quote(char *tab, int i, int j)
 	return (j);
 }
 
+int		is_after_redir(char *tab, int i)
+{
+	int		j;
+	char	*tmp;
+
+	j = 0;
+	while (i - j > 0 && tab[i - ++j])
+	{
+		if (tab[i - j] == ' ')
+			;
+		else if (tab[i - j] == '>')
+		{
+			j = 0;
+			while (tab[i + j] && tab[i + j] != ' ' && tab[i + j] != ';'
+			&& tab[i + j] != '<' && tab[i + j] != '>' && tab[i + j] != '|'
+			&& tab[i + j] != '\n')
+				j++;
+			tmp = ft_substr(tab, i, j);
+			ft_printf("minishell: %s : redirection ambiguë\n", tmp);
+			free(tab);
+			free(tmp);
+			return (1);
+		}
+		else
+			return (0);
+	}
+	return (0);
+}
+
 char	*ft_replace(char *tab, t_all *all, int i, int j)
 {
 	char	*env;
@@ -170,6 +199,8 @@ char	*ft_replace(char *tab, t_all *all, int i, int j)
 			else if (ft_isitnot(tab, i))
 			{
 				env = ft_isinenv(&tab[i], all);
+				if (env == NULL && is_after_redir(tab, i))
+					return (NULL);
 				if (!(tab = ft_newtab(tab, env, i--)))
 					return (NULL);
 			}
