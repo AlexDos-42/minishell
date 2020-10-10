@@ -50,7 +50,6 @@ char	*put_guy_env(char *env)
 	}
 	tmp[j++] = '\"';
 	tmp[j++] = '\0';
-	ft_printf("tmp %s\n", tmp);
 	free(env);
 	return (tmp);
 }
