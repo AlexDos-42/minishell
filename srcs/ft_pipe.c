@@ -12,6 +12,8 @@
 
 #include "../include/minishell.h"
 
+int g_retpipe;
+
 int		ft_ispipe(char *tab)
 {
 	int		p;
@@ -33,16 +35,28 @@ void	ft_pipefork_bis(char **tab, int p, t_all *all, int *pipefd)
 	exit(g_ret);
 }
 
+void	ft_pipefork_bis_first(char **tab, int p, t_all *all, int *pipefd)
+{
+	dup2(pipefd[0], STDIN_FILENO);
+	close(pipefd[0]);
+	close(pipefd[1]);
+	exit(ft_loop(tab[p], all));
+}
+
 void	ft_pipefork(char **tab, int p, int k, t_all *all)
 {
 	int		pipefd[2];
 	int		child_right;
 	int		child_left;
+	int		child_leftfirst;
 
+	child_leftfirst = 0;
 	if (pipe(pipefd) == -1)
 		exit(0);
-	if (!(child_left = fork()))
+	if (p != k && !(child_left = fork()))
 		ft_pipefork_bis(tab, p, all, pipefd);
+	if (p == k && !(child_leftfirst = fork()))
+		ft_pipefork_bis_first(tab, p, all, pipefd);
 	if (!(child_right = fork()))
 	{
 		dup2(pipefd[1], STDOUT_FILENO);
@@ -55,12 +69,14 @@ void	ft_pipefork(char **tab, int p, int k, t_all *all)
 			ft_loop(tab[p], all);
 			exit(g_ret);
 		}
+		exit(g_ret);
 	}
 	close(pipefd[0]);
 	close(pipefd[1]);
+	if (wait(&child_leftfirst))
+		g_ret = WEXITSTATUS(child_leftfirst);
 	while (wait(NULL) > 0)
 		;
-	//ft_printf("g_inter %d && g_ret %d && i %d\n", g_inter, g_ret, i);
 }
 
 int		ft_pipeinit(char *tab, t_all *all, int i, int p)
