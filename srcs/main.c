@@ -75,6 +75,7 @@ void	ctrl(int signal)
 	{
 		g_inter = 2;
 		g_ret = 130;
+		wait(&status);
 		write(1, "\n", 1);
 		if (status == 0)
 			write(2, "\e[93mminishell \e[92m$>\e[0m\e[97m", 31);

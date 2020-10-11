@@ -63,9 +63,9 @@ void			ft_cd_bis(t_all *all, char **new)
 {
 	if (new && new[0] && new[1])
 		ft_printf("minishell: cd: too many arguments\n");
-	else if (!new[0] || ((new[0][0] == '~' || new[0][0] == '-') && !new[0][1]))
+	else if (!new[0] || (new[0][0] == '-' && !new[0][1]))
 	{
-		if (new[0][0] == '-')
+		if (new[0] && new[0][0] == '-')
 			ft_printf("/home/user42\n");
 		chdir("/home/user42");
 		free(all->pwd);
@@ -95,6 +95,11 @@ int				ft_cd(t_all *all)
 
 	tmp = ft_strtrimslash(all->tab, " ");
 	new = ft_splitspace(tmp, ' ');
+	if (new[0] && new[0][0] == '~' && !new[0][1])
+	{
+		free(new[0]);
+		new[0] = ft_strdup("/home/user42");
+	}
 	if (new[0])
 		new[0] = ft_suprguy(new[0]);
 	free(all->tab);
