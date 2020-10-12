@@ -129,5 +129,9 @@ int			ft_exec(t_all *all, char *tab)
 	}
 	wait(&status);
 	g_ret = WEXITSTATUS(status);
+	while (wait(NULL) > 0)
+		;
+	if (g_inter == 2)
+		return (-1);
 	return (0);
 }

@@ -57,7 +57,7 @@ void				ft_prompt(t_all *all, char *tmp, char *str, int i);
 */
 
 int					ft_minishell(t_all *all, char *str, int stop, int k);
-void				ft_nbfct(t_all *all, char *tab);
+int					ft_nbfct(t_all *all, char *tab, int i, int jma);
 int					ft_ptrfct(t_all *all);
 int					ft_loop(char *tab, t_all *all);
 

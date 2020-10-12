@@ -22,7 +22,8 @@ char	**ft_allredir(char *tab)
 	j = 0;
 	while (tab[i])
 	{
-		if (tab[i] == '\\' && tab[i + 1] && (tab[i + 1] == '\\' || tab[i + 1] == '<' || tab[i + 1] == '>'))
+		if (tab[i] == '\\' && tab[i + 1] && (tab[i + 1] == '\\'
+		|| tab[i + 1] == '<' || tab[i + 1] == '>'))
 			i += 2;
 		if ((tab[i] == '>' || tab[i] == '<') && !isguillemet(i, tab))
 		{
@@ -127,7 +128,7 @@ int		redirerror_bis(char **redir)
 int		redirerror(char **tab, char **redir)
 {
 	char	*tmp;
-	
+
 	tmp = ft_strtrimslash(tab[1], " ");
 	if (tmp && (!tmp[0] || tmp[0] == '\n'))
 	{

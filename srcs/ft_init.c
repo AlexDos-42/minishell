@@ -42,15 +42,22 @@ int				dble(char **tab, int i)
 		k++;
 	while (tab && tab[i + j])
 	{
-		if (!ft_strncmp(tab[i], tab[i + j], k) && tab[i + j][k] == '=')
+		if (!ft_strncmp(tab[i], tab[i + j], k) &&
+		(tab[i + j][k] == '=' || tab[i + j][k] == '+'))
 			return (1);
+		j++;
+	}
+	j = -1;
+	while (tab[i][k] == '+' && tab && i + j >= 0 && tab[i + j])
+	{
 		if (!ft_strncmp(tab[i], tab[i + j], k) && tab[i + j][k] == '+')
 		{
 			tab[i] = ft_strjoin(tab[i], &tab[i + j][k + 2], 1);
 			free(tab[i + j]);
 			tab[i + j] = NULL;
+			return (1);
 		}
-		j++;
+		j--;
 	}
 	return (0);
 }

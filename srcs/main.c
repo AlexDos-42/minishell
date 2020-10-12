@@ -115,5 +115,7 @@ int		main(int argc, char **argv, char **env)
 		write(2, "\e[93mminishell \e[92m$>\e[0m\e[97m", 31);
 		ft_prompt(&all, tmp, str, 0);
 	}
+	else
+		write(2, "Minishell: error: too many arguments\n", 37);
 	return (0);
 }

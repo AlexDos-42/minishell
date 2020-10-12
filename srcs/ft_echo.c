@@ -49,8 +49,9 @@ int		ft_echo_bis(char **new, int i)
 	return (1);
 }
 
-void	ft_echo_cond(char **new, int i)
+void	ft_echo_cond(t_all *all, char **new, int i)
 {
+	i = -1;
 	while (new[++i])
 	{
 		ft_putstr_echo(new[i], 1);
@@ -59,6 +60,7 @@ void	ft_echo_cond(char **new, int i)
 	}
 	write(1, "\n", 1);
 	free(new);
+	free(all->tab);
 }
 
 int		ft_echo(t_all *all)
@@ -74,7 +76,7 @@ int		ft_echo(t_all *all)
 	while (new[++i])
 	{
 		if (new[i][0] == '~' && !new[i][1])
-		{	
+		{
 			free(new[i]);
 			new[i] = ft_strdup("/home/user42");
 		}
@@ -87,9 +89,7 @@ int		ft_echo(t_all *all)
 			free(all->tab);
 			return (g_ret = 0);
 		}
-	i = -1;
-	ft_echo_cond(new, i);
-	free(all->tab);
+	ft_echo_cond(all, new, i);
 	return (g_ret = 0);
 }
 

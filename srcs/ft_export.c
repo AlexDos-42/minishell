@@ -12,10 +12,8 @@
 
 #include "../include/minishell.h"
 
-char		**ft_nbnewenv(char **tab, int j, int i)
+char		**ft_nbnewenv(char **tab, int j, int i, char *tmp)
 {
-	char			*tmp;
-
 	g_ret = 0;
 	while (tab && tab[i])
 	{
@@ -37,7 +35,8 @@ char		**ft_nbnewenv(char **tab, int j, int i)
 			}
 			else if (tab[i][j] == '+')
 			{
-				tmp = ft_strjoin(ft_substr(tab[i], 0, j), ft_substr(tab[i], j + 1, ft_strlen(&tab[i][j])), 3);
+				tmp = ft_strjoin(ft_substr(tab[i], 0, j),
+				ft_substr(tab[i], j + 1, ft_strlen(&tab[i][j])), 3);
 				free(tab[i]);
 				tab[i] = tmp;
 			}
@@ -92,7 +91,7 @@ int			ft_exportinit(t_all *all, unsigned int i, int j, int nb_newenv)
 	char			**new_env;
 
 	if ((tabnewenv = ft_newenv(all, 0, -1)) == NULL ||
-		(tabnewenv = ft_nbnewenv(tabnewenv, 0, 0)) == NULL)
+		(tabnewenv = ft_nbnewenv(tabnewenv, 0, 0, NULL)) == NULL)
 		return (0);
 	while (tabnewenv && tabnewenv[nb_newenv])
 		nb_newenv++;

@@ -20,6 +20,8 @@ char	*put_guy_env(char *env)
 
 	j = 0;
 	i = 0;
+	while (env[i] == ' ')
+		i++;
 	while (env[i])
 	{
 		if (env[i] == ' ')
@@ -27,7 +29,7 @@ char	*put_guy_env(char *env)
 			while (env[i] && env[i] == ' ')
 				i++;
 			if (env[i])
-				j+= 2;
+				j += 2;
 		}
 		else
 			i++;
@@ -35,7 +37,10 @@ char	*put_guy_env(char *env)
 	tmp = ft_calloc(sizeof(char), ft_strlen(env) + 3 + j);
 	i = 0;
 	j = 0;
-	tmp[j++] = '\"';
+	while (env[i] == ' ')
+		tmp[j++] = env[i++];
+	if (env[i])
+		tmp[j++] = '\"';
 	while (env[i])
 	{
 		if (env[i] == ' ')
@@ -70,7 +75,7 @@ char	*ft_newtab(char *tab, char *env, int i)
 	if (i || env)
 		new = ft_substr(tab, 0, i);
 	if (env)
-		new = ft_strjoin(new, env, 1);	
+		new = ft_strjoin(new, env, 1);
 	new = ft_strjoin(new, &tab[i + j], 1);
 	free(tab);
 	if (env)
@@ -199,9 +204,8 @@ char	*ft_replace(char *tab, t_all *all, int i, int j)
 			else if (ft_isitnot(tab, i))
 			{
 				env = ft_isinenv(&tab[i], all);
-				if (env == NULL && is_after_redir(tab, i))
-					return (NULL);
-				if (!(tab = ft_newtab(tab, env, i--)))
+				if ((env == NULL && is_after_redir(tab, i))
+				|| !(tab = ft_newtab(tab, env, i--)))
 					return (NULL);
 			}
 		}

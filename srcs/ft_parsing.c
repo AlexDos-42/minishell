@@ -49,7 +49,7 @@ int		ft_ptrfct(t_all *all)
 		dup2(all->fdinc, 0);
 		close(all->fdinc);
 	}
-	return (i == -1 ? -1 : g_ret);
+	return (i);
 }
 
 int		ft_realbuiltin(char *tab, char *str, int i)
@@ -67,11 +67,8 @@ int		ft_realbuiltin(char *tab, char *str, int i)
 	return (j);
 }
 
-void	ft_nbfct(t_all *all, char *tab)
+int	ft_nbfct(t_all *all, char *tab, int i, int j)
 {
-	int		i;
-
-	i = 0;
 	while (tab[i] && tab[i] != ' ' && tab[i] != '\n')
 		i++;
 	if (ft_realbuiltin(tab, "echo", 4))
@@ -89,11 +86,12 @@ void	ft_nbfct(t_all *all, char *tab)
 	else if (ft_realbuiltin(tab, "unset", 5))
 		all->fct = 7;
 	else
-		ft_exec(all, tab);
+		j = ft_exec(all, tab);
 	while (tab[i] == ' ')
 		i++;
 	all->tab = ft_substr(tab, i, ft_strlen(&tab[i]));
-}
+	return (j)
+;}
 
 int		ft_loop(char *tab, t_all *all)
 {
@@ -104,8 +102,10 @@ int		ft_loop(char *tab, t_all *all)
 	new = ft_redirection(tab, all);
 	while (new && new[i] == ' ')
 		i++;
-	ft_nbfct(all, &new[i]);
+	i = ft_nbfct(all, &new[i], 0, 0);
 	free(new);
+	if (i == -1)
+		return (1);
 	if (ft_strlen(all->tab) && all->tab[ft_strlen(all->tab) - 1] == '\n')
 		all->tab[ft_strlen(all->tab) - 1] = '\0';
 	return (ft_ptrfct(all));
