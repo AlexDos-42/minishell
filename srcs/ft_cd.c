@@ -30,10 +30,9 @@ void			ft_remplaceold(t_all *all, char *tmp)
 		free(tmp);
 }
 
-static void		ft_remplace(t_all *all, int i)
+static void		ft_remplace(t_all *all, int i, char *tmp)
 {
 	char		**newenv;
-	char		*tmp;
 
 	while (all->env[i] && ft_strncmp(all->env[i], "PWD=", 4))
 		i++;
@@ -135,6 +134,6 @@ int				ft_cd(t_all *all)
 	g_ret = 1;
 	ft_cd_bis(all, new);
 	ft_freexec(new);
-	ft_remplace(all, 0);
+	ft_remplace(all, 0, NULL);
 	return (0);
 }

@@ -104,11 +104,10 @@ int		ft_minishell(t_all *all, char *str, int stop, int k)
 {
 	char	**tab;
 
-	if (g_inter == 1)
+	if (g_inter == 1 && !(g_inter = 0))
 		g_ret = 131;
-	if (g_inter == 2)
+	if (g_inter == 2 && !(g_inter = 0))
 		g_ret = 130;
-	g_inter = 0;
 	while (str[++k] && (str[k] == ';' || str[k] == ' '))
 		if (str[k] == ';')
 		{

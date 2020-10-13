@@ -52,7 +52,7 @@ void		ft_zero(t_all *all)
 	g_quit = 0;
 }
 
-int		ft_ispipe(char *tab)
+int			ft_ispipe(char *tab)
 {
 	int		p;
 	int		i;
