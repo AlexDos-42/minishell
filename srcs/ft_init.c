@@ -31,13 +31,8 @@ int				dble_ext(char **tab, int i)
 	return (1);
 }
 
-int				dble(char **tab, int i)
+int				dble(char **tab, int i, int j, int k)
 {
-	int		j;
-	int		k;
-
-	j = 1;
-	k = 0;
 	while (tab[i][k] != '=' && tab[i][k] != '+')
 		k++;
 	while (tab && tab[i + j])
