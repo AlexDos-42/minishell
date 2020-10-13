@@ -49,7 +49,7 @@ void	ft_prompt(t_all *all, char *tmp, char *str, int i)
 			ft_clean(all, tmp, str);
 		tmp[i] = '\0';
 		if (g_inter == 2)
-			str = remalloc_str(str)
+			str = remalloc_str(str);
 		str = ft_strjoin(str, tmp, 1);
 		if (ft_strnstr(str, "\n", ft_strlen(str)))
 		{
