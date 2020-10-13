@@ -67,11 +67,14 @@ char	*ft_newtab(char *tab, char *env, int i)
 	if (env)
 		env = put_guy_env(env);
 	j = 1;
-	while (tab[i + j] && tab[i + j] != ' ' && tab[i + j] != '\n' &&
-		tab[i + j] != '\"' && tab[i + j] != '\'' && tab[i + j] != '\\'
-		&& tab[i + j] != '$' && tab[i + j] != ',' && tab[i + j] != '@'
-		&& tab[i + j] != '|' && tab[i + j] != '/')
+	if ((tab[i + j] > 47 && tab[i + j] < 58))
 		j++;
+	else
+		while (tab[i + j] && tab[i + j] != ' ' && tab[i + j] != '\n' &&
+			tab[i + j] != '\"' && tab[i + j] != '\'' && tab[i + j] != '\\'
+			&& tab[i + j] != '$' && tab[i + j] != ',' && tab[i + j] != '@'
+			&& tab[i + j] != '|' && tab[i + j] != '/' && tab[i + j] != '=')
+			j++;
 	if (i || env)
 		new = ft_substr(tab, 0, i);
 	if (env)
@@ -197,7 +200,8 @@ char	*ft_replace(char *tab, t_all *all, int i, int j)
 			j++;
 		i += j;
 		if (tab[i + 1] && tab[i] == '$' && tab[i + 1] != ' ' &&
-		tab[i + 1] != '\n' && j % 2 == 0 && isguillemet(i, tab) != 2)
+		tab[i + 1] != '\n' && j % 2 == 0 && isguillemet(i, tab) != 2
+		&& tab[i + 1] != '=')
 		{
 			if (tab[i + 1] == '?')
 				tab = ft_ret(tab, i--);
