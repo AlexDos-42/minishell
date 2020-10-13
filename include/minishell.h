@@ -160,4 +160,13 @@ int					is_two_pipe(char *tab);
 char				*if_or_else(char *new, char *tab, int l, int k);
 void				ft_zero(t_all *all);
 
+
+/*
+** --REPLACE_UTILS--
+*/
+
+char				*ft_newtab(char *tab, char *env, int i);
+char				*put_guy_env(char *env);
+char				*put_slash(char *env);
+
 #endif
