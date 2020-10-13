@@ -115,8 +115,7 @@ int			ft_exec(t_all *all, char *tab)
 
 	i = 0;
 	status = 0;
-	pid = fork();
-	if (pid == 0)
+	if ((pid = fork()) == 0)
 	{
 		if (ft_strlen(tab) && tab[ft_strlen(tab) - 1] == '\n')
 			tab[ft_strlen(tab) - 1] = '\0';

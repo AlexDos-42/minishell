@@ -105,7 +105,10 @@ int		ft_loop(char *tab, t_all *all)
 	i = ft_nbfct(all, &new[i], 0, 0);
 	free(new);
 	if (i == -1)
+	{
+		free(all->tab);
 		return (1);
+	}
 	if (ft_strlen(all->tab) && all->tab[ft_strlen(all->tab) - 1] == '\n')
 		all->tab[ft_strlen(all->tab) - 1] = '\0';
 	return (ft_ptrfct(all));

@@ -90,6 +90,7 @@ void				export_solo(t_all *all, int i, int eg, char *tmp);
 int					dble(char **tab, int i, int j, int k);
 int					dble_ext(char **tab, int i);
 int					iserrorput(char *tab, int j);
+char				*new_tab(char *tab, int j);
 
 /*
 ** --REPLACE--
@@ -160,7 +161,6 @@ int					ft_pipeinit(char *tab, t_all *all, int i, int p);
 int					is_two_pipe(char *tab);
 char				*if_or_else(char *new, char *tab, int l, int k);
 void				ft_zero(t_all *all);
-
 
 /*
 ** --REPLACE_UTILS--

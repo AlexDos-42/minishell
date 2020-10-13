@@ -63,3 +63,13 @@ int			ft_ispipe(char *tab)
 		p += ischarset(tab, i, "|") && !isguillemet(i, tab) ? 1 : 0;
 	return (p);
 }
+
+char		*new_tab(char *tab, int j)
+{
+	char	*tmp;
+
+	tmp = ft_strjoin(ft_substr(tab, 0, j),
+	ft_substr(tab, j + 1, ft_strlen(&tab[j])), 3);
+	free(tab);
+	return (tmp);
+}
