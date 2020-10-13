@@ -51,6 +51,7 @@ SRC =		main.c \
 		ft_redirection_next.c \
 		ft_redirection_bis.c \
 		ft_export_solo.c \
+		ft_utils.c \
 
 ### Librairies ###
 HEADERS = ./include/

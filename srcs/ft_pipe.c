@@ -106,26 +106,3 @@ int		ft_pipeinit(char *tab, t_all *all, int i, int p)
 	}
 	return (0);
 }
-
-int		is_two_pipe(char *tab)
-{
-	int		i;
-	int		j;
-
-	i = -1;
-	while (tab[++i])
-		if (tab[i] == '|')
-		{
-			j = 1;
-			while (tab[i + j] == ' ')
-				j++;
-			if (tab[i + j] == '|')
-			{
-				g_ret = 1;
-				ft_printf("minishell: syntax error");
-				ft_printf(" near unexpected token `|'\n");
-				return (0);
-			}
-		}
-	return (1);
-}

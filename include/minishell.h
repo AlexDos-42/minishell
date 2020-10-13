@@ -156,5 +156,7 @@ char				**ft_all_redir_bis(char *tab, char **new, int i, int j);
 char				*ft_ret(char *tab, int p);
 int					is_two_pipe(char *tab);
 int					ft_pipeinit(char *tab, t_all *all, int i, int p);
+int					is_two_pipe(char *tab);
+char				*if_or_else(char *new, char *tab, int l, int k);
 
 #endif

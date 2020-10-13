@@ -77,7 +77,8 @@ void			cd_tiret(t_all *all)
 			g_ret = 0;
 		}
 		else
-			ft_printf("minishell: cd: %s: %s\n", &all->env[i][7], strerror(errno));
+			ft_printf("minishell: cd: %s: %s\n", &all->env[i][7],
+			strerror(errno));
 	}
 	else
 	{
@@ -136,13 +137,4 @@ int				ft_cd(t_all *all)
 	ft_freexec(new);
 	ft_remplace(all, 0);
 	return (0);
-}
-
-char			*if_or_else(char *new, char *tab, int l, int k)
-{
-	if (new[l + k])
-		new = join_tmp(new, l, tab);
-	else if (!new[l + k])
-		new = join_first(new, tab);
-	return (new);
 }

@@ -112,7 +112,8 @@ int			isexporterror(char *tab, int j)
 	}
 	if (tab[j] < 48 || (tab[j] > 57 && tab[j] < 65) || (tab[j] > 90
 		&& tab[j] < 97) || tab[j] > 122)
-		if (tab[j] != '=' && tab[j] != '_' && !(tab[j] == '+' && tab[j + 1] == '='))
+		if (tab[j] != '=' && tab[j] != '_' && !(tab[j] == '+' &&
+		tab[j + 1] == '='))
 		{
 			ft_printf("minishell: export: `%s': not a valid identifier\n", tab);
 			return (1);
