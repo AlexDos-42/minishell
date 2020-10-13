@@ -43,3 +43,11 @@ char		*if_or_else(char *new, char *tab, int l, int k)
 		new = join_first(new, tab);
 	return (new);
 }
+
+void		ft_zero(t_all *all)
+{
+	ft_memset(all, 0, sizeof(t_all));
+	g_ret = 0;
+	g_inter = 0;
+	g_quit = 0;
+}

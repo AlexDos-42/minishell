@@ -158,5 +158,6 @@ int					is_two_pipe(char *tab);
 int					ft_pipeinit(char *tab, t_all *all, int i, int p);
 int					is_two_pipe(char *tab);
 char				*if_or_else(char *new, char *tab, int l, int k);
+void				ft_zero(t_all *all);
 
 #endif
