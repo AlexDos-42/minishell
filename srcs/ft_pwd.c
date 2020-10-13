@@ -15,11 +15,12 @@
 int		ft_pwd(t_all *all)
 {
 	char *tmp;
+
 	tmp = getcwd(NULL, 0);
 	if (!tmp && errno == 2)
 	{
-		ft_printf("pwd : erreur de détermination du répertoire actuel : getcwd");
-		ft_printf(" : ne peut accéder aux répertoires parents : ");
+		ft_printf("pwd : erreur de détermination du répertoire actuel ");
+		ft_printf(": getcwd : ne peut accéder aux répertoires parents : ");
 		ft_printf("Aucun fichier ou dossier de ce type\n");
 		g_ret = 1;
 	}

@@ -67,7 +67,7 @@ int		ft_realbuiltin(char *tab, char *str, int i)
 	return (j);
 }
 
-int	ft_nbfct(t_all *all, char *tab, int i, int j)
+int		ft_nbfct(t_all *all, char *tab, int i, int j)
 {
 	while (tab[i] && tab[i] != ' ' && tab[i] != '\n')
 		i++;
@@ -90,8 +90,8 @@ int	ft_nbfct(t_all *all, char *tab, int i, int j)
 	while (tab[i] == ' ')
 		i++;
 	all->tab = ft_substr(tab, i, ft_strlen(&tab[i]));
-	return (j)
-;}
+	return (j);
+}
 
 int		ft_loop(char *tab, t_all *all)
 {
