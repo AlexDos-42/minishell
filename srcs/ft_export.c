@@ -58,7 +58,7 @@ char		**ft_newenvbis(t_all *all, int i, int eg, char **tab)
 		while (tab[i][++j])
 			if (tab[i][j] == '=')
 				eg = 1;
-		if (eg == 0 || ft_isenvexist(all, tab[i]) || dble(tab, i))
+		if (eg == 0 || ft_isenvexist(all, tab[i]) || dble(tab, i, 1, 0))
 		{
 			if (tab[i][0] && dble_ext(tab, i) && !isenvexist_ext(all, tab[i]))
 				put_export(eg, all, j, tab[i]);

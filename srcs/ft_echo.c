@@ -82,9 +82,8 @@ int		ft_echo(t_all *all)
 		}
 		new[i] = ft_suprguy(new[i]);
 	}
-	i = -1;
 	if (new[0] && !ft_strncmp(new[0], "-n", 2))
-		if (ft_echo_bis(new, i))
+		if (ft_echo_bis(new, -1))
 		{
 			free(all->tab);
 			return (g_ret = 0);

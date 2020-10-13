@@ -31,6 +31,16 @@ void	ft_clean(t_all *all, char *tmp, char *str)
 	exit(g_ret);
 }
 
+char	*remalloc_str(char *str)
+{
+	free(str);
+	str = malloc(sizeof(char) * 1);
+	str[0] = '\0';
+	g_ret = 130;
+	g_inter = 0;
+	return (str);
+}
+
 void	ft_prompt(t_all *all, char *tmp, char *str, int i)
 {
 	while (1)
@@ -39,13 +49,7 @@ void	ft_prompt(t_all *all, char *tmp, char *str, int i)
 			ft_clean(all, tmp, str);
 		tmp[i] = '\0';
 		if (g_inter == 2)
-		{
-			free(str);
-			str = malloc(sizeof(char) * 1);
-			str[0] = '\0';
-			g_ret = 130;
-			g_inter = 0;
-		}
+			str = remalloc_str(str);
 		str = ft_strjoin(str, tmp, 1);
 		if (ft_strnstr(str, "\n", ft_strlen(str)))
 		{
