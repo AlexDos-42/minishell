@@ -108,6 +108,7 @@ int					combien(char *new, int l, int *k);
 int					ft_pipe(char *tab, t_all *all);
 int					ft_ispipe(char *tab);
 void				istabpipe(char *tab, t_all *all);
+int					ft_ispipe(char *tab);
 
 /*
 ** --REDIRECTION--

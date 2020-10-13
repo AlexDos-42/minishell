@@ -51,3 +51,15 @@ void		ft_zero(t_all *all)
 	g_inter = 0;
 	g_quit = 0;
 }
+
+int		ft_ispipe(char *tab)
+{
+	int		p;
+	int		i;
+
+	i = -1;
+	p = 0;
+	while (tab[++i])
+		p += ischarset(tab, i, "|") && !isguillemet(i, tab) ? 1 : 0;
+	return (p);
+}

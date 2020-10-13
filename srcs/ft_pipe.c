@@ -14,18 +14,6 @@
 
 int g_retpipe;
 
-int		ft_ispipe(char *tab)
-{
-	int		p;
-	int		i;
-
-	i = -1;
-	p = 0;
-	while (tab[++i])
-		p += ischarset(tab, i, "|") && !isguillemet(i, tab) ? 1 : 0;
-	return (p);
-}
-
 void	ft_pipefork_bis(char **tab, int p, t_all *all, int *pipefd)
 {
 	dup2(pipefd[0], STDIN_FILENO);
