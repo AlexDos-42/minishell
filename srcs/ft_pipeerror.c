@@ -47,16 +47,18 @@ int			ft_existpipe(t_all *all, char *tab, int i)
 	{
 		while (path[++i])
 		{
-			dir = opendir(path[i]);
-			while ((dp = readdir(dir)) != NULL)
-				if (!ft_strncmp(tab, dp->d_name, ft_strlen(tab))
-				&& ft_strlen(tab) == ft_strlen(dp->d_name))
-				{
-					ft_freexec(path);
-					closedir(dir);
-					return (1);
-				}
-			closedir(dir);
+			if ((dir = opendir(path[i])) != NULL)
+			{
+				while ((dp = readdir(dir)) != NULL)
+					if (!ft_strncmp(tab, dp->d_name, ft_strlen(tab))
+					&& ft_strlen(tab) == ft_strlen(dp->d_name))
+					{
+						ft_freexec(path);
+						closedir(dir);
+						return (1);
+					}
+				closedir(dir);
+			}
 		}
 		ft_freexec(path);
 	}
