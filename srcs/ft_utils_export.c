@@ -15,7 +15,7 @@
 char		**ft_exporterreur(char **str, int j)
 {
 	int				i;
-	char			**new;
+	char				**new;
 	int				k;
 
 	i = 0;
@@ -71,7 +71,7 @@ char		**ft_freetab(char **tabnewenv, int i)
 {
 	int				j;
 	int				k;
-	char			**new;
+	char				**new;
 
 	j = 0;
 	while (tabnewenv[j])
