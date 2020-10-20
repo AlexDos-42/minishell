@@ -14,7 +14,7 @@
 
 void		istabpipe_next(char **new, int i)
 {
-	int			j;
+	int		j;
 	char		*tmp;
 
 	tmp = "not a valid identifier";
@@ -103,7 +103,7 @@ void		istabpipe_suite(char **new, t_all *all, int i, char *tmp)
 
 void		istabpipe(char *tab, t_all *all)
 {
-	int			i;
+	int		i;
 	char		*tmp;
 	char		**new;
 
