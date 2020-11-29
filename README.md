@@ -1,4 +1,4 @@
-# Minishell
+# Minishell [![jaeskim's 42Project Score](https://badge42.herokuapp.com/api/project/alesanto/minishell)](https://github.com/JaeSeoKim/badge42)
 
 The objective of this project is to create a simple shell.
 
