@@ -1,5 +1,8 @@
 <img src="https://capsule-render.vercel.app/api?type=transparent&color=timeGradient&height=200&text=Minishell&fontSize=64&fontAlignY=40&fontColor=d6ace6" alt="header" width="100%" />
-[![jaeskim's 42Project Score](https://badge42.herokuapp.com/api/project/alesanto/minishell)](https://github.com/JaeSeoKim/badge42)
+
+<p align="right">
+<img src="https://badge42.herokuapp.com/api/project/alesanto/minishell" alt="AlexDos-42" />
+</p>
 
 The objective of this project is to create a simple shell.
 
