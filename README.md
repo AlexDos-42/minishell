@@ -1,4 +1,4 @@
-<img src="https://capsule-render.vercel.app/api?type=transparent&color=timeGradient&height=200&text=Minishell&fontSize=64&fontAlignY=40&fontColor=d6ace6" alt="header" width="100%" />
+<img src="https://capsule-render.vercel.app/api?type=transparent&color=timeGradient&height=100&text=Minishell&fontSize=64&fontAlignY=40&fontColor=d6ace6" alt="header" width="100%" />
 
 <p align="right">
 <img src="https://badge42.herokuapp.com/api/project/alesanto/minishell" alt="AlexDos-42" />
