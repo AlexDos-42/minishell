@@ -3,7 +3,9 @@
 <p align="right">
 <img src="https://badge42.herokuapp.com/api/project/alesanto/minishell" alt="AlexDos-42" />
 </p>
-
+<p align="right">
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/c/c-original.svg" width="40" height="40"/>
+</p>
 The objective of this project is to create a simple shell.
 
 ## Compilation && Execution
